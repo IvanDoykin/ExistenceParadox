@@ -6,7 +6,7 @@ public class Created_Chunk : Chunk
     private void Start()
     {
         Initialize_Chunk();
-        bool created = Chunks_Controller.Reading_From_File(ref chunk, Player);
+        bool created = false; //temp simplify
 
         if (!created)
         {
