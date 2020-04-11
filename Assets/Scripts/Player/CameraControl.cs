@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    [SerializeField] Transform targetForCamera;
+    
+    [SerializeField] private Transform targetForCamera;
     [SerializeField] private float speedX = 360f;
     [SerializeField] private float speedY = 200f;
     [SerializeField] private float limitY = 40f;
@@ -12,6 +13,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float hideDistance = 2f;
     [SerializeField] private LayerMask obstacles;
     [SerializeField] private LayerMask noPlayer;
+    [SerializeField] private float offset = 3f;
 
     private float _maxDistance;
     private float _currentYRotation;
@@ -19,8 +21,7 @@ public class CameraControl : MonoBehaviour
     private LayerMask _camOrigin;
 
     private Camera _mainCamera;
-    private Vector3 _localPosition;
-    private Rigidbody rigidbody;
+    private Vector3 _localPosition;    
 
     private Vector3 _position
     {
@@ -35,9 +36,7 @@ public class CameraControl : MonoBehaviour
         _mainCamera = Camera.main;
         _localPosition = targetForCamera.InverseTransformPoint(_position);
         _maxDistance = Vector3.Distance(_position, targetForCamera.position);
-        _camOrigin = _mainCamera.cullingMask;
-        rigidbody = GetComponent<Rigidbody>();
-        Cursor.visible = false;
+        _camOrigin = _mainCamera.cullingMask;        
     }
 
     void LateUpdate()
@@ -68,8 +67,7 @@ public class CameraControl : MonoBehaviour
         {
             transform.RotateAround(targetForCamera.position, Vector3.up, rotateX * speedX * Time.deltaTime);
         }
-
-        transform.LookAt(targetForCamera);
+        transform.LookAt(targetForCamera.position);
     }
 
     private void ObstaclesReact()
@@ -82,7 +80,7 @@ public class CameraControl : MonoBehaviour
         }
         else if(distance< _maxDistance && Physics.Raycast(_position,-transform.forward, 0.1f,obstacles))
         {
-            _position -= transform.forward * .05f;
+            _position -= transform.forward * 0.05f;
         }
 
     }
