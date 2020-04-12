@@ -34,8 +34,6 @@ public class PersonController : MonoBehaviour
         _char_controller.Move(movement);
 
 
-
-
     }
 
 }
