@@ -3,7 +3,6 @@
 public class Chunk : MonoBehaviour
 {
     //in code u can see '16' - it is not "magic" number, even not const. It length (and width) of chunk. U can't change this
-
     protected Chunk chunk;
 
     protected float range = 10; //height 'strength'
@@ -19,8 +18,8 @@ public class Chunk : MonoBehaviour
     protected int[] dots = new int[size * size * 6]; //dots = verics (IMPORTANT!)
 
     public bool Constructed = false; //is chunck constructed?
-    public int Coord_x = 0; 
-    public int Coord_z = 0; 
+    public int Coord_x = 0;
+    public int Coord_z = 0;
     public string Chunk_name = "0;0"; //for saving
     public Person Player;
 

@@ -43,13 +43,13 @@ public class Chunks_Controller : MonoBehaviour
     public static void Set_Chunk(ref Chunk ch, Person pers)
     {
         int chunk_cor = (ch.Coord_x - pers.Player_coord_x) + (ch.Coord_z - pers.Player_coord_z) * Chunks_FOV + Chunks.Length / 2;
-        Debug.Log(chunk_cor);
+        //Debug.Log(chunk_cor);
         Chunks[chunk_cor] = ch;
 
         Determinate_Neighbour_Chunks(ref ch, chunk_cor);
     }
 
-    private static void Determinate_Neighbour_Chunks(ref Chunk ch, int index) 
+    private static void Determinate_Neighbour_Chunks(ref Chunk ch, int index)
     {
         bool first = true;
         if ((index + 1) % Chunks_FOV != 0)
@@ -69,7 +69,7 @@ public class Chunks_Controller : MonoBehaviour
         {
             Equal_Edge_Verts(ref ch, "up", index, ref first);
         }
-        
+
         if (((index + 1) % Chunks_FOV != 0) && (index < Chunks_FOV * (Chunks_FOV - 1)))
         {
             Equal_Edge_Verts(ref ch, "right_up", index, ref first);
@@ -87,10 +87,10 @@ public class Chunks_Controller : MonoBehaviour
         {
             Equal_Edge_Verts(ref ch, "left_down", index, ref first);
         }
-        
+
     }
 
-    private static void Equal_Edge_Verts(ref Chunk chunk, string direction, int index, ref bool is_first_calling) 
+    private static void Equal_Edge_Verts(ref Chunk chunk, string direction, int index, ref bool is_first_calling)
     {
         //link neighbour chunks
 
@@ -137,7 +137,7 @@ public class Chunks_Controller : MonoBehaviour
                     break;
                 }
 
-               
+
             case "right_up":
                 {
                     index_addition = 12;
@@ -172,7 +172,7 @@ public class Chunks_Controller : MonoBehaviour
                     down_up_offset = -72;
                     break;
                 }
-                
+
         }
 
         if ((Chunks[index + index_addition] != null) && (Chunks[index + index_addition].Constructed == true))
@@ -226,10 +226,10 @@ public class Chunks_Controller : MonoBehaviour
             i_addition = 1;
             border = Chunks_FOV - 1;
         }
-        
-        for (int i = start_i; i <= border; i+= i_addition)
+
+        for (int i = start_i; i <= border; i += i_addition)
         {
-            if (Chunks[i] == null) 
+            if (Chunks[i] == null)
             {
                 continue;
             }
@@ -237,7 +237,7 @@ public class Chunks_Controller : MonoBehaviour
             Chunks[i] = null;
             //Deleting_Chunk_With_Caching(Chunks[i]);
         }
-        
+
         if (!was_divided) Nulling_Chunks(ref player);
     }
 
@@ -253,13 +253,13 @@ public class Chunks_Controller : MonoBehaviour
 
     public static void Refresh_Chunks(ref Person player, int offset_x, int offset_z, Chunks_Controller chunks_Controller)
     {
-        foreach (Chunk ch in player.Chunks_from_player)                                                                   
+        foreach (Chunk ch in player.Chunks_from_player)
         {
             int chunk_cor = (ch.Coord_x - player.Player_coord_x) + (ch.Coord_z - player.Player_coord_z) * Chunks_FOV + Chunks.Length / 2;
             Chunks[chunk_cor] = ch;
         }
 
-        for (int i = 0; i <= Chunks.Length - 1; i++)                                                                 
+        for (int i = 0; i <= Chunks.Length - 1; i++)
         {
             if (Chunks[i] == null)
             {
@@ -271,8 +271,10 @@ public class Chunks_Controller : MonoBehaviour
             }
         }
 
-        Change_Previous_Player_Coords(ref player); 
+        Change_Previous_Player_Coords(ref player);
         player.Chunks_from_player.Clear();
+        ManagerEvents.TriggerEvent("ChunkCreated");
+
     }
 
     private static void Change_Previous_Player_Coords(ref Person player)
@@ -369,7 +371,7 @@ public class Chunks_Controller : MonoBehaviour
         return text;
     }
 
-    private static string Decode_Text(string text) 
+    private static string Decode_Text(string text)
     {
         const int decode_index = 17; // change in ENCODE too if u need!
 
@@ -414,13 +416,13 @@ public class Chunks_Controller : MonoBehaviour
             while (coord_z < round)
             {
                 Creating_Chunk(coord_x, coord_z, player, _chunks_Controller);
-                coord_z++;  
+                coord_z++;
             }
 
-            while(coord_x < round)
+            while (coord_x < round)
             {
                 Creating_Chunk(coord_x, coord_z, player, _chunks_Controller);
-                coord_x++; 
+                coord_x++;
             }
 
             while (coord_z > -round)
@@ -436,6 +438,8 @@ public class Chunks_Controller : MonoBehaviour
             }
 
         }
+        ManagerEvents.TriggerEvent("ChunkCreated");
+
     }
 
     private static void Creating_Chunk(int cor_x, int cor_z, Person player, Chunks_Controller chunks_Controller)
@@ -443,6 +447,9 @@ public class Chunks_Controller : MonoBehaviour
         GameObject g_obj = Instantiate(chunks_Controller._chunk, Setting_Up_Corner_Position(cor_x, cor_z), new Quaternion(0, 0, 0, 0));
         g_obj.GetComponent<Chunk>().Player = player;
     }
+
+
+
 
 }
 

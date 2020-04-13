@@ -3,6 +3,7 @@
 [RequireComponent(typeof(MeshFilter))]
 public class Created_Chunk : Chunk
 {
+
     private void Start()
     {
         Initialize_Chunk();
@@ -14,9 +15,9 @@ public class Created_Chunk : Chunk
             Diamond_Square(size);
             chunk.Constructed = true;
         }
-
         Create_Mesh();
         MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
+
     }
 
     private void Initialize_Chunk()
@@ -25,7 +26,6 @@ public class Created_Chunk : Chunk
         {
             Not_calculated_vecs[i] = 1;
         }
-
         chunk = this;
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
@@ -40,6 +40,8 @@ public class Created_Chunk : Chunk
         CreateTriangles();
         CreateShape();
         UpdateMesh();
+
+      
     }
 
     private void CreateTriangles()
@@ -187,7 +189,6 @@ public class Created_Chunk : Chunk
              Random.Range(-smaller_range, smaller_range) * multiply) * Not_calculated_vecs[down_index];
         Not_calculated_vecs[down_index] = 0;
 
-
         Diamond_Square(mesh_size / 2, coord_offset);
         Diamond_Square(mesh_size / 2, (left_down_corner_index + right_down_corner_index) / 2);
         Diamond_Square(mesh_size / 2, (left_down_corner_index + left_up_corner_index) / 2);
@@ -205,4 +206,6 @@ public class Created_Chunk : Chunk
             }
         }
     }
+
+   
 }
