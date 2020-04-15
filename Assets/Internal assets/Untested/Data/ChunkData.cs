@@ -15,7 +15,6 @@ public class ChunkData : MonoBehaviour
     [HideInInspector] public int[] ordinalNumbers = new int[size * size * 6]; //ordinalNumbers = verics (IMPORTANT!)
 
     [HideInInspector] public bool constructed = false; //is chunck constructed?
-    [HideInInspector] public string chunkName = "0;0"; //for saving
 
     [HideInInspector] public Mesh mesh;
     [HideInInspector] public int[] triangles;

@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(ChunkData))]
 [RequireComponent(typeof(VerticesData))]
+[RequireComponent(typeof(CoordinatesData))]
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -11,35 +12,53 @@ public class ChunkGenerating : MonoBehaviour
 {
     private ChunkData chunk;
     private VerticesData verticesData;
-    private ChunkNameSetuper chunkNameSetuper;
+    private CoordinatesData coordinatesData;
 
-    public delegate void MethodContainer();
-    public static event MethodContainer GeneratingDone;
-    
+    private ChunkNameSetuper chunkNameSetuper;
+    private ChunksController chunksController;
+
+    public delegate void GeneratingEvents();
+    public static event GeneratingEvents GeneratingDone;
+
+    public delegate void CallChunkLinking(CoordinatesData coordinatesData);
+    public static event CallChunkLinking NeedLink;
+
     private void Start()
-    {
+    { 
+        chunksController = GetComponentInParent<ChunksController>();
+
         chunk = GetComponent<ChunkData>();
+
+
         verticesData = GetComponent<VerticesData>();
+        coordinatesData = GetComponent<CoordinatesData>();
         chunkNameSetuper = GetComponent<ChunkNameSetuper>();
 
         GeneratingDone += chunkNameSetuper.SetName;
-        
+        NeedLink += chunksController.Test;
+
         InitializeChunk();
 
         bool created = false; //temp simplify
 
+        GeneratingDone();
+        GeneratingDone -= chunkNameSetuper.SetName;
+
         if (!created)
         {
-            //Chunks_Controller.Set_Chunk(ref chunk, Player);
-            DiamondSquare(ChunkData.size);
+
+            NeedLink(coordinatesData);
+            NeedLink -= chunksController.Test;
+
+            //link this chunk
             chunk.constructed = true;
+            DiamondSquare(ChunkData.size);
         }
 
         CreateMesh();
         MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
 
-        GeneratingDone();
-        GeneratingDone -= chunkNameSetuper.SetName;
+
     }
 
     private void CreateMesh()
