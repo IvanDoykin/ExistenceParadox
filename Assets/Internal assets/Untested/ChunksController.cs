@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 enum Directions 
 {
     Left,
@@ -140,30 +141,35 @@ public class ChunksController : MonoBehaviour
         }
     }
 
-    private void LinkOneChunk(int x, int z)
+    private void LinkOneChunk(int x, int z) //x,z Э [-5;5]
     {
-        if (x % halfChunkBlockSize != 0)
+        bool right = x != halfChunkBlockSize;
+        bool left = x != -halfChunkBlockSize;
+        bool up = z != halfChunkBlockSize;
+        bool down = z != -halfChunkBlockSize;
+
+        if (right)
             EqualEdgeDots(x, z, Directions.Right);
 
-        if (x % halfChunkBlockSize != 0)
+        if (left)
             EqualEdgeDots(x, z, Directions.Left);
 
-        if (z > 0)
+        if (down)
             EqualEdgeDots(x, z, Directions.Down);
 
-        if (z < halfChunkBlockSize)
+        if (up)
             EqualEdgeDots(x, z, Directions.Up);
 
-        if ((x % halfChunkBlockSize != 0) && (z > 0))
+        if (right && down)
             EqualEdgeDots(x, z, Directions.RightDown);
 
-        if ((x % halfChunkBlockSize != 0) && (z < halfChunkBlockSize))
+        if (right && up)
             EqualEdgeDots(x, z, Directions.RightUp);
 
-        if ((x % halfChunkBlockSize != 0) && (z > 0))
+        if (left && down)
             EqualEdgeDots(x, z, Directions.LeftDown);
 
-        if ((x % halfChunkBlockSize != 0) && (z < halfChunkBlockSize))
+        if (left && up)
             EqualEdgeDots(x, z, Directions.LeftUp);
     }
 
@@ -223,7 +229,7 @@ public class ChunksController : MonoBehaviour
                 {
                     indexAdditionX = 1;
                     indexAdditionZ = 1;
-                    startPoint = ChunkData.size * ChunkData.size - 1;
+                    startPoint = (ChunkData.size + 1) * (ChunkData.size + 1) - 1;
                     step = startPoint + 1;
                     otherChunkDot = -startPoint;
                     break;
@@ -234,7 +240,7 @@ public class ChunksController : MonoBehaviour
                     indexAdditionX = -1;
                     indexAdditionZ = 1;
                     startPoint = ChunkData.size * (ChunkData.size + 1);
-                    step = startPoint + 1;
+                    step = startPoint + ChunkData.size + 1;
                     otherChunkDot = ChunkData.size - startPoint;
                     break;
                 }
@@ -275,16 +281,6 @@ public class ChunksController : MonoBehaviour
 
             for (int i = startPoint; i < dotsLength + offsetDown; i += step)
             {
-                Debug.Log("In cycle");
-                Debug.Log("i = " + i);
-                Debug.Log("dlen + offdwn = " + (dotsLength + offsetDown));
-                Debug.Log("step = " + step);
-                Debug.Log("==========");
-                Debug.Log("xSum = " + (x + halfChunkBlockSize));
-                Debug.Log("zSum = " + (z + halfChunkBlockSize));
-                Debug.Log("xAdd = " + (x + indexAdditionX));
-                Debug.Log("zAdd = " + (z + indexAdditionZ));
-                Debug.Log("========================");
                 if ((i + otherChunkDot) >= chunks[0,0].dots.Length)
                     Debug.Log("---------------------------------");
                 chunks[x + halfChunkBlockSize, z + halfChunkBlockSize].dots[i].y = chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize].dots[i + otherChunkDot].y;
