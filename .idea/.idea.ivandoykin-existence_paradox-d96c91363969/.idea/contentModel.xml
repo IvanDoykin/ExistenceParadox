@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Bumbon\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Bumbon\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_ivandoykin-existence_paradox-d96c91363969.-229527621.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Bumbon\Desktop\proger blyat\UnityProjects\Unity\ivandoykin-existence_paradox-d96c91363969" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Internal assets" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="Actors" t="Include">
+              <e p="Characters" t="Include">
+                <e p="Player" t="Include">
+                  <e p="MouseLook.cs" t="Include" />
+                  <e p="Person.cs" t="Include" />
+                  <e p="PersonController.cs" t="Include" />
+                  <e p="RayShooter.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Landscape" t="Include">
+              <e p="Chunk.cs" t="Include" />
+              <e p="Chunks_Controller.cs" t="Include" />
+              <e p="Created_Chunk.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="TopAdventure" t="Include">
+          <e p="EventsCollection.cs" t="Include" />
+          <e p="Interfaces" t="Include">
+            <e p="IAwake.cs" t="Include" />
+            <e p="IStart.cs" t="Include" />
+            <e p="ITick.cs" t="Include" />
+            <e p="ITickFixed.cs" t="Include" />
+            <e p="ITickLate.cs" t="Include" />
+          </e>
+          <e p="Managers" t="Include">
+            <e p="ManagerBase.cs" t="Include" />
+            <e p="ManagerEvents.cs" t="Include" />
+            <e p="ManagerUpdate.cs" t="Include" />
+            <e p="ManagerUpdateComponent.cs" t="Include" />
+          </e>
+          <e p="Singleton" t="Include">
+            <e p="Scripts" t="Include">
+              <e p="Singleton.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Starters" t="Include">
+            <e p="Starter.cs" t="Include" />
+          </e>
+          <e p="Toolbox" t="Include">
+            <e p="Toolbox.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="ivandoykin-existence_paradox-d96c91363969.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
