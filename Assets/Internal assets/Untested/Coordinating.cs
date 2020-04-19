@@ -6,6 +6,8 @@ public class Coordinating : MonoBehaviour
 {
     private CoordinatesData coordinatesData;
 
+    public static event Spaceman.CoordinatesChanging CoordinatesChanged;
+
     private void Start()
     {
         coordinatesData = GetComponent<CoordinatesData>();

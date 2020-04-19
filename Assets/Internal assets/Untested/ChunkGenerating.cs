@@ -35,7 +35,7 @@ public class ChunkGenerating : MonoBehaviour
         chunkNameSetuper = GetComponent<ChunkNameSetuper>();
 
         GeneratingDone += chunkNameSetuper.SetName;
-        NeedLink += chunksController.Test;
+        NeedLink += chunksController.LinkChunk;
 
         InitializeChunk();
 
@@ -48,7 +48,7 @@ public class ChunkGenerating : MonoBehaviour
         {
 
             NeedLink(coordinatesData);
-            NeedLink -= chunksController.Test;
+            NeedLink -= chunksController.LinkChunk;
 
             //link this chunk
             chunk.constructed = true;

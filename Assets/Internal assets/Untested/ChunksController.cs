@@ -27,6 +27,7 @@ public class ChunksController : MonoBehaviour
     private static ChunkData[,] chunks = new ChunkData[chunksBlockSize, chunksBlockSize];
 
     public static event ChunkGenerating.CallChunkLinking NeedLink;
+    public static event Spaceman.SendChanging SendChange;
 
     private void Start()
     {
@@ -36,12 +37,14 @@ public class ChunksController : MonoBehaviour
         StarterGenerating();
     }
 
-    public void Test(CoordinatesData coordinatesData)
+    public void LinkChunk(CoordinatesData coordinatesData)
     {
         int x = coordinatesData.x - zeroPointX;
         int z = coordinatesData.z - zeroPointZ;
         LinkOneChunk(x, z);
     }
+
+
 
     public void ChangeZeroPoints()
     {
@@ -89,7 +92,6 @@ public class ChunksController : MonoBehaviour
 
         }
     }
-
 
     private float SetUpCoordinate(float coordinate)
     {
