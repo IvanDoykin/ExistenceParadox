@@ -24,6 +24,7 @@ public class ChunksController : MonoBehaviour
 
     private int zeroPointX;
     private int zeroPointZ;
+
     private static ChunkData[,] chunks = new ChunkData[chunksBlockSize, chunksBlockSize];
 
     public static event ChunkGenerating.CallChunkLinking NeedLink;
@@ -31,9 +32,7 @@ public class ChunksController : MonoBehaviour
 
     private void Start()
     {
-        zeroPointX = (int)SetUpCoordinate(transform.position.x) + halfChunkBlockSize;
-        zeroPointZ = (int)SetUpCoordinate(transform.position.z) + halfChunkBlockSize;
-
+        StarterCoordinating();
         StarterGenerating();
     }
 
@@ -44,19 +43,75 @@ public class ChunksController : MonoBehaviour
         LinkOneChunk(x, z);
     }
 
-
-
-    public void ChangeZeroPoints()
+    public void ChunksUpdate(int offsetX, int offsetZ)
     {
-        //for event when player goes on the other chunk
+        Debug.Log("=====Chunks Update=====");
+        Debug.Log("offsetX = " + offsetX);
+        Debug.Log("offsetZ = " + offsetZ);
+
+        ChangeZeroPoints(offsetX, offsetZ);
+        ChunksMassiveUpdate(offsetX, offsetZ);
+        ChunksFilling();
+    }
+
+    private void ChangeZeroPoints(int offsetX, int offsetZ)
+    {
+        Debug.Log("=====Change Zero Points=====");
+        Debug.Log("Was: zeroPointX = " + zeroPointX + " and zeroPointZ = " + zeroPointZ);
+
+        zeroPointX += offsetX;
+        zeroPointZ += offsetZ;
+
+        Debug.Log("Is: zeroPointX = " + zeroPointX + " and zeroPointZ = " + zeroPointZ);
+    }
+
+    private void ChunksMassiveUpdate(int offsetX, int offsetZ)
+    {
+        ChunkData[,] buffer = new ChunkData[chunksBlockSize, chunksBlockSize];
+        for (int i = 0; i < chunksBlockSize; i++)
+        {
+            for (int j = 0; j < chunksBlockSize; j++)
+            {
+                if (((i + offsetX) >= 0) && ((j + offsetZ) >= 0) && ((i + offsetX) <= 10) && ((j + offsetZ) <= 10))
+                {
+                    buffer[i, j] = chunks[i + offsetX, j + offsetZ];
+                    Debug.Log("buffer[" + i + "," + j + "] = chunks[" + (i + offsetX) + "," + (j + offsetZ) + "]");
+                }
+                else
+                {
+                    Debug.Log("buffer[" + i + "," + j + "] not'=' chunks[" + (i + offsetX) + "," + (j + offsetZ) + "]");
+                    Destroy(chunks[i, j].gameObject);
+                    chunks[i, j] = null;
+                }
+            }
+        }
+        chunks = buffer;
+    }
+
+    private void ChunksFilling()
+    {
+        for(int i = 0; i < chunksBlockSize; i++)
+        {
+            for(int j = 0; j < chunksBlockSize; j++)
+            {
+                if(chunks[i,j] == null)
+                {
+                    CreateChunk(i - halfChunkBlockSize, j - halfChunkBlockSize);
+                }
+            }
+        }
+    }
+
+    private void StarterCoordinating()
+    {
+        zeroPointX = (int)SetUpCoordinate(transform.position.x) + halfChunkBlockSize;
+        zeroPointZ = (int)SetUpCoordinate(transform.position.z) + halfChunkBlockSize;
     }
 
     private void StarterGenerating()
     {
         CreateChunk(0,0); //chunks[0,0] isn't includes in algoryth of generating
         CreateBlockOfChunks();
-        
-        Debug.Log("===================ALL DONE ===================");
     }
 
     private void CreateBlockOfChunks()
@@ -105,6 +160,7 @@ public class ChunksController : MonoBehaviour
 
     private void CreateChunk(int x, int z)
     {
+        Debug.Log("CreateChunk: x = " + x + " z = " + z);
         GameObject createdChunk = Instantiate(chunk, new Vector3(PopUpCoordinate(x + zeroPointX), 0, PopUpCoordinate(z + zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
         chunks[x + halfChunkBlockSize, z + halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
     }
@@ -143,7 +199,7 @@ public class ChunksController : MonoBehaviour
         }
     }
 
-    private void LinkOneChunk(int x, int z) //x,z Э [-5;5]
+    private void LinkOneChunk(int x, int z)
     {
         bool right = x != halfChunkBlockSize;
         bool left = x != -halfChunkBlockSize;
@@ -269,22 +325,14 @@ public class ChunksController : MonoBehaviour
                 }
         }
 
-        if ((chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize] != null) && (!chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize].constructed))
-            Debug.Log("============================FALSE=================");
 
         if ((chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize] != null) &&
           (chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize].constructed == true))
         {
-            Debug.Log("SAD BUT TRUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUE");
-            Debug.Log("x = " + x);
-            Debug.Log("z = " + z);
-            Debug.Log(direction);
             int dotsLength = (ChunkData.size + 1) * (ChunkData.size + 1);
 
             for (int i = startPoint; i < dotsLength + offsetDown; i += step)
             {
-                if ((i + otherChunkDot) >= chunks[0,0].dots.Length)
-                    Debug.Log("---------------------------------");
                 chunks[x + halfChunkBlockSize, z + halfChunkBlockSize].dots[i].y = chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize].dots[i + otherChunkDot].y;
                 chunks[x + halfChunkBlockSize, z + halfChunkBlockSize].notCalculatedVecs[i] = 0;
             }

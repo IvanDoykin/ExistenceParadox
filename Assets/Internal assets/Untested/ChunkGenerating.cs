@@ -29,7 +29,6 @@ public class ChunkGenerating : MonoBehaviour
 
         chunk = GetComponent<ChunkData>();
 
-
         verticesData = GetComponent<VerticesData>();
         coordinatesData = GetComponent<CoordinatesData>();
         chunkNameSetuper = GetComponent<ChunkNameSetuper>();

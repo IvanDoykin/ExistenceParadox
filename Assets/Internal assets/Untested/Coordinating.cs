@@ -10,8 +10,12 @@ public class Coordinating : MonoBehaviour
 
     private void Start()
     {
-        coordinatesData = GetComponent<CoordinatesData>();
         SetUpCoordinates();
+    }
+
+    private void OnEnable()
+    {
+        coordinatesData = GetComponent<CoordinatesData>();
     }
 
     public void SetUpCoordinates()
@@ -19,4 +23,6 @@ public class Coordinating : MonoBehaviour
         coordinatesData.x = (int)Mathf.Floor(transform.position.x / 16);
         coordinatesData.z = (int)Mathf.Floor(transform.position.z / 16);
     }
+
+    
 }

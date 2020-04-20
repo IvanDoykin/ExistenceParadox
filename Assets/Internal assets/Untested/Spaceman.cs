@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Coordinating))]
 public class Spaceman : MonoBehaviour
 {
+    [SerializeField] ChunksController chunksController;
+
     public delegate void CoordinatesChanging();
     public static event CoordinatesChanging CoordinatesChanged;
 
@@ -25,6 +27,8 @@ public class Spaceman : MonoBehaviour
         CoordinatesChanged += coordinating.SetUpCoordinates;
         CoordinatesChanged();
 
+        SendChange += chunksController.ChunksUpdate;
+
         previousX = coordinatesData.x;
         previousZ = coordinatesData.z;
     }
@@ -33,7 +37,7 @@ public class Spaceman : MonoBehaviour
     {
         if ((previousX != coordinatesData.x) || (previousZ != coordinatesData.z))
         {
-            //event regener
+            SendChange(coordinatesData.x - previousX, coordinatesData.z - previousZ);
             Debug.Log("call event");
 
             previousX = coordinatesData.x;
