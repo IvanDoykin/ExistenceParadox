@@ -68,24 +68,42 @@ public class ChunksController : MonoBehaviour
     private void ChunksMassiveUpdate(int offsetX, int offsetZ)
     {
         ChunkData[,] buffer = new ChunkData[chunksBlockSize, chunksBlockSize];
+
+        for(int i = 0; i < chunksBlockSize; i++)
+        {
+            for(int j = 0; j < chunksBlockSize; j++)
+            {
+                bool iIsOverflow = ((i - offsetX) >= chunksBlockSize) || ((i - offsetX) < 0);
+                bool jIsOverflow = ((j - offsetZ) >= chunksBlockSize) || ((j - offsetZ) < 0);
+
+                if (iIsOverflow || jIsOverflow)
+                {
+                    if (chunks[i, j] != null)
+                    {
+                        Destroy(chunks[i, j].gameObject);
+                        chunks[i, j] = null;
+                    }
+
+                    else
+                    {
+                        Debug.Log("i = " + i + "; j = " + j + " NULL");
+                    }
+                }
+
+                else
+                {
+                    buffer[i - offsetX, j - offsetZ] = chunks[i, j];
+                }
+            }
+        }
+
         for (int i = 0; i < chunksBlockSize; i++)
         {
             for (int j = 0; j < chunksBlockSize; j++)
             {
-                if (((i + offsetX) >= 0) && ((j + offsetZ) >= 0) && ((i + offsetX) <= 10) && ((j + offsetZ) <= 10))
-                {
-                    buffer[i, j] = chunks[i + offsetX, j + offsetZ];
-                    Debug.Log("buffer[" + i + "," + j + "] = chunks[" + (i + offsetX) + "," + (j + offsetZ) + "]");
-                }
-                else
-                {
-                    Debug.Log("buffer[" + i + "," + j + "] not'=' chunks[" + (i + offsetX) + "," + (j + offsetZ) + "]");
-                    Destroy(chunks[i, j].gameObject);
-                    chunks[i, j] = null;
-                }
+                chunks[i, j] = buffer[i, j];
             }
         }
-        chunks = buffer;
     }
 
     private void ChunksFilling()
@@ -94,7 +112,7 @@ public class ChunksController : MonoBehaviour
         {
             for(int j = 0; j < chunksBlockSize; j++)
             {
-                if(chunks[i,j] == null)
+                if(chunks[i, j] == null)
                 {
                     CreateChunk(i - halfChunkBlockSize, j - halfChunkBlockSize);
                 }
@@ -160,6 +178,9 @@ public class ChunksController : MonoBehaviour
 
     private void CreateChunk(int x, int z)
     {
+        if (chunks[x + halfChunkBlockSize, z + halfChunkBlockSize] != null)
+            return;
+
         Debug.Log("CreateChunk: x = " + x + " z = " + z);
         GameObject createdChunk = Instantiate(chunk, new Vector3(PopUpCoordinate(x + zeroPointX), 0, PopUpCoordinate(z + zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
         chunks[x + halfChunkBlockSize, z + halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
