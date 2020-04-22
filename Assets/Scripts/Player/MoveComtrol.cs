@@ -7,6 +7,7 @@ public class MoveComtrol : MonoBehaviour
 {
     [SerializeField] private Transform groundChecker;
 
+    private SphereCollider wallCheckSphereCollider;
     private Rigidbody _rigidbody;    
     private Transform _mainCamera;
 
@@ -15,6 +16,7 @@ public class MoveComtrol : MonoBehaviour
     [SerializeField] private LayerMask noPlayer;
     private Vector3 camPos;    
     private bool _isGrounded;
+    private bool _isTouchedWall;
     private float inputDelay = 0.02f;
     private float timeToJump;
     
@@ -65,6 +67,11 @@ public class MoveComtrol : MonoBehaviour
         {
             timeToJump = Time.time + inputDelay;
         }
+    }
+
+    private void IsTouchedWall()
+    {
+        
     }
 
     private void IsGroundedUpate()

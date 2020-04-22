@@ -6,19 +6,22 @@ using System.Collections;
 public class MoveControllerV2 : MonoBehaviour
 {
 
-	public float speed = 1.5f; // макс. скорость
-	public float acceleration = 100f; // ускорение
+	[SerializeField] private float speed = 1.5f; // макс. скорость
+	[SerializeField] private float acceleration = 100f; // ускорение
 
-	public Transform rotate; // объект вращения (локальный)
+	[SerializeField] private Transform rotate;
 
-	public KeyCode jumpButton = KeyCode.Space; // клавиша для прыжка
-	public float jumpForce = 10; // сила прыжка
-	public float jumpDistance = 1.2f; // расстояние от центра объекта, до поверхности
+	[SerializeField] private KeyCode jumpButton = KeyCode.Space;
+	[SerializeField] private float jumpForce = 10f;
+	[SerializeField] private float jumpDistance = 1.2f;
+	[SerializeField] private float jumpSpeed = 5f;
 
 	private Vector3 direction;
 	private float h, v;
 	private int layerMask;
-	private Rigidbody body;
+	private Rigidbody body;	
+	private float fallMultiplier = 2.5f;
+	private float lowJumpMultiplier = 2f;
 	private float rotationY;
 	private float rotationX;
 
@@ -26,6 +29,7 @@ public class MoveControllerV2 : MonoBehaviour
 	{
 		body = GetComponent<Rigidbody>();
 		body.freezeRotation = true;
+
 		gameObject.tag = "Player";
 
 		// объекту должен быть присвоен отдельный слой, для работы прыжка
@@ -35,8 +39,6 @@ public class MoveControllerV2 : MonoBehaviour
 
 	void FixedUpdate()
 	{
-
-		// Ограничение скорости, иначе объект будет постоянно ускоряться
 		if (Mathf.Abs(body.velocity.x) > speed)
 		{
 			body.velocity = new Vector3(Mathf.Sign(body.velocity.x) * speed, body.velocity.y, body.velocity.z);
@@ -46,10 +48,13 @@ public class MoveControllerV2 : MonoBehaviour
 			body.velocity = new Vector3(body.velocity.x, body.velocity.y, Mathf.Sign(body.velocity.z) * speed);
 		}
 
-		body.AddForce(direction.normalized * acceleration * body.mass * speed);
+		if (GetJump())
+		{
+			body.AddForce(direction.normalized * acceleration * body.mass * speed);
+		}
 	}
 
-	bool GetJump() // проверяем, есть ли коллайдер под ногами
+	bool GetJump()
 	{
 		bool result = false;
 
@@ -68,21 +73,30 @@ public class MoveControllerV2 : MonoBehaviour
 		h = Input.GetAxis("Horizontal");
 		v = Input.GetAxis("Vertical");
 
-		// вектор направления движения
+
 		direction = new Vector3(h, 0, v);
 		direction = Camera.main.transform.TransformDirection(direction);
 		direction = new Vector3(direction.x, 0, direction.z);
 
-		if (Mathf.Abs(v) > 0 || Mathf.Abs(h) > 0) // разворот тела по вектору движения
+		if (Mathf.Abs(v) > 0 || Mathf.Abs(h) > 0)
 		{
 			rotate.rotation = Quaternion.Lerp(rotate.rotation, Quaternion.LookRotation(direction), 10 * Time.deltaTime);
 		}
 
-		Debug.DrawRay(transform.position, Vector3.down * jumpDistance, Color.red); // подсветка, для визуальной настройки jumpDistance
+		Debug.DrawRay(transform.position, Vector3.down * jumpDistance, Color.red);
 
 		if (Input.GetKeyDown(jumpButton) && GetJump())
 		{
-			body.velocity = new Vector2(0, jumpForce);
+			body.AddForce(direction.x * jumpSpeed, jumpForce * 50, direction.z * jumpSpeed, ForceMode.Impulse);
+		}
+
+		if(body.velocity.y < 0)
+		{
+			body.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+		}
+		else if(body.velocity.y > 0 && Input.GetKey(jumpButton))
+		{
+			body.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
 		}
 	}
 }

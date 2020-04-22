@@ -33,7 +33,7 @@ public class CursorManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
         Cursor.visible = _stateCursor;
-        GetComponent<CameraControl>().enabled = !_stateCursor;
+        GetComponent<CameraControlV2>().enabled = !_stateCursor;
         _stateCursor = !_stateCursor;
     }
 }

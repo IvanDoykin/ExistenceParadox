@@ -52,7 +52,7 @@ public class CameraControlV2 : MonoBehaviour
 		return position;
 	}
 
-	void LateUpdate()
+	void FixedUpdate()
 	{
 		if (player)
 		{
