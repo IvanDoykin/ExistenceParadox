@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - gen_mesh
+  - Enemy
   layers:
   - Default
   - TransparentFX
