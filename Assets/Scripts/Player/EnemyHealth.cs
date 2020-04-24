@@ -6,7 +6,7 @@ public class EnemyHealth : MonoBehaviour
 {
     private int healthPoint = 100;
 
-	public void AddDamage(int damage)
+	public void TakeDamage(int damage)
 	{
 		healthPoint -= damage;
 		if (healthPoint <= 0)
