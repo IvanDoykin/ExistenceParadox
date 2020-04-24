@@ -81,10 +81,10 @@ public class MoveControllerV3 : MonoBehaviour
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
         moveDirection = new Vector3(moveDirection.x, 0f, moveDirection.z);
 
-        if (Mathf.Abs(vertical) > 0 || Mathf.Abs(horizontal) > 0)
-        {
-            player.rotation = Quaternion.Lerp(player.rotation, Quaternion.LookRotation(moveDirection), 10 * Time.deltaTime);            
-        }
+                
+        player.rotation = Quaternion.Lerp(player.rotation, Camera.main.transform.rotation, 100 * Time.deltaTime);
+
+
 
         if (Input.GetKeyDown(jumpButton) && isGrounded)
         {
@@ -92,14 +92,6 @@ public class MoveControllerV3 : MonoBehaviour
         }
 
         currentMoveSpeed = rigidbody.velocity.magnitude;
-    }
-
-    private void LateUpdate()
-    {
-        if (Mathf.Abs(vertical) > 0 || Mathf.Abs(horizontal) > 0)
-        {
-            player.rotation = Quaternion.Lerp(player.rotation, Quaternion.LookRotation(moveDirection), 10 * Time.deltaTime);
-        }
     }
 
     private void FixedUpdate()

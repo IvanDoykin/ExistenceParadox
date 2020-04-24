@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
 	public int damage = 50;
 	public string[] targetTags = { "Enemy", "Target_2" };
-	[SerializeField] private float lifeTime = 10f;
+	private float lifeTime = 10f;
 
 	private void Update()
 	{
