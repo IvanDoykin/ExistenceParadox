@@ -45,7 +45,6 @@ public class ChunkGenerating : MonoBehaviour
 
         if (!created)
         {
-
             NeedLink(coordinatesData);
             NeedLink -= chunksController.LinkChunk;
 
@@ -54,8 +53,8 @@ public class ChunkGenerating : MonoBehaviour
             DiamondSquare(ChunkData.size);
         }
 
-        CreateMesh();
-        MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
+        //CreateMesh();
+        //MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
 
 
     }
@@ -74,8 +73,8 @@ public class ChunkGenerating : MonoBehaviour
             chunk.notCalculatedVecs[i] = 1;
         }
 
-        chunk.mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = chunk.mesh;
+        //chunk.mesh = new Mesh();
+        //GetComponent<MeshFilter>().mesh = chunk.mesh;
         InitializeVectors();
     }
 
@@ -83,7 +82,7 @@ public class ChunkGenerating : MonoBehaviour
     {
         //create triangles fromchunk.ordinalNumbers
         #region upper_tr 
-        //generating triangles from dots (x, x+5, x+1) last dot = (dots.len - 1) - (size + 1)
+        //generating triangles from dots (x, x+1+size, x+1) last dot = (dots.len - 1) - (size + 1)
         int index = 0;
         for (int x = 0; x < chunk.dots.Length - 2 - ChunkData.size; x++)
         {

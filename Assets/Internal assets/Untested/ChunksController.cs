@@ -14,41 +14,57 @@ enum Directions
     RightDown
 }
 
-public class ChunksController : MonoBehaviour
+public sealed class ChunksController : MonoBehaviour
 {
     [SerializeField] GameObject chunk;
 
+    private VerticesData verticesData;
+
+    private const int trianglesPerChunk = ChunkData.size * ChunkData.size * 6;
     private const int chunkMetric = 16;
-    private const int chunksBlockSize = 11; //not even number
-    private const int halfChunkBlockSize = (chunksBlockSize - 1) / 2;
+    private const int chunkBlockSize = 11; //not even number
+    private const int halfChunkBlockSize = (chunkBlockSize - 1) / 2;
 
     private int zeroPointX;
     private int zeroPointZ;
 
-    private static ChunkData[,] chunks = new ChunkData[chunksBlockSize, chunksBlockSize];
+    private int[] triangles;
+    private int[] ordinalNumbers = new int[trianglesPerChunk];
+    private Mesh mesh;
+
+    private static ChunkData[,] chunks = new ChunkData[chunkBlockSize, chunkBlockSize];
+
+    private static Vector3[] chunkBlockVertices = new Vector3[trianglesPerChunk * chunkBlockSize * chunkBlockSize];
+
+    private static Vector3[] chunkBlockDots = new Vector3[(ChunkData.size + 1) * (ChunkData.size + 1) * chunkBlockSize * chunkBlockSize];
+    private static bool[] dotIsCalculated = new bool[trianglesPerChunk * chunkBlockSize * chunkBlockSize];
 
     public static event ChunkGenerating.CallChunkLinking NeedLink;
     public static event Spaceman.SendChanging SendChange;
 
     private void Start()
     {
+        verticesData = GetComponent<VerticesData>();
+
+        mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = mesh;
+
         StarterCoordinating();
         StarterGenerating();
+
+        CreateMesh();
+        MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
     }
 
     public void LinkChunk(CoordinatesData coordinatesData)
     {
         int x = coordinatesData.x - zeroPointX;
         int z = coordinatesData.z - zeroPointZ;
-        LinkOneChunk(x, z);
+        LinkChunk(x, z);
     }
 
     public void ChunksUpdate(int offsetX, int offsetZ)
     {
-        Debug.Log("=====Chunks Update=====");
-        Debug.Log("offsetX = " + offsetX);
-        Debug.Log("offsetZ = " + offsetZ);
-
         ChangeZeroPoints(offsetX, offsetZ);
         ChunksMassiveUpdate(offsetX, offsetZ);
         ChunksFilling();
@@ -56,37 +72,28 @@ public class ChunksController : MonoBehaviour
 
     private void ChangeZeroPoints(int offsetX, int offsetZ)
     {
-        Debug.Log("=====Change Zero Points=====");
-        Debug.Log("Was: zeroPointX = " + zeroPointX + " and zeroPointZ = " + zeroPointZ);
-
         zeroPointX += offsetX;
         zeroPointZ += offsetZ;
-
-        Debug.Log("Is: zeroPointX = " + zeroPointX + " and zeroPointZ = " + zeroPointZ);
     }
 
     private void ChunksMassiveUpdate(int offsetX, int offsetZ)
     {
-        ChunkData[,] buffer = new ChunkData[chunksBlockSize, chunksBlockSize];
+        ChunkData[,] buffer = new ChunkData[chunkBlockSize, chunkBlockSize];
 
-        for(int i = 0; i < chunksBlockSize; i++)
+        for(int i = 0; i < chunkBlockSize; i++)
         {
-            for(int j = 0; j < chunksBlockSize; j++)
+            for(int j = 0; j < chunkBlockSize; j++)
             {
-                bool iIsOverflow = ((i - offsetX) >= chunksBlockSize) || ((i - offsetX) < 0);
-                bool jIsOverflow = ((j - offsetZ) >= chunksBlockSize) || ((j - offsetZ) < 0);
+                bool iIsOverflow = ((i - offsetX) >= chunkBlockSize) || ((i - offsetX) < 0);
+                bool jIsOverflow = ((j - offsetZ) >= chunkBlockSize) || ((j - offsetZ) < 0);
 
                 if (iIsOverflow || jIsOverflow)
                 {
                     if (chunks[i, j] != null)
                     {
+                        DeleteChunkDots(i - halfChunkBlockSize, j - halfChunkBlockSize);
                         Destroy(chunks[i, j].gameObject);
                         chunks[i, j] = null;
-                    }
-
-                    else
-                    {
-                        Debug.Log("i = " + i + "; j = " + j + " NULL");
                     }
                 }
 
@@ -97,9 +104,9 @@ public class ChunksController : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < chunksBlockSize; i++)
+        for (int i = 0; i < chunkBlockSize; i++)
         {
-            for (int j = 0; j < chunksBlockSize; j++)
+            for (int j = 0; j < chunkBlockSize; j++)
             {
                 chunks[i, j] = buffer[i, j];
             }
@@ -108,9 +115,9 @@ public class ChunksController : MonoBehaviour
 
     private void ChunksFilling()
     {
-        for(int i = 0; i < chunksBlockSize; i++)
+        for(int i = 0; i < chunkBlockSize; i++)
         {
-            for(int j = 0; j < chunksBlockSize; j++)
+            for(int j = 0; j < chunkBlockSize; j++)
             {
                 if(chunks[i, j] == null)
                 {
@@ -181,46 +188,30 @@ public class ChunksController : MonoBehaviour
         if (chunks[x + halfChunkBlockSize, z + halfChunkBlockSize] != null)
             return;
 
-        Debug.Log("CreateChunk: x = " + x + " z = " + z);
         GameObject createdChunk = Instantiate(chunk, new Vector3(PopUpCoordinate(x + zeroPointX), 0, PopUpCoordinate(z + zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
         chunks[x + halfChunkBlockSize, z + halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
+        AddChunkDots(x + halfChunkBlockSize, z + halfChunkBlockSize);
     }
 
-    private void LinkChunks(int x, int z)
+    private void AddChunkDots(int x, int z)
     {
-        for (int round = 1; round < halfChunkBlockSize + 1; round++)
+        for (int i = 0; i < (ChunkData.size + 1) * (ChunkData.size + 1); i++)
         {
-            int coordinateX = x - round;
-            int coordinateZ = z - round;
-
-            while (coordinateZ < z + round)
-            {
-                LinkOneChunk(coordinateX, coordinateZ);
-                coordinateZ++;
-            }
-
-            while (coordinateX < x + round)
-            {
-                LinkOneChunk(coordinateX, coordinateZ);
-                coordinateX++;
-            }
-
-            while (coordinateZ > z - round)
-            {
-                LinkOneChunk(coordinateX, coordinateZ);
-                coordinateZ--;
-            }
-
-            while (coordinateX > x - round)
-            {
-                LinkOneChunk(coordinateX, coordinateZ);
-                coordinateX--;
-            }
-
+            chunkBlockDots[i + x * (ChunkData.size + 1) + z * chunkBlockSize * (ChunkData.size + 1)] = chunks[x, z].dots[i];
+            dotIsCalculated[i + x * (ChunkData.size + 1) + z * chunkBlockSize * (ChunkData.size + 1)] = true;
         }
     }
 
-    private void LinkOneChunk(int x, int z)
+    private void DeleteChunkDots(int x, int z)
+    {
+        for (int i = 0; i < (ChunkData.size + 1) * (ChunkData.size + 1); i++)
+        {
+            chunkBlockDots[i + x * (ChunkData.size + 1) + z * chunkBlockSize * (ChunkData.size + 1)] = Vector3.zero;
+            dotIsCalculated[i + x * (ChunkData.size + 1) + z * chunkBlockSize * (ChunkData.size + 1)] = false;
+        }
+    }
+
+    private void LinkChunk(int x, int z)
     {
         bool right = x != halfChunkBlockSize;
         bool left = x != -halfChunkBlockSize;
@@ -359,5 +350,72 @@ public class ChunksController : MonoBehaviour
             }
         }
 
+    }
+
+    private void CreateMesh()
+    {
+        CreateTriangles();
+        CreateShape();
+        UpdateMesh();
+    }
+    
+    private void CreateTriangles()
+    {
+        Debug.Log("SIZE_vert = " + chunkBlockVertices.Length);
+        Debug.Log("SIZE_dots = " + chunkBlockDots.Length);
+        //create triangles fromchunk.ordinalNumbers
+        #region upper_tr 
+        //generating triangles from dots (x, x+5, x+1) last dot = (dots.len - 1) - (size + 1)
+        int index = 0;
+        for (int x = 0; x < chunkBlockDots.Length - 2 - ChunkData.size; x++)
+        {
+            Debug.Log("Create triangle: " + x + "; " + (x + (ChunkData.size + 1)) + "; " + (x + 1));
+            Debug.Log("VertexIndex = " + index);
+
+            chunkBlockVertices[index] = chunkBlockDots[x];
+            chunkBlockVertices[index + 1] = chunkBlockDots[x + (ChunkData.size + 1)];
+            chunkBlockVertices[index + 2] = chunkBlockDots[x + 1];
+            index += 3;
+        }
+        #endregion
+        #region lower_tr
+        //generating triangles fromchunk.ordinalNumbers (x, x+4, x+5) last dot = chunk.ordinalNumbers.len - (ChunkData.size + 1)
+        for (int x = 0; index < chunkBlockVertices.Length; x++)
+        {
+            Debug.Log("Create triangle(2): " + x + "; " + (x + (ChunkData.size + 1)) + "; " + (x + 1));
+            Debug.Log("VertexIndex = " + index);
+
+            chunkBlockVertices[index] = chunkBlockDots[x];
+            chunkBlockVertices[index + 1] = chunkBlockDots[x + ChunkData.size];
+            chunkBlockVertices[index + 2] = chunkBlockDots[x + (ChunkData.size + 1)];
+            index += 3;
+        }
+        #endregion
+        #region initializing_ordinal_numbers_massive
+        //massive for creating triangles massive.len = "triangles amounts" * 3
+        for (int h = 0; h < ordinalNumbers.Length; h++)
+        {
+            ordinalNumbers[h] = h;
+        }
+        #endregion
+    }
+    
+    private void CreateShape()
+    {
+        //setting up dots and massive of ordinal numbers
+        verticesData.generatedVertices = chunkBlockVertices;
+        triangles = ordinalNumbers;
+    }
+
+    private void UpdateMesh()
+    {
+        //setting up verticles and triangles with some fixing
+        mesh.Clear();
+
+        mesh.vertices = verticesData.generatedVertices;
+        mesh.triangles = triangles;
+
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
     }
 }
