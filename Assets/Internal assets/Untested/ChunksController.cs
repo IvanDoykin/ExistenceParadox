@@ -20,25 +20,27 @@ public sealed class ChunksController : MonoBehaviour
 
     private VerticesData verticesData;
 
-    private const int trianglesPerChunk = ChunkData.size * ChunkData.size * 6;
+    private const int triangleDotsPerChunk = (ChunkData.size + 1) * (ChunkData.size + 1) * 6;
     private const int chunkMetric = 16;
-    private const int chunkBlockSize = 11; //not even number
+    private const int chunkBlockSize = 3; //not even number
     private const int halfChunkBlockSize = (chunkBlockSize - 1) / 2;
 
+    private int generateDoneChunks = 0;
     private int zeroPointX;
     private int zeroPointZ;
 
     private int[] triangles;
-    private int[] ordinalNumbers = new int[trianglesPerChunk];
+    private int[] ordinalNumbers = new int[triangleDotsPerChunk * chunkBlockSize * chunkBlockSize];
     private Mesh mesh;
 
     private static ChunkData[,] chunks = new ChunkData[chunkBlockSize, chunkBlockSize];
 
-    private static Vector3[] chunkBlockVertices = new Vector3[trianglesPerChunk * chunkBlockSize * chunkBlockSize];
+    private static Vector3[] chunkBlockVertices = new Vector3[triangleDotsPerChunk * chunkBlockSize * chunkBlockSize];
 
     private static Vector3[] chunkBlockDots = new Vector3[(ChunkData.size + 1) * (ChunkData.size + 1) * chunkBlockSize * chunkBlockSize];
-    private static bool[] dotIsCalculated = new bool[trianglesPerChunk * chunkBlockSize * chunkBlockSize];
+    private static bool[] dotIsCalculated = new bool[triangleDotsPerChunk * chunkBlockSize * chunkBlockSize];
 
+    public static event ChunkGenerating.ChunkCheck ChunkIsReady;
     public static event ChunkGenerating.CallChunkLinking NeedLink;
     public static event Spaceman.SendChanging SendChange;
 
@@ -49,6 +51,32 @@ public sealed class ChunksController : MonoBehaviour
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
 
+        InitializeVectors();
+        StarterCoordinating();
+        StarterGenerating();
+
+        Debug.Log("SIZE = " + chunkBlockDots.Length);
+        Debug.Log("SIZE2 = " + chunkBlockVertices.Length);
+    }
+
+    public void CheckOnReady(CoordinatesData coordinatesData)
+    {
+        Debug.Log("CHECK ON READY");
+        Debug.Log("x = " + coordinatesData.x + "; z = " + coordinatesData.z);
+
+        generateDoneChunks++;
+        AddChunkDots(coordinatesData.x, coordinatesData.z);
+
+        Debug.Log("genratedDoneChunks = " + generateDoneChunks);
+
+        if(generateDoneChunks == chunkBlockSize * chunkBlockSize)
+        {
+            Starting();
+        }
+    }
+
+    private void Starting()
+    {
         StarterCoordinating();
         StarterGenerating();
 
@@ -190,15 +218,26 @@ public sealed class ChunksController : MonoBehaviour
 
         GameObject createdChunk = Instantiate(chunk, new Vector3(PopUpCoordinate(x + zeroPointX), 0, PopUpCoordinate(z + zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
         chunks[x + halfChunkBlockSize, z + halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
-        AddChunkDots(x + halfChunkBlockSize, z + halfChunkBlockSize);
     }
 
     private void AddChunkDots(int x, int z)
     {
-        for (int i = 0; i < (ChunkData.size + 1) * (ChunkData.size + 1); i++)
+        Debug.Log("ADD CHUNK DOTS");
+        Debug.Log("x = " + x + "; z = " + z);
+
+        int index = 0;
+        int startPoint = x * (ChunkData.size + 1) + z * (ChunkData.size + 1) * chunkBlockSize * (ChunkData.size + 1);
+        int endPoint = startPoint + ChunkData.size * chunkBlockSize * (ChunkData.size + 1) + ChunkData.size;
+
+        for (int i = startPoint; i <= endPoint; i++)
         {
-            chunkBlockDots[i + x * (ChunkData.size + 1) + z * chunkBlockSize * (ChunkData.size + 1)] = chunks[x, z].dots[i];
-            dotIsCalculated[i + x * (ChunkData.size + 1) + z * chunkBlockSize * (ChunkData.size + 1)] = true;
+            if ((index % (ChunkData.size + 1)) == 0)
+            {
+                i += (ChunkData.size + 1) * (chunkBlockSize - 1);
+            }
+
+            chunkBlockDots[i].y = chunks[x, z].dots[index].y;
+            index++;
         }
     }
 
@@ -358,39 +397,41 @@ public sealed class ChunksController : MonoBehaviour
         CreateShape();
         UpdateMesh();
     }
-    
+
     private void CreateTriangles()
     {
-        Debug.Log("SIZE_vert = " + chunkBlockVertices.Length);
-        Debug.Log("SIZE_dots = " + chunkBlockDots.Length);
         //create triangles fromchunk.ordinalNumbers
         #region upper_tr 
-        //generating triangles from dots (x, x+5, x+1) last dot = (dots.len - 1) - (size + 1)
+        //generating triangles from dots (x, x+1+size, x+1) last dot = (dots.len - 1) - (size + 1)
         int index = 0;
-        for (int x = 0; x < chunkBlockDots.Length - 2 - ChunkData.size; x++)
+        for (int x = 0; x < chunkBlockDots.Length - 1 - (ChunkData.size + 1) * chunkBlockSize; x++)
         {
-            Debug.Log("Create triangle: " + x + "; " + (x + (ChunkData.size + 1)) + "; " + (x + 1));
-            Debug.Log("VertexIndex = " + index);
+            if (((x + 1) % ((ChunkData.size + 1) * chunkBlockSize) == 0) && (x != 0))
+                continue;
 
             chunkBlockVertices[index] = chunkBlockDots[x];
-            chunkBlockVertices[index + 1] = chunkBlockDots[x + (ChunkData.size + 1)];
+            chunkBlockVertices[index + 1] = chunkBlockDots[x + (ChunkData.size + 1) * chunkBlockSize];
             chunkBlockVertices[index + 2] = chunkBlockDots[x + 1];
             index += 3;
         }
         #endregion
+        
         #region lower_tr
-        //generating triangles fromchunk.ordinalNumbers (x, x+4, x+5) last dot = chunk.ordinalNumbers.len - (ChunkData.size + 1)
-        for (int x = 0; index < chunkBlockVertices.Length; x++)
+        //generating triangles fromchunk.ordinalNumbers (x, x+4, x+5) last dot =chunk.ordinalNumbers.len - (ChunkData.size + 1)
+        for (int x = 0; x < chunkBlockDots.Length - (ChunkData.size + 1) * chunkBlockSize; x++)
         {
-            Debug.Log("Create triangle(2): " + x + "; " + (x + (ChunkData.size + 1)) + "; " + (x + 1));
-            Debug.Log("VertexIndex = " + index);
+            if (x % ((ChunkData.size + 1) * chunkBlockSize) == 0)
+                continue;
 
-            chunkBlockVertices[index] = chunkBlockDots[x];
-            chunkBlockVertices[index + 1] = chunkBlockDots[x + ChunkData.size];
-            chunkBlockVertices[index + 2] = chunkBlockDots[x + (ChunkData.size + 1)];
+            chunkBlockVertices[index]  = chunkBlockDots[x];
+            Debug.Log(index + 1);
+            Debug.Log(x + (ChunkData.size + 1) * chunkBlockSize - 1);
+            chunkBlockVertices[index + 1] = chunkBlockDots[x + (ChunkData.size + 1) * chunkBlockSize - 1];
+            chunkBlockVertices[index + 2] = chunkBlockDots[x + (ChunkData.size + 1) * chunkBlockSize];
             index += 3;
         }
         #endregion
+        
         #region initializing_ordinal_numbers_massive
         //massive for creating triangles massive.len = "triangles amounts" * 3
         for (int h = 0; h < ordinalNumbers.Length; h++)
@@ -399,7 +440,7 @@ public sealed class ChunksController : MonoBehaviour
         }
         #endregion
     }
-    
+
     private void CreateShape()
     {
         //setting up dots and massive of ordinal numbers
@@ -412,10 +453,24 @@ public sealed class ChunksController : MonoBehaviour
         //setting up verticles and triangles with some fixing
         mesh.Clear();
 
-        mesh.vertices = verticesData.generatedVertices;
-        mesh.triangles = triangles;
+        mesh.vertices = chunkBlockVertices;
+        mesh.triangles = ordinalNumbers;
 
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
+    }
+
+    private void InitializeVectors()
+    {
+        Debug.Log("INITIALIZING: ");
+        for (int i = 0; i < (ChunkData.size + 1) * chunkBlockSize; i++)
+        {
+            for (int j = 0; j < (ChunkData.size + 1) * chunkBlockSize; j++)
+            {
+                Debug.Log("[" + ((i * (ChunkData.size + 1) * chunkBlockSize) + j) + "] vector: " + (j * ChunkData.sizeNormaller) + "; " + 0 + "; " + (i * ChunkData.sizeNormaller));
+                chunkBlockDots[(i * (ChunkData.size + 1) * chunkBlockSize) + j] = new Vector3(j * ChunkData.sizeNormaller, 0, i * ChunkData.sizeNormaller); //coord for ever dot
+            }
+        }
+        
     }
 }

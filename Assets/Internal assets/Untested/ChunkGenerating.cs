@@ -19,6 +19,8 @@ public class ChunkGenerating : MonoBehaviour
 
     public delegate void GeneratingEvents();
     public static event GeneratingEvents GeneratingDone;
+    public delegate void ChunkCheck(CoordinatesData coordinatesData);
+    public static event ChunkCheck ChunkIsReady;
 
     public delegate void CallChunkLinking(CoordinatesData coordinatesData);
     public static event CallChunkLinking NeedLink;
@@ -33,15 +35,13 @@ public class ChunkGenerating : MonoBehaviour
         coordinatesData = GetComponent<CoordinatesData>();
         chunkNameSetuper = GetComponent<ChunkNameSetuper>();
 
+        ChunkIsReady += chunksController.CheckOnReady;
         GeneratingDone += chunkNameSetuper.SetName;
         NeedLink += chunksController.LinkChunk;
 
         InitializeChunk();
 
         bool created = false; //temp simplify
-
-        GeneratingDone();
-        GeneratingDone -= chunkNameSetuper.SetName;
 
         if (!created)
         {
@@ -52,6 +52,14 @@ public class ChunkGenerating : MonoBehaviour
             chunk.constructed = true;
             DiamondSquare(ChunkData.size);
         }
+
+        GeneratingDone();
+        GeneratingDone -= chunkNameSetuper.SetName;
+
+        Debug.Log("I AM CHUNK: x = " + coordinatesData.x + "; z = " + coordinatesData.z);
+
+        ChunkIsReady(coordinatesData);
+        ChunkIsReady -= chunksController.CheckOnReady;
 
         //CreateMesh();
         //MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
@@ -89,6 +97,9 @@ public class ChunkGenerating : MonoBehaviour
             if (((x + 1) % (ChunkData.size + 1) == 0) && (x != 0))
                 continue;
 
+            Debug.Log("CHUNK_triangle: " + x + "; " + (x + (ChunkData.size + 1)) + "; " + (x + 1));
+            Debug.Log("index = " + index);
+
             chunk.vertices[index] = chunk.dots[x];
             chunk.vertices[index + 1] = chunk.dots[x + (ChunkData.size + 1)];
             chunk.vertices[index + 2] = chunk.dots[x + 1];
@@ -101,6 +112,9 @@ public class ChunkGenerating : MonoBehaviour
         {
             if (x % (ChunkData.size + 1) == 0)
                 continue;
+
+            Debug.Log("CHUNK_triangle(2): " + x + "; " + (x + ChunkData.size) + "; " + (x + (ChunkData.size + 1)));
+            Debug.Log("index = " + index);
 
             chunk.vertices[index] = chunk.dots[x];
             chunk.vertices[index + 1] = chunk.dots[x + ChunkData.size];
