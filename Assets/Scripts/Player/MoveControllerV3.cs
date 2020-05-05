@@ -7,58 +7,49 @@ public class MoveControllerV3 : MonoBehaviour
 {
     [Range(5f, 15f)]
     [SerializeField] float maxMoveSpeed = 5f;
-    [Range(15f, 100f)]
-    [SerializeField] private float acceleration = 100f;
+    
+    [SerializeField] private float acceleration = 10f;
 
-    [SerializeField] private Transform player;
-    [SerializeField] private KeyCode jumpButton = KeyCode.Space;
+    [SerializeField] private float angleClimbing = 30;
+
     [Range(10f, 35f)]
     [SerializeField] private float jumpForce = 15f;
-    [Range(15f, 100f)]
-    [SerializeField] private float fallMultiplier = 50f;    
-    [SerializeField] private float distanceToGround = 1.2f;
+
+    [Range(1, 25)]
+    [SerializeField] private float fallMultiplier = 10;
+
+    [Range(1, 10)]
+    [SerializeField] private float flySpeed = 2;
+
+    [SerializeField] private float distanceToGround = 1.3f;
+    [SerializeField] private KeyCode jumpButton = KeyCode.Space;
+    [SerializeField] private Transform climbPoint;
 
     [SerializeField] private LayerMask noPlayer;
 
+    
     private Vector3 moveDirection;
     private float currentMoveSpeed;
-    private CapsuleCollider collider;
+    
 
-    private float horizontal;
-    private float vertical;
-
-
-    private float rotationY;
-    private float rotationX;
-
+    private float inputVertical;
+    private float inputHorizontal;
     private Rigidbody rigidbody;
+
 
     private bool isGrounded;
 
-    
-    //test
-    
-
     private void Awake()
     {
-        collider = GetComponent<CapsuleCollider>();
-        if(player == null)
-        {
-            player = transform;
-        }
-
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.freezeRotation = true;
-
-        
     }
 
     private void CheckGround()
     {
-        bool result = false;
-        
         RaycastHit hit;
-        Ray ray = new Ray(transform.position, Vector3.down);
+        Ray ray = new Ray(transform.position, Vector3.down);        
+        
         if (Physics.Raycast(ray, out hit, distanceToGround, noPlayer))
         {
             isGrounded = true;
@@ -70,63 +61,71 @@ public class MoveControllerV3 : MonoBehaviour
         
     }
 
-    private void Update()
+    private void ClimbHelper()
     {
-        Debug.DrawRay(transform.position, Vector3.down * distanceToGround, Color.red);
-        
-        vertical =  Input.GetAxis("Vertical");
-        horizontal =  Input.GetAxis("Horizontal");
+        RaycastHit hit;
+        moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
+        Ray ray = new Ray(climbPoint.position, moveDirection);
 
-        moveDirection = new Vector3(horizontal, 0f, vertical);
+        if (Physics.Raycast(ray, out hit, 1f, noPlayer))
+        {
+            
+            moveDirection = new Vector3(moveDirection.x, hit.distance / 1, moveDirection.z);                        
+        }
+    }
+
+    private void Move()
+    {
+        inputVertical = Input.GetAxis("Vertical");
+        inputHorizontal = Input.GetAxis("Horizontal");
+
+        moveDirection = new Vector3(inputHorizontal, 0f, inputVertical);
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        moveDirection = new Vector3(moveDirection.x, 0f, moveDirection.z);
+        ClimbHelper();
 
-                
-        player.rotation = Quaternion.Lerp(player.rotation, Camera.main.transform.rotation, 100 * Time.deltaTime);
+        var t =  new Quaternion(0, Camera.main.transform.rotation.y, 0, Camera.main.transform.rotation.w);
+        transform.rotation = Quaternion.Lerp(transform.rotation, t, 100 * Time.deltaTime);
+    }
 
-
-
+    private void Jump()
+    {
         if (Input.GetKeyDown(jumpButton) && isGrounded)
         {
-            rigidbody.AddForce(moveDirection.x, jumpForce * 50, moveDirection.x, ForceMode.Impulse);
+            rigidbody.AddForce(0, jumpForce * 50, 0, ForceMode.Impulse);
         }
+    }
+
+    private void Update()
+    {
+        Move();
+        Jump();        
+        CheckGround();
 
         currentMoveSpeed = rigidbody.velocity.magnitude;
     }
 
+    public float GetSpeed()
+    {
+        return currentMoveSpeed;
+    }
+
     private void FixedUpdate()
     {
-        CheckGround();
+        rigidbody.AddForce(Physics.gravity * 2,ForceMode.Impulse);
 
-        //RaycastHit hit;
-        //Vector3 rayPos = new Vector3(player.position.x + moveDirection.normalized.x, collider.height / 2, player.position.z + moveDirection.normalized.z);
-
-        //Debug.DrawRay(rayPos, Vector3.down * (collider.height * 2), Color.red);
-
-        //Ray downRay = new Ray(rayPos, Vector3.down);
-        //Physics.Raycast(downRay, out hit, noPlayer);
-
-        //if (isGrounded && (horizontal != 0 || vertical != 0))
-        //{
-        //    moveDirection = new Vector3(moveDirection.x, hit.point.y + (collider.height / 2), moveDirection.z);
-        //    Debug.DrawRay(moveDirection, Vector3.forward);
-        //}
-
-        rigidbody.AddForce(moveDirection.normalized * acceleration * rigidbody.mass);
+        if (isGrounded)
+        {
+            rigidbody.AddForce(moveDirection.normalized * acceleration * rigidbody.mass);
+        }
+        else
+        {
+            rigidbody.AddForce(moveDirection.normalized * acceleration * rigidbody.mass * 0.1f * flySpeed);
+        }
         
         if (currentMoveSpeed > maxMoveSpeed)
         {
-            rigidbody.drag = currentMoveSpeed - maxMoveSpeed;
+            rigidbody.drag = (currentMoveSpeed - maxMoveSpeed) * 2;
         }
-        if (rigidbody.velocity.y > 0f)
-        {
-            rigidbody.AddForce(Physics.gravity);
-        }
-        else if(rigidbody.velocity.y > 0f && !isGrounded)
-        {
-            rigidbody.AddForce(Physics.gravity * fallMultiplier);
-        }
-
 
     }
 }

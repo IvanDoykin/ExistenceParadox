@@ -31,6 +31,14 @@ public class Bullet : MonoBehaviour
 				coll.transform.GetComponent<EnemyHealth>().TakeDamage(damage);
 			}
 		}
+		Collider[] colliders = Physics.OverlapSphere(transform.position, 5f);
+		foreach (Collider hit in colliders)
+		{
+			Rigidbody rb = hit.GetComponent<Rigidbody>();
+
+			if (rb != null)
+				rb.AddExplosionForce(50000f, transform.position, 15f);
+		}
 		Destroy(gameObject);
 	}
 }
