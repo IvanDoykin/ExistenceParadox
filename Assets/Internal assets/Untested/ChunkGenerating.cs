@@ -16,11 +16,10 @@ public class ChunkGenerating : MonoBehaviour
 
     private ChunkNameSetuper chunkNameSetuper;
     private ChunksController chunksController;
+    private ChunksBlockAssembler chunksAssembler;
 
     public delegate void GeneratingEvents();
     public static event GeneratingEvents GeneratingDone;
-    public delegate void ChunkCheck(CoordinatesData coordinatesData);
-    public static event ChunkCheck ChunkIsReady;
 
     public delegate void CallChunkLinking(CoordinatesData coordinatesData);
     public static event CallChunkLinking NeedLink;
@@ -28,6 +27,7 @@ public class ChunkGenerating : MonoBehaviour
     private void Start()
     { 
         chunksController = GetComponentInParent<ChunksController>();
+        chunksAssembler = GetComponentInParent<ChunksBlockAssembler>();
 
         chunk = GetComponent<ChunkData>();
 
@@ -35,7 +35,7 @@ public class ChunkGenerating : MonoBehaviour
         coordinatesData = GetComponent<CoordinatesData>();
         chunkNameSetuper = GetComponent<ChunkNameSetuper>();
 
-        ChunkIsReady += chunksController.CheckOnReady;
+        GeneratingDone += chunksAssembler.ChunkIsReady;
         GeneratingDone += chunkNameSetuper.SetName;
         NeedLink += chunksController.LinkChunk;
 
@@ -52,19 +52,12 @@ public class ChunkGenerating : MonoBehaviour
             chunk.constructed = true;
             DiamondSquare(ChunkData.size);
         }
+        CreateMesh();
+        MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
 
         GeneratingDone();
         GeneratingDone -= chunkNameSetuper.SetName;
-
-        Debug.Log("I AM CHUNK: x = " + coordinatesData.x + "; z = " + coordinatesData.z);
-
-        ChunkIsReady(coordinatesData);
-        ChunkIsReady -= chunksController.CheckOnReady;
-
-        //CreateMesh();
-        //MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
-
-
+        GeneratingDone -= chunksAssembler.ChunkIsReady;
     }
 
     private void CreateMesh()
@@ -81,8 +74,8 @@ public class ChunkGenerating : MonoBehaviour
             chunk.notCalculatedVecs[i] = 1;
         }
 
-        //chunk.mesh = new Mesh();
-        //GetComponent<MeshFilter>().mesh = chunk.mesh;
+        chunk.mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = chunk.mesh;
         InitializeVectors();
     }
 
@@ -90,15 +83,12 @@ public class ChunkGenerating : MonoBehaviour
     {
         //create triangles fromchunk.ordinalNumbers
         #region upper_tr 
-        //generating triangles from dots (x, x+1+size, x+1) last dot = (dots.len - 1) - (size + 1)
+        //generating triangles from dots (x, x+5, x+1) last dot = (dots.len - 1) - (size + 1)
         int index = 0;
         for (int x = 0; x < chunk.dots.Length - 2 - ChunkData.size; x++)
         {
             if (((x + 1) % (ChunkData.size + 1) == 0) && (x != 0))
                 continue;
-
-            Debug.Log("CHUNK_triangle: " + x + "; " + (x + (ChunkData.size + 1)) + "; " + (x + 1));
-            Debug.Log("index = " + index);
 
             chunk.vertices[index] = chunk.dots[x];
             chunk.vertices[index + 1] = chunk.dots[x + (ChunkData.size + 1)];
@@ -112,9 +102,6 @@ public class ChunkGenerating : MonoBehaviour
         {
             if (x % (ChunkData.size + 1) == 0)
                 continue;
-
-            Debug.Log("CHUNK_triangle(2): " + x + "; " + (x + ChunkData.size) + "; " + (x + (ChunkData.size + 1)));
-            Debug.Log("index = " + index);
 
             chunk.vertices[index] = chunk.dots[x];
             chunk.vertices[index + 1] = chunk.dots[x + ChunkData.size];
