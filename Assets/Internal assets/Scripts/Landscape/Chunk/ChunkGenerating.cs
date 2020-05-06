@@ -15,11 +15,8 @@ public class ChunkGenerating : MonoBehaviour
     private CoordinatesData coordinatesData;
 
     private ChunkNameSetuper chunkNameSetuper;
-    private ChunksController chunksController;
-<<<<<<< HEAD
-=======
+    private ChunksBlock chunksController;
     private ChunksBlockAssembler chunksAssembler;
->>>>>>> Chunk_Gen
 
     public delegate void GeneratingEvents();
     public static event GeneratingEvents GeneratingDone;
@@ -29,69 +26,38 @@ public class ChunkGenerating : MonoBehaviour
 
     private void Start()
     { 
-        chunksController = GetComponentInParent<ChunksController>();
-<<<<<<< HEAD
-
-        chunk = GetComponent<ChunkData>();
-
-
-=======
+        chunksController = GetComponentInParent<ChunksBlock>();
         chunksAssembler = GetComponentInParent<ChunksBlockAssembler>();
 
         chunk = GetComponent<ChunkData>();
 
->>>>>>> Chunk_Gen
         verticesData = GetComponent<VerticesData>();
         coordinatesData = GetComponent<CoordinatesData>();
         chunkNameSetuper = GetComponent<ChunkNameSetuper>();
 
-<<<<<<< HEAD
-        GeneratingDone += chunkNameSetuper.SetName;
-        NeedLink += chunksController.Test;
-=======
         GeneratingDone += chunksAssembler.ChunkIsReady;
         GeneratingDone += chunkNameSetuper.SetName;
         NeedLink += chunksController.LinkChunk;
->>>>>>> Chunk_Gen
 
         InitializeChunk();
 
         bool created = false; //temp simplify
 
-<<<<<<< HEAD
-        GeneratingDone();
-        GeneratingDone -= chunkNameSetuper.SetName;
-
-        if (!created)
-        {
-
-            NeedLink(coordinatesData);
-            NeedLink -= chunksController.Test;
-=======
         if (!created)
         {
             NeedLink(coordinatesData);
             NeedLink -= chunksController.LinkChunk;
->>>>>>> Chunk_Gen
 
             //link this chunk
             chunk.constructed = true;
             DiamondSquare(ChunkData.size);
         }
-<<<<<<< HEAD
-
-        CreateMesh();
-        MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
-
-
-=======
         CreateMesh();
         MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
 
         GeneratingDone();
         GeneratingDone -= chunkNameSetuper.SetName;
         GeneratingDone -= chunksAssembler.ChunkIsReady;
->>>>>>> Chunk_Gen
     }
 
     private void CreateMesh()

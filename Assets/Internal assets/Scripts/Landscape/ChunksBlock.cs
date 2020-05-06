@@ -14,43 +14,9 @@ enum Directions
     RightDown
 }
 
-<<<<<<< HEAD
-public class ChunksController : MonoBehaviour
-{
-    [SerializeField] GameObject chunk;
-
-    private const int chunkMetric = 16;
-    private const int chunksBlockSize = 11; //not even number
-    private const int halfChunkBlockSize = (chunksBlockSize - 1) / 2;
-
-    private int zeroPointX;
-    private int zeroPointZ;
-    private static ChunkData[,] chunks = new ChunkData[chunksBlockSize, chunksBlockSize];
-
-    public static event ChunkGenerating.CallChunkLinking NeedLink;
-
-    private void Start()
-    {
-        zeroPointX = (int)SetUpCoordinate(transform.position.x) + halfChunkBlockSize;
-        zeroPointZ = (int)SetUpCoordinate(transform.position.z) + halfChunkBlockSize;
-
-        StarterGenerating();
-    }
-
-    public void Test(CoordinatesData coordinatesData)
-    {
-        int x = coordinatesData.x - zeroPointX;
-        int z = coordinatesData.z - zeroPointZ;
-        LinkOneChunk(x, z);
-    }
-
-    public void ChangeZeroPoints()
-    {
-        //for event when player goes on the other chunk
-=======
 [RequireComponent(typeof(ChunksControllerData))]
 [RequireComponent(typeof(ChunksBlockAssembler))]
-public class ChunksController : MonoBehaviour
+public class ChunksBlock : MonoBehaviour
 {
     ChunksControllerData controllerData;
     ChunksBlockAssembler chunksAssembler;
@@ -162,27 +128,17 @@ public class ChunksController : MonoBehaviour
     {
         controllerData.zeroPointX = (int)SetUpCoordinate(transform.position.x) + ChunksControllerData.halfChunkBlockSize;
         controllerData.zeroPointZ = (int)SetUpCoordinate(transform.position.z) + ChunksControllerData.halfChunkBlockSize;
->>>>>>> Chunk_Gen
     }
 
     private void StarterGenerating()
     {
         CreateChunk(0,0); //chunks[0,0] isn't includes in algoryth of generating
         CreateBlockOfChunks();
-<<<<<<< HEAD
-        
-        Debug.Log("===================ALL DONE ===================");
-=======
->>>>>>> Chunk_Gen
     }
 
     private void CreateBlockOfChunks()
     {
-<<<<<<< HEAD
-        for (int round = 1; round < halfChunkBlockSize + 1; round++)
-=======
         for (int round = 1; round < ChunksControllerData.halfChunkBlockSize + 1; round++)
->>>>>>> Chunk_Gen
         {
             int coordinateX = -round;
             int coordinateZ = -round;
@@ -214,49 +170,29 @@ public class ChunksController : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-
-    private float SetUpCoordinate(float coordinate)
-    {
-        return (int)Mathf.Floor(coordinate / 16);
-=======
     private float SetUpCoordinate(float coordinate)
     {
         return (int)Mathf.Floor(coordinate / ChunkData.metric);
->>>>>>> Chunk_Gen
     }
 
     private float PopUpCoordinate(float coordinate)
     {
-<<<<<<< HEAD
-        return (coordinate * 16);
-=======
         return (coordinate * ChunkData.metric);
->>>>>>> Chunk_Gen
     }
 
     private void CreateChunk(int x, int z)
     {
-<<<<<<< HEAD
-        GameObject createdChunk = Instantiate(chunk, new Vector3(PopUpCoordinate(x + zeroPointX), 0, PopUpCoordinate(z + zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
-        chunks[x + halfChunkBlockSize, z + halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
-=======
         if (ChunksControllerData.chunks[x + ChunksControllerData.halfChunkBlockSize, z + ChunksControllerData.halfChunkBlockSize] != null)
             return;
 
         Debug.Log("CreateChunk: x = " + x + " z = " + z);
         GameObject createdChunk = Instantiate(controllerData.chunk, new Vector3(PopUpCoordinate(x + controllerData.zeroPointX), 0, PopUpCoordinate(z + controllerData.zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
         ChunksControllerData.chunks[x + ChunksControllerData.halfChunkBlockSize, z + ChunksControllerData.halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
->>>>>>> Chunk_Gen
     }
 
     private void LinkChunks(int x, int z)
     {
-<<<<<<< HEAD
-        for (int round = 1; round < halfChunkBlockSize + 1; round++)
-=======
         for (int round = 1; round < ChunksControllerData.halfChunkBlockSize + 1; round++)
->>>>>>> Chunk_Gen
         {
             int coordinateX = x - round;
             int coordinateZ = z - round;
@@ -288,21 +224,12 @@ public class ChunksController : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-    private void LinkOneChunk(int x, int z) //x,z Э [-5;5]
-    {
-        bool right = x != halfChunkBlockSize;
-        bool left = x != -halfChunkBlockSize;
-        bool up = z != halfChunkBlockSize;
-        bool down = z != -halfChunkBlockSize;
-=======
     private void LinkOneChunk(int x, int z)
     {
         bool right = x != ChunksControllerData.halfChunkBlockSize;
         bool left = x != -ChunksControllerData.halfChunkBlockSize;
         bool up = z != ChunksControllerData.halfChunkBlockSize;
         bool down = z != -ChunksControllerData.halfChunkBlockSize;
->>>>>>> Chunk_Gen
 
         if (right)
             EqualEdgeDots(x, z, Directions.Right);
@@ -423,36 +350,16 @@ public class ChunksController : MonoBehaviour
                 }
         }
 
-<<<<<<< HEAD
-        if ((chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize] != null) && (!chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize].constructed))
-            Debug.Log("============================FALSE=================");
-
-        if ((chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize] != null) &&
-          (chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize].constructed == true))
-        {
-            Debug.Log("SAD BUT TRUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUE");
-            Debug.Log("x = " + x);
-            Debug.Log("z = " + z);
-            Debug.Log(direction);
-=======
 
         if ((ChunksControllerData.chunks[x + indexAdditionX + ChunksControllerData.halfChunkBlockSize, z + indexAdditionZ + ChunksControllerData.halfChunkBlockSize] != null) &&
           (ChunksControllerData.chunks[x + indexAdditionX + ChunksControllerData.halfChunkBlockSize, z + indexAdditionZ + ChunksControllerData.halfChunkBlockSize].constructed == true))
         {
->>>>>>> Chunk_Gen
             int dotsLength = (ChunkData.size + 1) * (ChunkData.size + 1);
 
             for (int i = startPoint; i < dotsLength + offsetDown; i += step)
             {
-<<<<<<< HEAD
-                if ((i + otherChunkDot) >= chunks[0,0].dots.Length)
-                    Debug.Log("---------------------------------");
-                chunks[x + halfChunkBlockSize, z + halfChunkBlockSize].dots[i].y = chunks[x + indexAdditionX + halfChunkBlockSize, z + indexAdditionZ + halfChunkBlockSize].dots[i + otherChunkDot].y;
-                chunks[x + halfChunkBlockSize, z + halfChunkBlockSize].notCalculatedVecs[i] = 0;
-=======
                 ChunksControllerData.chunks[x + ChunksControllerData.halfChunkBlockSize, z + ChunksControllerData.halfChunkBlockSize].dots[i].y = ChunksControllerData.chunks[x + indexAdditionX + ChunksControllerData.halfChunkBlockSize, z + indexAdditionZ + ChunksControllerData.halfChunkBlockSize].dots[i + otherChunkDot].y;
                 ChunksControllerData.chunks[x + ChunksControllerData.halfChunkBlockSize, z + ChunksControllerData.halfChunkBlockSize].notCalculatedVecs[i] = 0;
->>>>>>> Chunk_Gen
             }
         }
 

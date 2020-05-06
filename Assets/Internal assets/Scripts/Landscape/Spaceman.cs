@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Coordinating))]
 public class Spaceman : MonoBehaviour
 {
-    [SerializeField] ChunksController chunksController;
+    [SerializeField] ChunksBlock chunksController;
 
     public delegate void CoordinatesChanging();
     public static event CoordinatesChanging CoordinatesChanged;

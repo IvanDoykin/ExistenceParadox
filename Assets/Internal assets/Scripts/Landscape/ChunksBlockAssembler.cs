@@ -9,7 +9,7 @@ public class ChunksBlockAssembler: MonoBehaviour
     ChunksBlockAssemblerData assemblerData;
 
     public static event ChunkGenerating.GeneratingEvents GeneratingDone;
-    public static event ChunksController.ChunkAssembly AssemblyChunk;
+    public static event ChunksBlock.ChunkAssembly AssemblyChunk;
 
     private void Start()
     {
