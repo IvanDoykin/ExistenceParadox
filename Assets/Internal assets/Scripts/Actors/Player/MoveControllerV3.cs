@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class MoveControllerV3 : MonoBehaviour
+public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
 {
+    //write in VK
     [Range(5f, 15f)]
     [SerializeField] float maxMoveSpeed = 5f;
     
@@ -27,19 +28,20 @@ public class MoveControllerV3 : MonoBehaviour
 
     [SerializeField] private LayerMask noPlayer;
 
-    
+                                    //why 2 empty lines?
     private Vector3 moveDirection;
     private float currentMoveSpeed;
     
 
     private float inputVertical;
     private float inputHorizontal;
-    private Rigidbody rigidbody;
+    private Rigidbody rigidbody;   //other name, please
 
 
     private bool isGrounded;
+    //lines 9-42
 
-    private void Awake()
+    private void Awake() //good - 'private' is that :)
     {
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.freezeRotation = true;
@@ -61,7 +63,7 @@ public class MoveControllerV3 : MonoBehaviour
         
     }
 
-    private void ClimbHelper()
+    private void ClimbHelper() //why 'helper'?
     {
         RaycastHit hit;
         moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
@@ -69,7 +71,7 @@ public class MoveControllerV3 : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 1f, noPlayer))
         {
-            
+                                                                //why is there empty line?
             moveDirection = new Vector3(moveDirection.x, hit.distance / 1, moveDirection.z);                        
         }
     }
@@ -91,17 +93,17 @@ public class MoveControllerV3 : MonoBehaviour
     {
         if (Input.GetKeyDown(jumpButton) && isGrounded)
         {
-            rigidbody.AddForce(0, jumpForce * 50, 0, ForceMode.Impulse);
+            rigidbody.AddForce(0, jumpForce * 50, 0, ForceMode.Impulse); //again 'magic numbers'
         }
     }
 
-    private void Update()
+    public void Tick()
     {
-        Move();
-        Jump();        
-        CheckGround();
+        Move();         //good
+        Jump();         //nice
+        CheckGround();  //perfect
 
-        currentMoveSpeed = rigidbody.velocity.magnitude;
+        currentMoveSpeed = rigidbody.velocity.magnitude; //create method with that
     }
 
     public float GetSpeed()
@@ -109,7 +111,7 @@ public class MoveControllerV3 : MonoBehaviour
         return currentMoveSpeed;
     }
 
-    private void FixedUpdate()
+    public void TickFixed()
     {
         rigidbody.AddForce(Physics.gravity * 2,ForceMode.Impulse);
 

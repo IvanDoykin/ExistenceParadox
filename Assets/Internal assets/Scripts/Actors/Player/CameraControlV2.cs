@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraControlV2 : MonoBehaviour
+public class CameraControlV2 : MonoBehaviour, ITickFixed
 {
-
+    //write in vk with that
 	public enum InversionX { Disabled = 0, Enabled = 1 };
 	public enum InversionY { Disabled = 0, Enabled = 1 };
 	public enum Smooth { Disabled = 0, Enabled = 1 };
@@ -32,17 +32,19 @@ public class CameraControlV2 : MonoBehaviour
 	private int inversY, inversX;
 	private Transform player;
 
+    //lines 7-34 (write in VK)
+
 	void Start()
 	{
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 		gameObject.tag = "MainCamera";
 	}
 
-	// проверяем, если есть на пути луча, от игрока до камеры, какое-либо препятствие (коллайдер)
-	Vector3 PositionCorrection(Vector3 target, Vector3 position)
+	// проверяем, если есть на пути луча, от игрока до камеры, какое-либо препятствие (коллайдер) //english comments - create useful habbits
+	Vector3 PositionCorrection(Vector3 target, Vector3 position) //add 'private' modif.
 	{
 		RaycastHit hit;
-		Debug.DrawLine(target, position, Color.blue);
+		Debug.DrawLine(target, position, Color.blue); //Press Enter for formatting (empty line after line 47)
 		if (Physics.Linecast(target, position, out hit))
 		{
 			float tempDistance = Vector3.Distance(target, hit.point);
@@ -52,9 +54,9 @@ public class CameraControlV2 : MonoBehaviour
 		return position;
 	}
 
-	void FixedUpdate()
+	public void TickFixed() //private void FixedUpdate() = public void TickFixed() from interface ITick
 	{
-		if (player)
+		if (player) //if player....what is 'player'? bool? object? give normal name
 		{
 			if (inversionX == InversionX.Disabled) inversX = 1; else inversX = -1;
 			if (inversionY == InversionY.Disabled) inversY = -1; else inversY = 1;

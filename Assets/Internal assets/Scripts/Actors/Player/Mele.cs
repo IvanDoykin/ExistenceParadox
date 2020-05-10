@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Mele : MonoBehaviour
+public class Mele : MonoBehaviour, ITick //maybe 'Melee'?
 {
     [SerializeField] private Transform attackPoint;
     private int damage = 50;
@@ -15,7 +15,7 @@ public class Mele : MonoBehaviour
 
     public void Attack()
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, 0.75f);
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, 0.75f); //'magic number' 0.75f
         foreach (Collider enemy in hitEnemies)
         {
             var t = enemy.GetComponent<EnemyHealth>();
@@ -27,7 +27,7 @@ public class Mele : MonoBehaviour
     }
 
 
-    private void Update()
+    public void Tick()
     {
         if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse))
         {

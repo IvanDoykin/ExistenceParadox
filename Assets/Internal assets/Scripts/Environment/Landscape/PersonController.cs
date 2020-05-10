@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PersonController : MonoBehaviour
+public class PersonController : MonoBehaviour, ITick
 {
     private CharacterController characterController;
     private float speed = 18.0f;
@@ -13,7 +11,7 @@ public class PersonController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
     }
 
-    private void Update()
+    public void Tick()
     {
         float deltaX = Input.GetAxis("Horizontal") * speed;
         float deltaZ = Input.GetAxis("Vertical") * speed;
@@ -30,10 +28,5 @@ public class PersonController : MonoBehaviour
         movement *= Time.deltaTime;
         movement = transform.TransformDirection(movement);
         characterController.Move(movement);
-
-
-
-
     }
-
 }

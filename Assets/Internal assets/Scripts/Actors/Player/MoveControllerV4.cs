@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveControllerV4 : MonoBehaviour
+public class MoveControllerV4 : MonoBehaviour, ITick, ITickFixed
 {
+    //write in VK with that
+
     //Assingables
-    public Transform playerCam;
-    public Transform orientation;
+    public Transform playerCam; //good name 
+    public Transform orientation; //that's need
 
     //Other
-    private Rigidbody rb;
+    private Rigidbody rb; //without short name, please and not 'rigidbody' name
 
     //Rotation and look
     private float xRotation;
@@ -35,6 +37,7 @@ public class MoveControllerV4 : MonoBehaviour
     private float jumpCooldown = 0.25f;
     public float jumpForce = 550f;
 
+    //lines 9-39
 
     void Awake()
     {
@@ -45,13 +48,13 @@ public class MoveControllerV4 : MonoBehaviour
     {        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
-    private void FixedUpdate()
+    } //add empty line
+    public void TickFixed()
     {
         Movement();
     }
 
-    private void Update()
+    public void Tick()
     {
         MyInput();
     }
@@ -60,7 +63,7 @@ public class MoveControllerV4 : MonoBehaviour
     {
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
-        jumping = Input.GetButton("Jump");                
+        jumping = Input.GetButton("Jump");      //GetButtonDown*          
     }
 
     private void Movement()
@@ -75,7 +78,7 @@ public class MoveControllerV4 : MonoBehaviour
         //Counteract sliding and sloppy movement
         CounterMovement(x, y, mag);
 
-        //If holding jump && ready to jump, then jump
+        //If holding jump && ready to jump, then jump 
         if (readyToJump && jumping) Jump();
 
         //Set max speed
@@ -128,7 +131,7 @@ public class MoveControllerV4 : MonoBehaviour
         readyToJump = true;
     }
 
-    private void CounterMovement(float x, float y, Vector2 mag)
+    private void CounterMovement(float x, float y, Vector2 mag) //'mag' is Magomed?! If no - write other name for argument
     {
         if (!grounded || jumping) return;
 
@@ -137,14 +140,14 @@ public class MoveControllerV4 : MonoBehaviour
         if (Mathf.Abs(mag.x) > threshold && Mathf.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0))
         {
             rb.AddForce(moveSpeed * orientation.transform.right * Time.deltaTime * -mag.x * counterMovement);
-        }
+        }//add empty line
         if (Mathf.Abs(mag.y) > threshold && Mathf.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0))
         {
             rb.AddForce(moveSpeed * orientation.transform.forward * Time.deltaTime * -mag.y * counterMovement);
         }
 
         //Limit diagonal running. This will also cause a full stop if sliding fast and un-crouching, so not optimal.
-        if (Mathf.Sqrt((Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2))) > maxSpeed)
+        if (Mathf.Sqrt((Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2))) > maxSpeed) //rewrite without sqrt and pow - these are 'hard' methods
         {
             float fallspeed = rb.velocity.y;
             Vector3 n = rb.velocity.normalized * maxSpeed;
@@ -167,7 +170,7 @@ public class MoveControllerV4 : MonoBehaviour
         return new Vector2(xMag, yMag);
     }
 
-    private bool IsFloor(Vector3 v)
+    private bool IsFloor(Vector3 v) //bad name for argument
     {
         float angle = Vector3.Angle(Vector3.up, v);
         return angle < maxSlopeAngle;
@@ -177,7 +180,7 @@ public class MoveControllerV4 : MonoBehaviour
 
     /// <summary>
     /// Handle ground detection
-    /// </summary>
+    /// </summary> 
     private void OnCollisionStay(Collision other)
     {
         //Make sure we are only checking for walkable layers

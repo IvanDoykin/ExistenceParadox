@@ -1,19 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections; //useless usings
+using System.Collections.Generic; //useless usings
 using UnityEngine;
 
-public class Shooting : MonoBehaviour
+public class Shooting : MonoBehaviour, ITick
 {
+    //write in VK with that
 	public Rigidbody bullet;
 	public Transform gunPoint;
 	public int bulletSpeed = 10;
 	public int damage;
 	public float timeout = 0.5f;
 	private float curTimeout;
+    //lines 8-13
 
-	void Update()
+	public void Tick()
 	{
-		RaycastHit hit;
+		RaycastHit hit; //that not use in code
 		var Ray = Camera.main.ScreenPointToRay(Input.mousePosition);		
 		if (Input.GetMouseButtonDown(0))
 		{

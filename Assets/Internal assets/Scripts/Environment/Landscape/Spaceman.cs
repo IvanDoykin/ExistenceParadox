@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Coordinating))]
-public class Spaceman : MonoBehaviour
+public class Spaceman : MonoBehaviour, ITick
 {
     [SerializeField] ChunksBlock chunksBlock;
 
@@ -25,7 +23,7 @@ public class Spaceman : MonoBehaviour
         coordinatesData = GetComponent<CoordinatesData>();
 
         CoordinatesChanged += coordinating.SetUpCoordinates;
-        CoordinatesChanged();
+        //CoordinatesChanged();
 
         SendChange += chunksBlock.ChunksUpdate;
 
@@ -33,7 +31,7 @@ public class Spaceman : MonoBehaviour
         previousZ = coordinatesData.z;
     }
 
-    private void Update()
+    public void Tick()
     {
         if ((previousX != coordinatesData.x) || (previousZ != coordinatesData.z))
         {

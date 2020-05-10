@@ -10,12 +10,8 @@ public class Coordinating : MonoBehaviour
 
     private void Start()
     {
-        SetUpCoordinates();
-    }
-
-    private void OnEnable()
-    {
         coordinatesData = GetComponent<CoordinatesData>();
+        SetUpCoordinates();
     }
 
     public void SetUpCoordinates()

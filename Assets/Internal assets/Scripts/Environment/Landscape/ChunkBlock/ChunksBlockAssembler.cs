@@ -14,9 +14,6 @@ public class ChunksBlockAssembler: MonoBehaviour
     private void Start()
     {
         assemblerData = GetComponent<ChunksBlockAssemblerData>();
-
-        assemblerData.generatedChunks = 0;
-        assemblerData.needGeneratedChunks = ChunksBlockAssemblerData.startNeedGeneratedChunks;
     }
 
     private void Starting()
@@ -33,14 +30,14 @@ public class ChunksBlockAssembler: MonoBehaviour
     public void ChunkIsReady()
     {
         assemblerData.generatedChunks++;
-        Debug.Log(assemblerData.generatedChunks);
 
-        if (assemblerData.generatedChunks == assemblerData.needGeneratedChunks)
+        if (assemblerData.generatedChunks == ChunksBlockAssemblerData.startNeedGeneratedChunks)
             Starting();
     }
 
     private void AssemblyChunksBlock()
     {
+        Debug.LogError("Assembly");
         assemblerData.generatedChunks = 0;
 
         Vector3 chunksBlockPosition = gameObject.transform.position;
@@ -51,15 +48,17 @@ public class ChunksBlockAssembler: MonoBehaviour
 
         for (int i = 0; i < meshFilters.Length; i++)
         {
-            combine[i].mesh = meshFilters[i].sharedMesh;
+            combine[i].mesh = meshFilters[i].mesh;
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+            meshFilters[i].gameObject.SetActive(false);
         }
 
         transform.GetComponent<MeshFilter>().mesh = new Mesh();
-        transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
+        transform.GetComponent<MeshFilter>().mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+        transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine, true, true);
         transform.gameObject.SetActive(true);
 
-        gameObject.transform.position = chunksBlockPosition;    
+        gameObject.transform.position = chunksBlockPosition;
         MeshCollider meshCol = this.gameObject.AddComponent<MeshCollider>();
     }
 

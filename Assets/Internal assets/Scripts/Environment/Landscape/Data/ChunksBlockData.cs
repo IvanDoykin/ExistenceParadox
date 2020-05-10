@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class ChunksControllerData : MonoBehaviour
+public class ChunksBlockData : MonoBehaviour
 {
     public GameObject chunk;
 
-    public const int chunksBlockSize = 11; //not even number
+    public const int chunksBlockSize = 13; //not even number
     public const int halfChunkBlockSize = (chunksBlockSize - 1) / 2;
 
     public int zeroPointX;

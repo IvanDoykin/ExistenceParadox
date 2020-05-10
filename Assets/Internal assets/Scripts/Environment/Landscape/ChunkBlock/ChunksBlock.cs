@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 enum Directions 
 {
@@ -14,11 +12,11 @@ enum Directions
     RightDown
 }
 
-[RequireComponent(typeof(ChunksControllerData))]
-[RequireComponent(typeof(ChunksBlockAssembler))]
+[RequireComponent(typeof(ChunksBlockData))]
+//[RequireComponent(typeof(ChunksBlockAssembler))]
 public class ChunksBlock : MonoBehaviour
 {
-    ChunksControllerData controllerData;
+    ChunksBlockData controllerData;
     ChunksBlockAssembler chunksAssembler;
 
     public static event ChunkGenerating.CallChunkLinking NeedLink;
@@ -29,7 +27,7 @@ public class ChunksBlock : MonoBehaviour
 
     private void Start()
     {
-        controllerData = GetComponent<ChunksControllerData>();
+        controllerData = GetComponent<ChunksBlockData>();
         chunksAssembler = GetComponent<ChunksBlockAssembler>();
 
         StarterCoordinating();
@@ -42,16 +40,13 @@ public class ChunksBlock : MonoBehaviour
     {
         int x = coordinatesData.x - controllerData.zeroPointX;
         int z = coordinatesData.z - controllerData.zeroPointZ;
-        LinkOneChunk(x, z);
+
+        LinkChunk(x, z);
     }
 
     public void ChunksUpdate(int offsetX, int offsetZ)
     {
-        chunksAssembler.SetNeedGeneratedChunks(Mathf.Abs(offsetX) * ChunksControllerData.chunksBlockSize + Mathf.Abs(offsetZ) * ChunksControllerData.chunksBlockSize - Mathf.Abs(offsetX) * Mathf.Abs(offsetZ));
-
-        Debug.Log("=====Chunks Update=====");
-        Debug.Log("offsetX = " + offsetX);
-        Debug.Log("offsetZ = " + offsetZ);
+        chunksAssembler.SetNeedGeneratedChunks(Mathf.Abs(offsetX) * ChunksBlockData.chunksBlockSize + Mathf.Abs(offsetZ) * ChunksBlockData.chunksBlockSize - Mathf.Abs(offsetX) * Mathf.Abs(offsetZ));
 
         ChangeZeroPoints(offsetX, offsetZ);
         ChunksMassiveUpdate(offsetX, offsetZ);
@@ -60,65 +55,55 @@ public class ChunksBlock : MonoBehaviour
 
     private void ChangeZeroPoints(int offsetX, int offsetZ)
     {
-        Debug.Log("=====Change Zero Points=====");
-        Debug.Log("Was: controllerData.zeroPointX = " + controllerData.zeroPointX + " and controllerData.zeroPointZ = " + controllerData.zeroPointZ);
-
         controllerData.zeroPointX += offsetX;
         controllerData.zeroPointZ += offsetZ;
-
-        Debug.Log("Is: controllerData.zeroPointX = " + controllerData.zeroPointX + " and controllerData.zeroPointZ = " + controllerData.zeroPointZ);
     }
 
     private void ChunksMassiveUpdate(int offsetX, int offsetZ)
     {
-        ChunkData[,] buffer = new ChunkData[ChunksControllerData.chunksBlockSize, ChunksControllerData.chunksBlockSize];
+        ChunkData[,] buffer = new ChunkData[ChunksBlockData.chunksBlockSize, ChunksBlockData.chunksBlockSize];
 
-        for(int i = 0; i < ChunksControllerData.chunksBlockSize; i++)
+        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
         {
-            for(int j = 0; j < ChunksControllerData.chunksBlockSize; j++)
+            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
             {
-                bool iIsOverflow = ((i - offsetX) >= ChunksControllerData.chunksBlockSize) || ((i - offsetX) < 0);
-                bool jIsOverflow = ((j - offsetZ) >= ChunksControllerData.chunksBlockSize) || ((j - offsetZ) < 0);
+                bool iIsOverflow = ((i - offsetX) >= ChunksBlockData.chunksBlockSize) || ((i - offsetX) < 0);
+                bool jIsOverflow = ((j - offsetZ) >= ChunksBlockData.chunksBlockSize) || ((j - offsetZ) < 0);
 
                 if (iIsOverflow || jIsOverflow)
                 {
-                    if (ChunksControllerData.chunks[i, j] != null)
+                    if (ChunksBlockData.chunks[i, j] != null)
                     {
-                        Destroy(ChunksControllerData.chunks[i, j].gameObject);
-                        ChunksControllerData.chunks[i, j] = null;
-                    }
-
-                    else
-                    {
-                        Debug.Log("i = " + i + "; j = " + j + " NULL");
+                        Destroy(ChunksBlockData.chunks[i, j].gameObject);
+                        ChunksBlockData.chunks[i, j] = null;
                     }
                 }
 
                 else
                 {
-                    buffer[i - offsetX, j - offsetZ] = ChunksControllerData.chunks[i, j];
+                    buffer[i - offsetX, j - offsetZ] = ChunksBlockData.chunks[i, j];
                 }
             }
         }
 
-        for (int i = 0; i < ChunksControllerData.chunksBlockSize; i++)
+        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
         {
-            for (int j = 0; j < ChunksControllerData.chunksBlockSize; j++)
+            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
             {
-                ChunksControllerData.chunks[i, j] = buffer[i, j];
+                ChunksBlockData.chunks[i, j] = buffer[i, j];
             }
         }
     }
 
     private void ChunksFilling()
     {
-        for(int i = 0; i < ChunksControllerData.chunksBlockSize; i++)
+        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
         {
-            for(int j = 0; j < ChunksControllerData.chunksBlockSize; j++)
+            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
             {
-                if(ChunksControllerData.chunks[i, j] == null)
+                if (ChunksBlockData.chunks[i, j] == null)
                 {
-                    CreateChunk(i - ChunksControllerData.halfChunkBlockSize, j - ChunksControllerData.halfChunkBlockSize);
+                    CreateChunk(i - ChunksBlockData.halfChunkBlockSize, j - ChunksBlockData.halfChunkBlockSize);
                 }
             }
         }
@@ -126,8 +111,8 @@ public class ChunksBlock : MonoBehaviour
 
     private void StarterCoordinating()
     {
-        controllerData.zeroPointX = (int)SetUpCoordinate(transform.position.x) + ChunksControllerData.halfChunkBlockSize;
-        controllerData.zeroPointZ = (int)SetUpCoordinate(transform.position.z) + ChunksControllerData.halfChunkBlockSize;
+        controllerData.zeroPointX = (int)SetUpCoordinate(transform.position.x) + ChunksBlockData.halfChunkBlockSize;
+        controllerData.zeroPointZ = (int)SetUpCoordinate(transform.position.z) + ChunksBlockData.halfChunkBlockSize;
     }
 
     private void StarterGenerating()
@@ -138,7 +123,7 @@ public class ChunksBlock : MonoBehaviour
 
     private void CreateBlockOfChunks()
     {
-        for (int round = 1; round < ChunksControllerData.halfChunkBlockSize + 1; round++)
+        for (int round = 1; round < ChunksBlockData.halfChunkBlockSize + 1; round++)
         {
             int coordinateX = -round;
             int coordinateZ = -round;
@@ -182,54 +167,19 @@ public class ChunksBlock : MonoBehaviour
 
     private void CreateChunk(int x, int z)
     {
-        if (ChunksControllerData.chunks[x + ChunksControllerData.halfChunkBlockSize, z + ChunksControllerData.halfChunkBlockSize] != null)
+        if (ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] != null)
             return;
 
-        Debug.Log("CreateChunk: x = " + x + " z = " + z);
         GameObject createdChunk = Instantiate(controllerData.chunk, new Vector3(PopUpCoordinate(x + controllerData.zeroPointX), 0, PopUpCoordinate(z + controllerData.zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
-        ChunksControllerData.chunks[x + ChunksControllerData.halfChunkBlockSize, z + ChunksControllerData.halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
+        ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
     }
 
-    private void LinkChunks(int x, int z)
+    private void LinkChunk(int x, int z)
     {
-        for (int round = 1; round < ChunksControllerData.halfChunkBlockSize + 1; round++)
-        {
-            int coordinateX = x - round;
-            int coordinateZ = z - round;
-
-            while (coordinateZ < z + round)
-            {
-                LinkOneChunk(coordinateX, coordinateZ);
-                coordinateZ++;
-            }
-
-            while (coordinateX < x + round)
-            {
-                LinkOneChunk(coordinateX, coordinateZ);
-                coordinateX++;
-            }
-
-            while (coordinateZ > z - round)
-            {
-                LinkOneChunk(coordinateX, coordinateZ);
-                coordinateZ--;
-            }
-
-            while (coordinateX > x - round)
-            {
-                LinkOneChunk(coordinateX, coordinateZ);
-                coordinateX--;
-            }
-
-        }
-    }
-
-    private void LinkOneChunk(int x, int z)
-    {
-        bool right = x != ChunksControllerData.halfChunkBlockSize;
-        bool left = x != -ChunksControllerData.halfChunkBlockSize;
-        bool up = z != ChunksControllerData.halfChunkBlockSize;
-        bool down = z != -ChunksControllerData.halfChunkBlockSize;
+        bool right = x != ChunksBlockData.halfChunkBlockSize;
+        bool left = x != -ChunksBlockData.halfChunkBlockSize;
+        bool up = z != ChunksBlockData.halfChunkBlockSize;
+        bool down = z != -ChunksBlockData.halfChunkBlockSize;
 
         if (right)
             EqualEdgeDots(x, z, Directions.Right);
@@ -351,15 +301,15 @@ public class ChunksBlock : MonoBehaviour
         }
 
 
-        if ((ChunksControllerData.chunks[x + indexAdditionX + ChunksControllerData.halfChunkBlockSize, z + indexAdditionZ + ChunksControllerData.halfChunkBlockSize] != null) &&
-          (ChunksControllerData.chunks[x + indexAdditionX + ChunksControllerData.halfChunkBlockSize, z + indexAdditionZ + ChunksControllerData.halfChunkBlockSize].constructed == true))
+        if ((ChunksBlockData.chunks[x + indexAdditionX + ChunksBlockData.halfChunkBlockSize, z + indexAdditionZ + ChunksBlockData.halfChunkBlockSize] != null) &&
+          (ChunksBlockData.chunks[x + indexAdditionX + ChunksBlockData.halfChunkBlockSize, z + indexAdditionZ + ChunksBlockData.halfChunkBlockSize].constructed == true))
         {
             int dotsLength = (ChunkData.size + 1) * (ChunkData.size + 1);
 
             for (int i = startPoint; i < dotsLength + offsetDown; i += step)
             {
-                ChunksControllerData.chunks[x + ChunksControllerData.halfChunkBlockSize, z + ChunksControllerData.halfChunkBlockSize].dots[i].y = ChunksControllerData.chunks[x + indexAdditionX + ChunksControllerData.halfChunkBlockSize, z + indexAdditionZ + ChunksControllerData.halfChunkBlockSize].dots[i + otherChunkDot].y;
-                ChunksControllerData.chunks[x + ChunksControllerData.halfChunkBlockSize, z + ChunksControllerData.halfChunkBlockSize].notCalculatedVecs[i] = 0;
+                ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize].dots[i].y = ChunksBlockData.chunks[x + indexAdditionX + ChunksBlockData.halfChunkBlockSize, z + indexAdditionZ + ChunksBlockData.halfChunkBlockSize].dots[i + otherChunkDot].y;
+                ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize].notCalculatedVecs[i] = 0;
             }
         }
 
