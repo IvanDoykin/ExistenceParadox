@@ -35,16 +35,21 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
 
     private float inputVertical;
     private float inputHorizontal;
-    private Rigidbody rigidbody;   //other name, please
+    private Rigidbody rb;   //other name, please
 
-
+                                //again 2 empty lines
     private bool isGrounded;
     //lines 9-42
 
-    private void Awake() //good - 'private' is that :)
+    private void Awake() //good - 'private' is there :)
     {
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.freezeRotation = true;
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+    }
+
+    private void Start()
+    {
+        ManagerUpdate.AddTo(this);
     }
 
     private void CheckGround()
@@ -93,7 +98,7 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
     {
         if (Input.GetKeyDown(jumpButton) && isGrounded)
         {
-            rigidbody.AddForce(0, jumpForce * 50, 0, ForceMode.Impulse); //again 'magic numbers'
+            rb.AddForce(0, jumpForce * 50, 0, ForceMode.Impulse); //again 'magic numbers'
         }
     }
 
@@ -103,7 +108,7 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
         Jump();         //nice
         CheckGround();  //perfect
 
-        currentMoveSpeed = rigidbody.velocity.magnitude; //create method with that
+        currentMoveSpeed = rb.velocity.magnitude; //create method with that
     }
 
     public float GetSpeed()
@@ -113,20 +118,20 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
 
     public void TickFixed()
     {
-        rigidbody.AddForce(Physics.gravity * 2,ForceMode.Impulse);
+        rb.AddForce(Physics.gravity * 2,ForceMode.Impulse);
 
         if (isGrounded)
         {
-            rigidbody.AddForce(moveDirection.normalized * acceleration * rigidbody.mass);
+            rb.AddForce(moveDirection.normalized * acceleration * rb.mass);
         }
         else
         {
-            rigidbody.AddForce(moveDirection.normalized * acceleration * rigidbody.mass * 0.1f * flySpeed);
+            rb.AddForce(moveDirection.normalized * acceleration * rb.mass * 0.1f * flySpeed);
         }
         
         if (currentMoveSpeed > maxMoveSpeed)
         {
-            rigidbody.drag = (currentMoveSpeed - maxMoveSpeed) * 2;
+            rb.drag = (currentMoveSpeed - maxMoveSpeed) * 2;
         }
 
     }

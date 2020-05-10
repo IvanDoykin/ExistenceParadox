@@ -8,6 +8,7 @@ public class PersonController : MonoBehaviour, ITick
 
     private void Start()
     {
+        ManagerUpdate.AddTo(this);
         characterController = GetComponent<CharacterController>();
     }
 

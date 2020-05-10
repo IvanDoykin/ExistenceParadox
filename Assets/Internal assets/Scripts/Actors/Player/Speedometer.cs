@@ -10,6 +10,8 @@ public class Speedometer : MonoBehaviour, ITick
 
     private void Start()
     {
+        ManagerUpdate.AddTo(this);
+
         text = GetComponent<TextMeshProUGUI>();
     }
 

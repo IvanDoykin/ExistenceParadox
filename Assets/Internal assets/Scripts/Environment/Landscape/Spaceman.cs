@@ -19,11 +19,13 @@ public class Spaceman : MonoBehaviour, ITick
 
     private void Start()
     {
+        ManagerUpdate.AddTo(this);
+
         coordinating = GetComponent<Coordinating>();
         coordinatesData = GetComponent<CoordinatesData>();
 
         CoordinatesChanged += coordinating.SetUpCoordinates;
-        //CoordinatesChanged();
+        CoordinatesChanged();
 
         SendChange += chunksBlock.ChunksUpdate;
 

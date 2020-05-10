@@ -34,9 +34,11 @@ public class CameraControlV2 : MonoBehaviour, ITickFixed
 
     //lines 7-34 (write in VK)
 
-	void Start()
+	void Start() //use 'private' prefix
 	{
-		player = GameObject.FindGameObjectWithTag("Player").transform;
+        ManagerUpdate.AddTo(this);
+
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 		gameObject.tag = "MainCamera";
 	}
 

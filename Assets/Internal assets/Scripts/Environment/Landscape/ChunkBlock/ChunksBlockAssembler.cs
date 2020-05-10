@@ -14,6 +14,7 @@ public class ChunksBlockAssembler: MonoBehaviour
     private void Start()
     {
         assemblerData = GetComponent<ChunksBlockAssemblerData>();
+        assemblerData.needGeneratedChunks = ChunksBlockAssemblerData.startNeedGeneratedChunks;
     }
 
     private void Starting()
@@ -31,7 +32,7 @@ public class ChunksBlockAssembler: MonoBehaviour
     {
         assemblerData.generatedChunks++;
 
-        if (assemblerData.generatedChunks == ChunksBlockAssemblerData.startNeedGeneratedChunks)
+        if (assemblerData.generatedChunks == assemblerData.needGeneratedChunks)
             Starting();
     }
 
@@ -50,7 +51,7 @@ public class ChunksBlockAssembler: MonoBehaviour
         {
             combine[i].mesh = meshFilters[i].mesh;
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
-            meshFilters[i].gameObject.SetActive(false);
+            //meshFilters[i].gameObject.SetActive(false);
         }
 
         transform.GetComponent<MeshFilter>().mesh = new Mesh();

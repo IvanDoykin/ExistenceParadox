@@ -8,7 +8,7 @@ public class Coordinating : MonoBehaviour
 
     public static event Spaceman.CoordinatesChanging CoordinatesChanged;
 
-    private void Start()
+    private void Awake()
     {
         coordinatesData = GetComponent<CoordinatesData>();
         SetUpCoordinates();

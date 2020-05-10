@@ -45,7 +45,9 @@ public class MoveControllerV4 : MonoBehaviour, ITick, ITickFixed
     }
 
     void Start()
-    {        
+    {
+        ManagerUpdate.AddTo(this);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     } //add empty line

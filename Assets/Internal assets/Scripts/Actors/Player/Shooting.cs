@@ -13,7 +13,12 @@ public class Shooting : MonoBehaviour, ITick
 	private float curTimeout;
     //lines 8-13
 
-	public void Tick()
+    private void Start()
+    {
+        ManagerUpdate.AddTo(this);
+    }
+
+    public void Tick()
 	{
 		RaycastHit hit; //that not use in code
 		var Ray = Camera.main.ScreenPointToRay(Input.mousePosition);		

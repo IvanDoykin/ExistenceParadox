@@ -18,6 +18,8 @@ public class MouseLook : MonoBehaviour, ITick
 
     void Start()
     {
+        ManagerUpdate.AddTo(this);
+
         Rigidbody body = GetComponent<Rigidbody>();
         if (body != null)
             body.freezeRotation = true;

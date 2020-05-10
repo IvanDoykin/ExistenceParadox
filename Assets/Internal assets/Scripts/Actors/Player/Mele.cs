@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic; //useless for this script usages
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,6 +7,11 @@ public class Mele : MonoBehaviour, ITick //maybe 'Melee'?
 {
     [SerializeField] private Transform attackPoint;
     private int damage = 50;
+
+    private void Start()
+    {
+        ManagerUpdate.AddTo(this);
+    }
 
     public void SetDamage(int dmg)
     {

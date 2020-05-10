@@ -4,7 +4,12 @@ public class Bullet : MonoBehaviour, ITick
 {
 	public int damage = 50;                     //write in VK 
 	private float lifeTime = 10f;               //for discussion
-    public string[] targetTags = { "Enemy" };   //What is hardcode? If u create 100 types of enemies, u should set tags 100 times.
+    public string[] targetTags = { "Enemy" };   
+
+    private void Start()
+    {
+        ManagerUpdate.AddTo(this);
+    }
 
     public void Tick()  //Change Update on public void Tick() from interface ITick
 	{
