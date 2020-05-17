@@ -24,7 +24,7 @@ public class ManagerEvents : ManagerBase
     public static void StartListening(string eventName, UnityAction listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
-        //We need to crate place in memory for reference to the object 
+        //We need to create place in memory for reference to the object 
         UnityEvent thisEvent = null; //свободное местечко для слушателя события, т.е для подписчика
         if (mngEvents.eventsDictionary.TryGetValue(eventName, out thisEvent))
         {
