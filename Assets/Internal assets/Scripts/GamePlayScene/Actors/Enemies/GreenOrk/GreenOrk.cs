@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class GreenOrk : MonoBehaviour
 {
     [System.Serializable]
     public struct GreenOrkDynamicData
     {
-        [SerializeField] private GamePlaySceneData gamePlaySceneData;
+        [SerializeField] private ActorsData actorsData;
         [SerializeField] private GreenOrkData greenOrkData;
 
         [SerializeField] private int health;
@@ -31,23 +32,28 @@ public class GreenOrk : MonoBehaviour
 
         internal int ActorsHealth
         {
-            get { return _actorsHealth = gamePlaySceneData.ActorsData.Health; }
+            get { return _actorsHealth = actorsData.Health; }
             set => _actorsHealth = value;
         }
     }
+    
+    private readonly GreenOrkBehaviour _book = new GreenOrkBehaviour();
 
+    private class GreenOrkBehaviour : Enemy
+    {
+     
+    }
 
     [SerializeField] private GreenOrkDynamicData data;
+
 
     private void Start()
     {
         data.Damage = 10f;
         data.ActorsHealth = 250;
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
+        
+        _book.Fly();
+        
+       
     }
 }
