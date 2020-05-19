@@ -6,54 +6,44 @@ using UnityEngine.PlayerLoop;
 
 public class GreenOrk : MonoBehaviour
 {
-    [System.Serializable]
-    public struct GreenOrkDynamicData
-    {
-        [SerializeField] private ActorsData actorsData;
-        [SerializeField] private GreenOrkData greenOrkData;
-
-        [SerializeField] private int health;
-
-        [SerializeField] private float damage;
-        private int _actorsHealth;
-
-
-        internal int Health
-        {
-            get { return health = greenOrkData.Health; }
-            set => health = value;
-        }
-
-        internal float Damage
-        {
-            get { return damage = greenOrkData.Damage; }
-            set => damage = value;
-        }
-
-        internal int ActorsHealth
-        {
-            get { return _actorsHealth = actorsData.Health; }
-            set => _actorsHealth = value;
-        }
-    }
-    
+    [SerializeField] private GreenOrkDynamicData data;
     private readonly GreenOrkBehaviour _book = new GreenOrkBehaviour();
 
-    private class GreenOrkBehaviour : Enemy
+    [System.Serializable]
+    private struct GreenOrkDynamicData
     {
-     
+        [SerializeField] private EnemyData enemyData;
+        public int health;
+        public float damage;
+
+
+        public int BaseHealth
+        {
+            get => enemyData.Health;
+            set => enemyData.Health = value;
+        }
+
+        public float BaseDamage
+        {
+            get => enemyData.Damage;
+            set => enemyData.Damage = value;
+        }
     }
 
-    [SerializeField] private GreenOrkDynamicData data;
+
+    private class GreenOrkBehaviour : Enemy.EnemyBehaviour
+    {
+        public void Moving()
+        {
+            Fly();
+        }
+    }
 
 
     private void Start()
     {
-        data.Damage = 10f;
-        data.ActorsHealth = 250;
-        
-        _book.Fly();
-        
-       
+        data.health = data.BaseHealth;
+        data.damage = data.BaseDamage;
+        _book.Moving();
     }
 }

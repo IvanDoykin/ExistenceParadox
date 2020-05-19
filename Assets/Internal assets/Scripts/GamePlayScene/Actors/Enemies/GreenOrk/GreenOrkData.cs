@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GreenOrkData", menuName = "DataStore/GamePlayData/ActorsData/EnemiesData/GreenOrkData")]
-public class GreenOrkData : EnemiesData
+[CreateAssetMenu(fileName = "GreenOrkData", menuName = "DataStore/GamePlayData/ActorData/EnemyData/GreenOrkData")]
+public class GreenOrkData : EnemyData
 {
     
 }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ActorsData", menuName = "DataStore/GamePlayData/ActorsData")]
-public class ActorsData : ScriptableObject
+[CreateAssetMenu(fileName = "ActorData", menuName = "DataStore/GamePlayData/ActorData")]
+public class ActorData : ScriptableObject
 {
     [SerializeField] private int health;
     [SerializeField] private float damage;
