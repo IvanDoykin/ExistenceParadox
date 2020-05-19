@@ -5,29 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ActorsData", menuName = "DataStore/GamePlayData/ActorsData")]
 public class ActorsData : ScriptableObject
 {
-    [SerializeField]
-    private EnemiesData _enemies;
+    [SerializeField] private EnemiesData enemies;
 
-    [SerializeField]
-    private int _health;
+    [SerializeField] private int health;
 
-    public EnemiesData EnemiesData
-    {
-        get
-        {
-            return _enemies;
-        }
-    }
+    public EnemiesData EnemiesData => enemies;
 
     public int Health
     {
-        get
-        {
-            return _health;
-        }
-        set
-        {
-            _health = value;
-        }
+        get => health;
+        set => health = value;
     }
 }

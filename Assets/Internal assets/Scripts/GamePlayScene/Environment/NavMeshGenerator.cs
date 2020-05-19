@@ -6,16 +6,15 @@ using UnityEngine.Events;
 
 public class NavMeshGenerator : MonoBehaviour, IEventSub
 {
-                        //not need in empty line
-    [SerializeField]
-    private EventsCollection _chunkCreated; //with _
-    private NavMeshSurface navigation; //without _
-    //let's give private name without _ 
+    [SerializeField] private EventsCollection chunkCreated;
+    private NavMeshSurface _navigation;
+
     void Awake()
     {
-        navigation = GetComponent<NavMeshSurface>();
+        _navigation = GetComponent<NavMeshSurface>();
         Subscribe();
-    } //add empty line
+    }
+
     public void StartListening(string eventName, UnityAction listener)
     {
         ManagerEvents.StartListening(eventName, listener);
@@ -26,18 +25,18 @@ public class NavMeshGenerator : MonoBehaviour, IEventSub
         ManagerEvents.StopListening(eventName, listener);
     }
 
-    void RebakenavMesh() //better RebakeNavMesh
+    private void RemakeNavMesh()
     {
-        navigation.BuildNavMesh();
+        _navigation.BuildNavMesh();
     }
 
     public void Subscribe()
     {
-        StartListening(_chunkCreated.currentEvent, RebakenavMesh);
+        StartListening(chunkCreated.currentEvent, RemakeNavMesh);
     }
 
     public void UnSubscribe()
     {
-        StopListening(_chunkCreated.currentEvent, RebakenavMesh);
+        StopListening(chunkCreated.currentEvent, RemakeNavMesh);
     }
 }

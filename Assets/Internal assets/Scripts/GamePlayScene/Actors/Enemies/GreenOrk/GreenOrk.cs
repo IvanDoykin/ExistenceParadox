@@ -5,77 +5,49 @@ using UnityEngine;
 
 public class GreenOrk : MonoBehaviour
 {
-
     [System.Serializable]
     public struct GreenOrkDynamicData
     {
+        [SerializeField] private GamePlaySceneData gamePlaySceneData;
+        [SerializeField] private GreenOrkData greenOrkData;
 
-        [SerializeField]
-        private GamePlaySceneData _gamePlaySceneData;
-        [SerializeField]
-        private GreenOrksData _data;
+        [SerializeField] private int health;
 
-        [SerializeField]
-        private int _health;
-
-        [SerializeField]
-        private float _damage;
+        [SerializeField] private float damage;
         private int _actorsHealth;
 
 
         internal int Health
         {
-            get
-            {
-                return _health = _data.Health;
-            }
-            set
-            {
-                _health = value;
-            }
+            get { return health = greenOrkData.Health; }
+            set => health = value;
         }
 
         internal float Damage
         {
-            get
-            {
-                return _damage = _data.Damage;
-            }
-            set
-            {
-                _damage = value;
-            }
+            get { return damage = greenOrkData.Damage; }
+            set => damage = value;
         }
 
         internal int ActorsHealth
         {
-            get
-            {
-                return _actorsHealth = _gamePlaySceneData.ActorsData.Health;
-            }
-            set
-            {
-                _actorsHealth = value;
-            }
+            get { return _actorsHealth = gamePlaySceneData.ActorsData.Health; }
+            set => _actorsHealth = value;
         }
     }
 
 
-    [SerializeField]
-    private GreenOrkDynamicData _data;
+    [SerializeField] private GreenOrkDynamicData data;
 
-    void Start()
+    private void Start()
     {
-        _data.Damage = 10f;
-        _data.ActorsHealth = 250;
+        data.Damage = 10f;
+        data.ActorsHealth = 250;
     }
-
 
 
     // Update is called once per frame
     void Update()
     {
-
     }
-
 }

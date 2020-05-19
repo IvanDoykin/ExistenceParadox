@@ -5,14 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemiesData", menuName = "DataStore/GamePlayData/ActorsData/EnemiesData")]
 public class EnemiesData : ScriptableObject
 {
-    [SerializeField]
-    private GreenOrksData _greenOrks;
+    [SerializeField] private GreenOrkData greenOrk;
 
-    public GreenOrksData GreenOrksData
-    {
-        get
-        {
-            return _greenOrks;
-        }
-    }
+    public GreenOrkData GreenOrkData => greenOrk;
 }

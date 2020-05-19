@@ -8,20 +8,8 @@ using System;
 [CreateAssetMenu(fileName = "GamePlaySceneData", menuName = "DataStore/GamePlaySceneData")]
 public class GamePlaySceneData : ScriptableObject
 {
-    [SerializeField]
-    private ActorsData _actors;
-
-    
-
-    public ActorsData ActorsData
-    {
-        get
-        {
-            return _actors;
-        }
-    }
-
-    
+    [SerializeField] private ActorsData actors;
 
 
+    public ActorsData ActorsData => actors;
 }
