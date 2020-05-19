@@ -38,7 +38,6 @@ public class Spaceman : MonoBehaviour, ITick
         if ((previousX != coordinatesData.x) || (previousZ != coordinatesData.z))
         {
             SendChange(coordinatesData.x - previousX, coordinatesData.z - previousZ);
-            Debug.Log("call event");
 
             previousX = coordinatesData.x;
             previousZ = coordinatesData.z;

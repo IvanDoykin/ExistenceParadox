@@ -38,7 +38,6 @@ public class ChunksBlockAssembler: MonoBehaviour
 
     private void AssemblyChunksBlock()
     {
-        Debug.LogError("Assembly");
         assemblerData.generatedChunks = 0;
 
         Vector3 chunksBlockPosition = gameObject.transform.position;
