@@ -13,7 +13,7 @@ public class BehaviourFly : Behaviour, ITick
 
     public void Tick()
     {
-        Debug.Log(instanceActor.data.dataHp.health);
+    
         instanceActor.transform.Translate(Vector3.up * Time.deltaTime);
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataMovement : MonoBehaviour
+public class DataMovement 
 {
     // Start is called before the first frame update
     void Start()

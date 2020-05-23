@@ -4,7 +4,7 @@
 
 using UnityEngine;
 
-namespace Pixeye.Unity
+namespace TopAdventure.Unity
 {
 	public class FoldoutAttribute : PropertyAttribute
 	{

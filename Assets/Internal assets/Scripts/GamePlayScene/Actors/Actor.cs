@@ -3,18 +3,9 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
-    public ActorDynamicData data;
+    // public ActorDynamicData data;
 
-    public List<GameObject> dataList;
     public List<ScriptableObject> behavioursList;
-
-    [System.Serializable]
-    public struct ActorDynamicData
-    {
-        public DataHp dataHp;
-        public DataDamage dataDamage;
-    }
-
 
     private static void SendDataToBehaviours(Actor actor)
     {
@@ -23,7 +14,6 @@ public class Actor : MonoBehaviour
             ((Behaviour) behaviour).ReceiveActor(actor);
         }
     }
-
 
     private void Start()
     {

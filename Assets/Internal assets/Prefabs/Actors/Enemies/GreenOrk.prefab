@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6367472122478410177}
   - component: {fileID: 5942106183010971910}
   - component: {fileID: 8547792099999137155}
-  - component: {fileID: 1195203758899919145}
   m_Layer: 0
   m_Name: GreenOrk
   m_TagString: Untagged
@@ -97,23 +96,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1195203758899919145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2245537871463378725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55f0905afba0e004b96e3f0c70a39559, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    dataHp:
-      dataSup: 0
-      health: 0
-    dataDamage:
-      damage: 0
-  dataList: []
-  behavioursList: []

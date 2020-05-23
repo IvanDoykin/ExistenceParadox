@@ -28,6 +28,10 @@
                 </e>
                 <e p="Enemies" t="Include">
                   <e p="Enemy.cs" t="Include" />
+                  <e p="GreenOrk" t="Include">
+                    <e p="GreenOrk.cs" t="Include" />
+                    <e p="YellowOrk.cs" t="Include" />
+                  </e>
                 </e>
               </e>
               <e p="Behaviours" t="Include">

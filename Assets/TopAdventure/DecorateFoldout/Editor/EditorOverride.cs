@@ -11,7 +11,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 
-namespace Pixeye.Unity
+namespace TopAdventure.Unity
 {
 	[CustomEditor(typeof(Object), true, isFallback = true)]
 	[CanEditMultipleObjects]
