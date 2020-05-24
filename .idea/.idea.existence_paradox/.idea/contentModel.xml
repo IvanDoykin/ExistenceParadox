@@ -73,6 +73,9 @@
               </e>
               <e p="GamePlaySceneData.cs" t="Include" />
               <e p="GamePlaySceneDataReceiver.cs" t="Include" />
+              <e p="Interfaces" t="Include">
+                <e p="ICustomBehaviour.cs" t="Include" />
+              </e>
             </e>
           </e>
         </e>

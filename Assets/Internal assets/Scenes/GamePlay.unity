@@ -226,49 +226,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235399478}
   m_CullTransparentMesh: 0
---- !u!1 &255488954
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 255488956}
-  - component: {fileID: 255488955}
-  m_Layer: 0
-  m_Name: '[SINGLETON] Toolbox'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &255488955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255488954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98373f368ba18834380224c8f1bba4b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &255488956
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255488954}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &364032040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1815,9 +1772,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c03107166f4a3a742b2e9bb46dc09180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behavioursList: []
+  behavioursList:
+  - {fileID: 11400000, guid: e4b3ae1891255c946954702a292c860b, type: 2}
   dataHp:
-    health: 0
+    health: 43
 --- !u!1 &2021516693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1976,8 +1934,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behavioursList:
   - {fileID: 11400000, guid: e4b3ae1891255c946954702a292c860b, type: 2}
-  - {fileID: 11400000, guid: cdf1fca39703c1944ba8c9cc7c874d68, type: 2}
   dataHp:
     health: 34
   dataDamage:
-    damage: 2.55
+    damage: 0

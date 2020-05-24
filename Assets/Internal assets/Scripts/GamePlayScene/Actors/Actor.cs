@@ -11,7 +11,10 @@ public class Actor : MonoBehaviour
     {
         foreach (ScriptableObject behaviour in actor.behavioursList)
         {
-            ((Behaviour) behaviour).ReceiveActor(actor);
+            // Behaviour instanceBehaviours = ScriptableObject.CreateInstance<Behaviour>();
+            // instanceBehaviours.ReceiveActor(actor);
+            // ((Behaviour) behaviour).ReceiveActor(actor);
+            ((ICustomBehaviour) behaviour).ReceiveData(actor);
         }
     }
 

@@ -17,17 +17,16 @@ public class Behaviour : ScriptableObject, IEventSub
 
     public void ReceiveData(Data data)
     {
-        
     }
 
     public void ReceiveActor(Actor actor)
     {
         this.instanceActor = actor;
+        Debug.Log(instanceActor.GetInstanceID());
     }
 
     protected virtual void Initialize()
     {
-        
     }
 
     public void StartListening(string eventName, UnityAction listener)
