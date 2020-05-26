@@ -39,14 +39,14 @@
                 <e p="CustomBehaviour.cs" t="Include" />
                 <e p="CustomBehaviourMovement.cs" t="Include" />
               </e>
-              <e p="ComponentListEditor.cs" t="Include" />
               <e p="DataStore" t="Include">
                 <e p="ArgumentsData.cs" t="Include" />
                 <e p="DamageData.cs" t="Include" />
                 <e p="Data.cs" t="Include" />
-                <e p="DataHp.cs" t="Include" />
-                <e p="DataMovement.cs" t="Include" />
+                <e p="HpData.cs" t="Include" />
+                <e p="MovementData.cs" t="Include" />
               </e>
+              <e p="EntityListEditor.cs" t="Include" />
               <e p="Environment" t="Include">
                 <e p="Landscape" t="Include">
                   <e p="Chunk" t="Include">
@@ -72,12 +72,9 @@
                 </e>
                 <e p="NavMeshGenerator.cs" t="Include" />
               </e>
-              <e p="GamePlaySceneData.cs" t="Include" />
-              <e p="GamePlaySceneDataReceiver.cs" t="Include" />
               <e p="Interfaces" t="Include">
                 <e p="ICustomBehaviour.cs" t="Include" />
               </e>
-              <e p="SerializationCallbackScript.cs" t="Include" />
             </e>
           </e>
         </e>
@@ -126,12 +123,13 @@
           </e>
         </e>
         <e p="TopAdventure" t="Include">
-          <e p="DecorateFoldout" t="Include">
+          <e p="Decorate" t="Include">
             <e p="Attributes" t="Include">
               <e p="FoldAttribute.cs" t="Include" />
             </e>
             <e p="Editor" t="Include">
               <e p="EditorOverride.cs" t="Include" />
+              <e p="EntityListEditor.cs" t="Include" />
             </e>
           </e>
           <e p="EventsCollection.cs" t="Include" />

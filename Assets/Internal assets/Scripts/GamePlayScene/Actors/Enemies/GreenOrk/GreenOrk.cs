@@ -7,9 +7,9 @@ public class GreenOrk : Actor
 {
     [Foldout("DATA", true)] 
     [SerializeField]
-    private DataMovement dataMovement;
+    private MovementData movementData;
 
-    [SerializeField] private DataHp dataHp;
+    [SerializeField] private HpData hpData;
 
     [SerializeField] private DamageData damageData;
 }

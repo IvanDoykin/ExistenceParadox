@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class DataHp : Data
+public class HpData : Data
 {
     public int health;
 }
