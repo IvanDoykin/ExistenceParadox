@@ -4,30 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "Behaviour", menuName = "Behaviour")]
-public class Behaviour : ScriptableObject, IEventSub
+[CreateAssetMenu(fileName = "CustomBehaviour", menuName = "CustomBehaviour")]
+public class CustomBehaviour : ScriptableObject, IEventSub
 {
     public EventsCollection actorBehaviourInitialized;
-    public Actor instanceActor;
-
-    // private void Awake()
-    // {
-    //     Subscribe();
-    // }
-
-    public void ReceiveData(Data data)
-    {
-    }
+    protected Actor InstanceActor;
 
     public void ReceiveActor(Actor actor)
     {
-        this.instanceActor = actor;
-        Debug.Log(instanceActor.GetInstanceID());
+        this.InstanceActor = actor;
+        Debug.Log(InstanceActor.GetInstanceID());
     }
 
-    protected virtual void Initialize()
-    {
-    }
 
     public void StartListening(string eventName, UnityAction listener)
     {
@@ -41,11 +29,9 @@ public class Behaviour : ScriptableObject, IEventSub
 
     public void Subscribe()
     {
-        StartListening(actorBehaviourInitialized.currentEvent, Initialize);
     }
 
     public void UnSubscribe()
     {
-        StopListening(actorBehaviourInitialized.currentEvent, Initialize);
     }
 }

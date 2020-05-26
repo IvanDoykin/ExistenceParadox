@@ -35,14 +35,15 @@
                 </e>
               </e>
               <e p="Behaviours" t="Include">
-                <e p="Behaviour.cs" t="Include" />
                 <e p="BehaviourFly.cs" t="Include" />
-                <e p="BehaviourMovement.cs" t="Include" />
+                <e p="CustomBehaviour.cs" t="Include" />
+                <e p="CustomBehaviourMovement.cs" t="Include" />
               </e>
               <e p="ComponentListEditor.cs" t="Include" />
               <e p="DataStore" t="Include">
+                <e p="ArgumentsData.cs" t="Include" />
+                <e p="DamageData.cs" t="Include" />
                 <e p="Data.cs" t="Include" />
-                <e p="DataDamage.cs" t="Include" />
                 <e p="DataHp.cs" t="Include" />
                 <e p="DataMovement.cs" t="Include" />
               </e>
@@ -76,6 +77,7 @@
               <e p="Interfaces" t="Include">
                 <e p="ICustomBehaviour.cs" t="Include" />
               </e>
+              <e p="SerializationCallbackScript.cs" t="Include" />
             </e>
           </e>
         </e>

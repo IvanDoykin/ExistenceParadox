@@ -11,5 +11,5 @@ public class GreenOrk : Actor
 
     [SerializeField] private DataHp dataHp;
 
-    [SerializeField] private DataDamage dataDamage;
+    [SerializeField] private DamageData damageData;
 }

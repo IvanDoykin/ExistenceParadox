@@ -9,6 +9,4 @@ using System;
 public class GamePlaySceneData : ScriptableObject
 {
     
-
-    
 }
