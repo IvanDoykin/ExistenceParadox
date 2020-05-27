@@ -1,14 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Malee.List;
 using Microsoft.Win32;
+using TopAdventure.Unity;
 using UnityEngine;
 
 public class Actor : MonoBehaviour, ITick, IEventTrigger
 {
-    public List<ScriptableObject> behavioursList;
     private int _previousBehavioursListCount;
 
+    [Reorderable] public ReorderableBehavioursList behavioursList;
+    
+    [System.Serializable]
+    public class ReorderableBehavioursList : ReorderableArray<CustomBehaviour>
+    {
+        
+    }
 
     private void Start()
     {
@@ -25,7 +33,7 @@ public class Actor : MonoBehaviour, ITick, IEventTrigger
     private void SendDataToBehaviours(Actor actor)
     {
         if (behavioursList.Count <= 0) return;
-        foreach (ScriptableObject behaviour in actor.behavioursList)
+        foreach (var behaviour in actor.behavioursList)
         {
             ((ICustomBehaviour) behaviour).ReceiveDataInstance(actor);
         }

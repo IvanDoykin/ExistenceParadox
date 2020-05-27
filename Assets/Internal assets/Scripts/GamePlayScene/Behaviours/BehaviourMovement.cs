@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CustomBehaviourMovement", menuName = "Behaviours/CustomBehaviourMovement")]
-public class CustomBehaviourMovement : CustomBehaviour, ICustomBehaviour
+[CreateAssetMenu(fileName = "BehaviourMovement", menuName = "Behaviours/BehaviourMovement")]
+public class BehaviourMovement : CustomBehaviour, ICustomBehaviour
 {
     public void Move()
     {

@@ -13,6 +13,5 @@ public class BehaviourFly : CustomBehaviour, ITick, ICustomBehaviour
 
     public void ReceiveDataInstance(Actor actor)
     {
-        
     }
 }
