@@ -21,8 +21,8 @@ public class ExampleEditor : Editor
         list1.elementNameProperty = "myEnum";
 
         customList = new ReorderableList(serializedObject.FindProperty("customList"));
-        // customList.onAddCallback += SetDefaultValueForCustomBehaviourList;
-
+        customList.onAddCallback += SetDefaultValueForCustomBehaviourList;
+            
         list2 = serializedObject.FindProperty("list2");
 
         list3 = new ReorderableList(serializedObject.FindProperty("list3"));
@@ -36,11 +36,12 @@ public class ExampleEditor : Editor
 
     private void SetDefaultValueForCustomBehaviourList(ReorderableList list)
     {
-        customList.AddItem(ScriptableObject.CreateInstance<CustomBehaviour>());
+        customList.AddItem(ScriptableObject.CreateInstance<DefaultValueBehaviour>());
     }
 
     public override void OnInspectorGUI()
     {
+    
         serializedObject.Update();
 
         //draw the list using GUILayout, you can of course specify your own position and label
@@ -52,8 +53,7 @@ public class ExampleEditor : Editor
 
         //draw the final list, the element name is supplied through the callback defined above "GetList3ElementName"
         list3.DoLayoutList();
-        
-     
+
 
         //Draw without caching property
         EditorGUILayout.PropertyField(serializedObject.FindProperty("list4"));

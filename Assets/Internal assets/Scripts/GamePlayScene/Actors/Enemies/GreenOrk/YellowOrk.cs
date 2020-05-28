@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TopAdventure.Unity;
 using UnityEngine;
 
-public class YellowOrk : Actor
+public class YellowOrk : Entity
 {
     [Foldout("DATA", true)] 
     

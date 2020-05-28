@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TopAdventure.Unity;
 using UnityEngine;
 
-public class GreenOrk : Actor
+public class GreenOrk : Entity
 {
     [Foldout("DATA", true)] 
     [SerializeField]

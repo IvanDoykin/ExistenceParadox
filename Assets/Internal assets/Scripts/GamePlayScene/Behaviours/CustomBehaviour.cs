@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "CustomBehaviour", menuName = "CustomBehaviour")]
+// [CreateAssetMenu(fileName = "CustomBehaviour", menuName = "CustomBehaviour")]
 public class CustomBehaviour : ScriptableObject, IEventSub
 {
-    public EventsCollection actorBehaviourInitialized;
-    protected Actor InstanceActor;
+    protected Entity InstanceEntity;
 
-    public void ReceiveActor(Actor actor)
+    public void ReceiveActor(Entity entity)
     {
-        this.InstanceActor = actor;
-        Debug.Log(InstanceActor.GetInstanceID());
+        this.InstanceEntity = entity;
+        Debug.Log(InstanceEntity.GetInstanceID());
     }
 
 

@@ -4,6 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Enemy : Actor
+public class Enemy : Entity
 {
 }

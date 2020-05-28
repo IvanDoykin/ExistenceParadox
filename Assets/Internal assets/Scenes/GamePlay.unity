@@ -1779,9 +1779,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behavioursList:
     array:
-    - {fileID: 11400000, guid: e4b3ae1891255c946954702a292c860b, type: 2}
-    - {fileID: 11400000, guid: cdf1fca39703c1944ba8c9cc7c874d68, type: 2}
-    - {fileID: 11400000, guid: cdf1fca39703c1944ba8c9cc7c874d68, type: 2}
+    - {fileID: 11400000, guid: 250ea3ef46537e24d9ce4bf243f16104, type: 2}
+    - {fileID: 11400000, guid: 250ea3ef46537e24d9ce4bf243f16104, type: 2}
+    - {fileID: 11400000, guid: a80083b10f5d20745abe1be08d71784a, type: 2}
+    - {fileID: 11400000, guid: a80083b10f5d20745abe1be08d71784a, type: 2}
+    - {fileID: 11400000, guid: 250ea3ef46537e24d9ce4bf243f16104, type: 2}
   movementData:
     moveSpeed: 0
   hpData:
@@ -1943,7 +1945,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behavioursList:
-    array: []
+    array:
+    - {fileID: 11400000, guid: 250ea3ef46537e24d9ce4bf243f16104, type: 2}
   movementData:
     moveSpeed: 0
   hpData:

@@ -5,39 +5,39 @@ using UnityEditor;
 using UnityEngine;
 using UnityEditor.SceneManagement;
 
-[CustomEditor(typeof(Actor), true)]
+[CustomEditor(typeof(Entity), true)]
 public class EntityListEditor : EditorOverride
 {
-    private Actor _actor;
+    private Entity _entity;
 
 
     public void OnEnable()
     {
-        _actor = (Actor) target;
+        _entity = (Entity) target;
     }
 
     public override void OnInspectorGUI()
     {
-        if (_actor.behavioursList.Count <= 0)
+        if (_entity.behavioursList.Count <= 0)
             EditorGUILayout.LabelField("Please set behaviors");
 
-        // if (_actor.behavioursList.Count > 0)
+        // if (_entity.behavioursList.Count > 0)
                     // {
-                    //     for (int behaviourNumber = 0; behaviourNumber < _actor.behavioursList.Count; behaviourNumber++)
+                    //     for (int behaviourNumber = 0; behaviourNumber < _entity.behavioursList.Count; behaviourNumber++)
                     //     {
-                    //         _actor.behavioursList[behaviourNumber] = (CustomBehaviour) EditorGUILayout.ObjectField(
-                    //             $"{behaviourNumber}", _actor.behavioursList[behaviourNumber], typeof(CustomBehaviour),
+                    //         _entity.behavioursList[behaviourNumber] = (CustomBehaviour) EditorGUILayout.ObjectField(
+                    //             $"{behaviourNumber}", _entity.behavioursList[behaviourNumber], typeof(CustomBehaviour),
                     //             false);
                     //     }
                     // }
         //
         // if (GUILayout.Button("Add Behaviour", GUILayout.Height(30)))
-        //     _actor.behavioursList.Add(CreateInstance<CustomBehaviour>());
+        //     _entity.behavioursList.Add(CreateInstance<CustomBehaviour>());
 
 
         base.OnInspectorGUI();
         // if (GUI.changed)
-        //     SetObjectDirty(_actor.gameObject);
+        //     SetObjectDirty(_entity.gameObject);
     }
 
     private static void SetObjectDirty(GameObject obj)
