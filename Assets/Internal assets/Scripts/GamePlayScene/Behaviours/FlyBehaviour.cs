@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FlyBehaviour", menuName = "CustomBehaviours/FlyBehaviour")]
+[CreateAssetMenu(fileName = "Fly", menuName = "CustomBehaviours/FlyBehaviour")]
 public class FlyBehaviour : CustomBehaviour, ITick, ICustomBehaviour
 {
     public void Tick()

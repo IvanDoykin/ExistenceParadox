@@ -14,6 +14,10 @@ public class Entity : MonoBehaviour, ITick, IEventTrigger
     private readonly CustomBehavioursList _previousBehavioursList = new CustomBehavioursList();
     [Reorderable] public CustomBehavioursList behavioursList;
 
+    public delegate void ListState(Entity entity);
+
+    public event ListState BehavioursListChanged;
+
     [System.Serializable]
     public class CustomBehavioursList : ReorderableArray<CustomBehaviour>
     {
@@ -21,6 +25,12 @@ public class Entity : MonoBehaviour, ITick, IEventTrigger
 
     private void Start()
     {
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        BehavioursListChanged += SendDataToBehaviours;
         FillingPreviousBehavioursList();
         _previousBehavioursListCount = behavioursList.Count;
         SendDataToBehaviours(this);
@@ -54,7 +64,7 @@ public class Entity : MonoBehaviour, ITick, IEventTrigger
         CheckBehavioursListCount(ref isBehavioursCountChanged);
         CheckBehavioursListValues(ref isBehavioursValuesChanged, isBehavioursCountChanged);
         if (isBehavioursCountChanged || isBehavioursValuesChanged)
-            Debug.Log($"BehavioursListChanged: {this.name}");
+            BehavioursListChanged?.Invoke(this);
     }
 
     private void CheckBehavioursListCount(ref bool isCountChanged)
