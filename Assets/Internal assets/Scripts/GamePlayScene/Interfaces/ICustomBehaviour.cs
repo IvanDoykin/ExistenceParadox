@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICustomBehaviour
 {
-    void ReceiveDataInstance(Entity entity);
+    void ReceiveEntityInstance(Entity entity);
 }

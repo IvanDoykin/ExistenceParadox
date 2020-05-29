@@ -1684,7 +1684,7 @@ PrefabInstance:
     - target: {fileID: 643010654388840527, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 58
+      value: 63
       objectReference: {fileID: 0}
     - target: {fileID: 643010654388840527, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
@@ -1778,12 +1778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behavioursList:
-    array:
-    - {fileID: 11400000, guid: 1441bc0775c584a468e63d4a10a059fa, type: 2}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    array: []
   movementData:
     moveSpeed: 0
   hpData:
@@ -1945,11 +1940,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behavioursList:
-    array:
-    - {fileID: 11400000, guid: 1441bc0775c584a468e63d4a10a059fa, type: 2}
+    array: []
   movementData:
     moveSpeed: 0
   hpData:
     health: 0
   damageData:
     damage: 0
+  pursueData:
+    navMesh: {fileID: 0}

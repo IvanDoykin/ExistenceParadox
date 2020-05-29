@@ -10,7 +10,21 @@
         <e p="Internal assets" t="Include">
           <e p="Scripts" t="Include">
             <e p="GamePlayScene" t="Include">
-              <e p="Actors" t="Include">
+              <e p="Behaviours" t="Include">
+                <e p="CustomBehaviour.cs" t="Include" />
+                <e p="DefaultValueBehaviour.cs" t="Include" />
+                <e p="FlyBehaviour.cs" t="Include" />
+                <e p="MovementBehaviour.cs" t="Include" />
+                <e p="PursueBehaviour.cs" t="Include" />
+              </e>
+              <e p="DataStore" t="Include">
+                <e p="DamageData.cs" t="Include" />
+                <e p="Data.cs" t="Include" />
+                <e p="HpData.cs" t="Include" />
+                <e p="MovementData.cs" t="Include" />
+                <e p="PursueData.cs" t="Include" />
+              </e>
+              <e p="Entity" t="Include">
                 <e p="Characters" t="Include">
                   <e p="Player" t="Include">
                     <e p="Bullet.cs" t="Include" />
@@ -26,26 +40,12 @@
                   </e>
                 </e>
                 <e p="Enemies" t="Include">
-                  <e p="Enemy.cs" t="Include" />
-                  <e p="GreenOrk" t="Include">
+                  <e p="Orks" t="Include">
                     <e p="GreenOrk.cs" t="Include" />
                     <e p="YellowOrk.cs" t="Include" />
                   </e>
                 </e>
                 <e p="Entity.cs" t="Include" />
-              </e>
-              <e p="Behaviours" t="Include">
-                <e p="CustomBehaviour.cs" t="Include" />
-                <e p="DefaultValueBehaviour.cs" t="Include" />
-                <e p="FlyBehaviour.cs" t="Include" />
-                <e p="MovementBehaviour.cs" t="Include" />
-              </e>
-              <e p="DataStore" t="Include">
-                <e p="ArgumentsData.cs" t="Include" />
-                <e p="DamageData.cs" t="Include" />
-                <e p="Data.cs" t="Include" />
-                <e p="HpData.cs" t="Include" />
-                <e p="MovementData.cs" t="Include" />
               </e>
               <e p="EntityListEditor.cs" t="Include" />
               <e p="Environment" t="Include">
@@ -75,6 +75,7 @@
               </e>
               <e p="Interfaces" t="Include">
                 <e p="ICustomBehaviour.cs" t="Include" />
+                <e p="IEntityDataContainer.cs" t="Include" />
               </e>
             </e>
           </e>

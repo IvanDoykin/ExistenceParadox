@@ -11,8 +11,12 @@ public class MovementBehaviour : CustomBehaviour, ICustomBehaviour
         InstanceEntity.transform.Translate(Vector3.up * Time.deltaTime);
     }
 
-    public void ReceiveDataInstance(Entity entity)
+    public void ReceiveEntityInstance(Entity entity)
     {
-        Debug.Log(entity.GetInstanceID());
+        InstanceEntity = entity;
+    }
+
+    public void ReceiveDataInstance<T>(T data)
+    {
     }
 }

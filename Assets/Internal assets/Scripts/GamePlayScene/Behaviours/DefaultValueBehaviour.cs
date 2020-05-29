@@ -6,7 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DefaultValue", menuName = "CustomBehaviours/DefaultValueBehaviour")]
 public class DefaultValueBehaviour : CustomBehaviour, ICustomBehaviour
 {
-    public void ReceiveDataInstance(Entity entity)
+    public void ReceiveEntityInstance(Entity entity)
+    {
+        InstanceEntity = entity;
+    }
+
+    public void ReceiveDataInstance<T>(T data)
     {
     }
 }

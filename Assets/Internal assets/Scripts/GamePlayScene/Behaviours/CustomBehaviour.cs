@@ -8,13 +8,7 @@ using UnityEngine.Events;
 public class CustomBehaviour : ScriptableObject, IEventSub
 {
     protected Entity InstanceEntity;
-
-    public void ReceiveActor(Entity entity)
-    {
-        this.InstanceEntity = entity;
-        Debug.Log(InstanceEntity.GetInstanceID());
-    }
-
+    protected Data InstanceData;
 
     public void StartListening(string eventName, UnityAction listener)
     {
