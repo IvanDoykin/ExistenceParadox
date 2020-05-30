@@ -9,14 +9,22 @@ public class GreenOrk : Entity
     [Foldout("DATA", true)] [SerializeField]
     private MovementData movementData;
 
-    public HpData hpData;
 
     [SerializeField] private DamageData damageData;
 
     [SerializeField] private PursueData pursueData;
 
-    private void Start()
+    private void Awake()
     {
+        WriteCollectedData(damageData, pursueData);
         Initialize();
+    }
+
+    private void WriteCollectedData(params dynamic[] dataVariables)
+    {
+        foreach (var currentData in dataVariables)
+        {
+            entityDataDictionary.Add(currentData.GetType().ToString(), currentData);
+        }
     }
 }

@@ -1778,7 +1778,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behavioursList:
-    array: []
+    array:
+    - {fileID: 0}
   movementData:
     moveSpeed: 0
   hpData:
@@ -1944,8 +1945,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8ca12726ec88ee849b8f271c73f3a294, type: 2}
   movementData:
     moveSpeed: 0
-  hpData:
-    health: 1
   damageData:
     damage: 0
   pursueData:

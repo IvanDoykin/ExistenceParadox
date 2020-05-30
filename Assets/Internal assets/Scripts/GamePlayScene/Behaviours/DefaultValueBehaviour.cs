@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 [CreateAssetMenu(fileName = "DefaultValue", menuName = "CustomBehaviours/DefaultValueBehaviour")]
 public class DefaultValueBehaviour : CustomBehaviour, ICustomBehaviour
 {
-    public void ReceiveEntityInstance(dynamic entity)
+    public void ReceiveEntityInstance(Entity entity)
     {
         InstanceEntity = entity;
     }
