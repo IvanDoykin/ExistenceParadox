@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[CreateAssetMenu(fileName = "Pursue", menuName = "CustomBehaviours/Pursue")]
 public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
 {
-    public void ReceiveEntityInstance(Entity gameObject)
+    public void ReceiveEntityInstance(dynamic entity)
     {
-        // InstanceData = 
-        InstanceEntity = gameObject;
+        InstanceEntity = entity;
 
+        InstanceEntity.hpData.health = 100;
         ManagerUpdate.AddTo(this);
     }
 

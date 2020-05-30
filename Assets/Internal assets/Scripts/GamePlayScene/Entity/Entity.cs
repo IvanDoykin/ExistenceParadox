@@ -17,30 +17,21 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 
     private readonly CustomBehavioursList _previousBehavioursList = new CustomBehavioursList();
 
-    public delegate void ListState();
+    public delegate void ListState(dynamic currentEntity);
 
     public event ListState BehavioursListChanged;
-
-    public Dictionary<string, Data> entityDataDictionary = new Dictionary<string, Data>();
-
 
     [System.Serializable]
     public class CustomBehavioursList : ReorderableArray<CustomBehaviour>
     {
     }
 
-
-    private void Start()
-    {
-        Initialize();
-    }
-
-    private void Initialize()
+    protected void Initialize()
     {
         BehavioursListChanged += SendEntityInstanceToBehaviours;
         FillingPreviousBehavioursList();
         _previousBehavioursListCount = behavioursList.Count;
-        SendEntityInstanceToBehaviours();
+        SendEntityInstanceToBehaviours(this);
         ManagerUpdate.AddTo(this);
     }
 
@@ -49,7 +40,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
         CheckBehavioursListState();
     }
 
-    private void SendEntityInstanceToBehaviours()
+    private void SendEntityInstanceToBehaviours(dynamic currentEntity)
     {
         foreach (var behaviour in behavioursList)
         {
@@ -59,8 +50,10 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
                 return;
             }
 
-            ((ICustomBehaviour) behaviour).ReceiveEntityInstance(this);
+            ((ICustomBehaviour) behaviour).ReceiveEntityInstance(currentEntity);
         }
+
+        Debug.Log(currentEntity.ToString());
     }
 
 
@@ -72,7 +65,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
         CheckBehavioursListCount(ref isBehavioursCountChanged);
         CheckBehavioursListValues(ref isBehavioursValuesChanged, isBehavioursCountChanged);
         if (isBehavioursCountChanged || isBehavioursValuesChanged)
-            BehavioursListChanged?.Invoke();
+            BehavioursListChanged?.Invoke(this);
     }
 
     private void CheckBehavioursListCount(ref bool isCountChanged)

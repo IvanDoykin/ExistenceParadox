@@ -7,8 +7,7 @@ using UnityEngine.Events;
 // [CreateAssetMenu(fileName = "CustomBehaviour", menuName = "CustomBehaviour")]
 public class CustomBehaviour : ScriptableObject, IEventSub
 {
-    protected Entity InstanceEntity;
-    protected Data InstanceData;
+    protected dynamic InstanceEntity;
 
     public void StartListening(string eventName, UnityAction listener)
     {

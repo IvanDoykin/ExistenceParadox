@@ -19,7 +19,6 @@
               </e>
               <e p="DataStore" t="Include">
                 <e p="DamageData.cs" t="Include" />
-                <e p="Data.cs" t="Include" />
                 <e p="HpData.cs" t="Include" />
                 <e p="MovementData.cs" t="Include" />
                 <e p="PursueData.cs" t="Include" />
@@ -75,7 +74,6 @@
               </e>
               <e p="Interfaces" t="Include">
                 <e p="ICustomBehaviour.cs" t="Include" />
-                <e p="IEntityDataContainer.cs" t="Include" />
               </e>
             </e>
           </e>

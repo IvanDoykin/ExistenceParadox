@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class DamageData : Data
+public class DamageData
 {
     [SerializeField] private float damage;
 }

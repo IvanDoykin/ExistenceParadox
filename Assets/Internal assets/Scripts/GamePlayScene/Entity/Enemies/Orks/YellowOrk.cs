@@ -9,4 +9,9 @@ public class YellowOrk : Entity
     private MovementData movementData;
 
     [SerializeField] private HpData hpData;
+
+    private void Start()
+    {
+        Initialize();
+    }
 }
