@@ -12,15 +12,13 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
         InstanceEntity = entity;
 
         ManagerUpdate.AddTo(this);
-        // _navmesh.destination = player.transform.position;
-        Pursue();
     }
 
 
     private void Pursue()
     {
         PursueData pursueData = ReceivePursueData();
-        Debug.Log(pursueData);
+        pursueData.navMeshAgent.destination = pursueData.player.transform.position;
     }
 
     private PursueData ReceivePursueData()
@@ -28,7 +26,6 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
         if (InstanceEntity.entityDataDictionary.TryGetValue("PursueData", out dynamic receivedHpData))
         {
             return ((PursueData) receivedHpData);
-            // pursueData.navMesh.destination = InstanceEntity.transform.position;
         }
 
         Debug.Log($"PursueData is not found in current entity: {InstanceEntity.GetType()}");
@@ -38,5 +35,6 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
 
     public void Tick()
     {
+        Pursue();
     }
 }

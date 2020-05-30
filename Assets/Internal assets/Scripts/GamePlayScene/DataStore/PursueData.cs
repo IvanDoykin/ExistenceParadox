@@ -7,5 +7,6 @@ using UnityEngine.AI;
 [Serializable]
 public class PursueData
 {
-    public NavMeshAgent navMesh;
+    public NavMeshAgent navMeshAgent;
+    public GameObject player;
 }
