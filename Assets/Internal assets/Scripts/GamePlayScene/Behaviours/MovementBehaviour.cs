@@ -16,10 +16,8 @@ public class MovementBehaviour : CustomBehaviour, ICustomBehaviour
         InstanceEntity = entity;
     }
 
-    protected override void ReceiveAllData(Entity entity)
+    protected override void ReceiveAllData()
     {
         throw new NotImplementedException();
     }
-
-   
 }

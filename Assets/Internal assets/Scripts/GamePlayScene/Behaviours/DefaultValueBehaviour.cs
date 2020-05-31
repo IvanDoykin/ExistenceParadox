@@ -12,7 +12,7 @@ public class DefaultValueBehaviour : CustomBehaviour, ICustomBehaviour
         InstanceEntity = entity;
     }
 
-    protected override void ReceiveAllData(Entity entity)
+    protected override void ReceiveAllData()
     {
         throw new System.NotImplementedException();
     }

@@ -34,7 +34,7 @@ public abstract class CustomBehaviour : ScriptableObject, IEventSub
         Debug.Log(GetInstanceID());
     }
 
-    protected abstract void ReceiveAllData(Entity entity);
+    protected abstract void ReceiveAllData();
 
     private void DeactivateCurrentInstanceModule()
     {

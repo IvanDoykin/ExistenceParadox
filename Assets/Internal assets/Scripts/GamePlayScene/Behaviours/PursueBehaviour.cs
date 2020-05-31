@@ -13,12 +13,12 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
     public void InitializeBehaviourInstance(Entity entity)
     {
         InstanceEntity = entity;
-        ReceiveAllData(entity);
+        ReceiveAllData();
         ManagerUpdate.AddTo(this);
         base.Subscribe();
     }
 
-    protected override void ReceiveAllData(Entity entity)
+    protected override void ReceiveAllData()
     {
         _pursueData = ReceivePursueData();
     }
@@ -43,5 +43,4 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
     {
         Pursue();
     }
-    
 }
