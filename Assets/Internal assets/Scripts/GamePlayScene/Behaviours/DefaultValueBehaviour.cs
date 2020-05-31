@@ -7,8 +7,15 @@ using UnityEngine.Rendering;
 [CreateAssetMenu(fileName = "DefaultValue", menuName = "CustomBehaviours/DefaultValueBehaviour")]
 public class DefaultValueBehaviour : CustomBehaviour, ICustomBehaviour
 {
-    public void ReceiveEntityInstance(Entity entity)
+    public void InitializeBehaviourInstance(Entity entity)
     {
         InstanceEntity = entity;
     }
+
+    protected override void ReceiveAllData(Entity entity)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    
 }

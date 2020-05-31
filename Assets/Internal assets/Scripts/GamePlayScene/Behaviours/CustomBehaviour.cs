@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 // [CreateAssetMenu(fileName = "CustomBehaviour", menuName = "CustomBehaviour")]
-public class CustomBehaviour : ScriptableObject, IEventSub
+public abstract class CustomBehaviour : ScriptableObject, IEventSub
 {
     protected Entity InstanceEntity;
 
@@ -21,9 +21,25 @@ public class CustomBehaviour : ScriptableObject, IEventSub
 
     public void Subscribe()
     {
+        StartListening($"BehavioursListChanged{InstanceEntity.GetInstanceID()}", DeactivateCurrentInstanceModule);
     }
 
     public void UnSubscribe()
     {
+        StopListening($"BehavioursListChanged{InstanceEntity.GetInstanceID()}", DeactivateCurrentInstanceModule);
+    }
+
+    public void Kek()
+    {
+        Debug.Log(GetInstanceID());
+    }
+
+    protected abstract void ReceiveAllData(Entity entity);
+
+    private void DeactivateCurrentInstanceModule()
+    {
+        Debug.Log(GetInstanceID());
+        UnSubscribe();
+        ManagerUpdate.RemoveFrom(this);
     }
 }

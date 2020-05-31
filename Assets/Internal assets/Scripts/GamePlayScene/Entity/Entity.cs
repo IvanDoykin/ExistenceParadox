@@ -31,6 +31,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
     protected void Initialize()
     {
         BehavioursListChanged += SendEntityInstanceToBehaviours;
+
         FillingPreviousBehavioursList();
         _previousBehavioursListCount = behavioursList.Count;
         SendEntityInstanceToBehaviours(this);
@@ -44,6 +45,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 
     private void SendEntityInstanceToBehaviours(Entity currentEntity)
     {
+        TriggerEvent($"BehavioursListChanged{currentEntity.GetInstanceID()}");
         foreach (var behaviour in behavioursList)
         {
             if (behaviour == null)
@@ -52,7 +54,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
                 return;
             }
 
-            ((ICustomBehaviour) behaviour).ReceiveEntityInstance(currentEntity);
+            ((ICustomBehaviour) behaviour).InitializeBehaviourInstance(currentEntity);
         }
     }
 

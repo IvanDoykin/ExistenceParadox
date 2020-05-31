@@ -7,9 +7,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "ManagerEvents", menuName = "Managers/ManagerEvents")]
 public class ManagerEvents : ManagerBase
 {
-
-    [SerializeField]
-    private List<string> eventsList;
+    [SerializeField] private List<string> eventsList;
 
     private Dictionary<string, UnityEvent> eventsDictionary;
     // private static ManagerEvents mngEvents;
@@ -26,6 +24,7 @@ public class ManagerEvents : ManagerBase
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         //We need to create place in memory for reference to the object 
         UnityEvent thisEvent = null; //свободное местечко для слушателя события, т.е для подписчика
+
         if (mngEvents.eventsDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.AddListener(listener);

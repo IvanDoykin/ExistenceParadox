@@ -1779,7 +1779,7 @@ PrefabInstance:
     - target: {fileID: 5067327810221439636, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
       propertyPath: m_AngularSpeed
-      value: 160
+      value: 260
       objectReference: {fileID: 0}
     - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
@@ -1797,6 +1797,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8ca12726ec88ee849b8f271c73f3a294,
         type: 2}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: behavioursList.array.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ca12726ec88ee849b8f271c73f3a294,
+        type: 2}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: movementData.moveSpeed
+      value: -0.59
+      objectReference: {fileID: 0}
     - target: {fileID: 8547792099999137155, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
       propertyPath: m_UseGravity

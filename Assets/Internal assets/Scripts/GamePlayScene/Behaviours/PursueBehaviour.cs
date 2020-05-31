@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Packages.Rider.Editor;
 using UnityEngine;
@@ -7,18 +8,19 @@ using UnityEngine.AI;
 [CreateAssetMenu(fileName = "Pursue", menuName = "CustomBehaviours/Pursue")]
 public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
 {
-    public void ReceiveEntityInstance(Entity entity)
+    private PursueData _pursueData;
+
+    public void InitializeBehaviourInstance(Entity entity)
     {
         InstanceEntity = entity;
-
+        ReceiveAllData(entity);
         ManagerUpdate.AddTo(this);
+        base.Subscribe();
     }
 
-
-    private void Pursue()
+    protected override void ReceiveAllData(Entity entity)
     {
-        PursueData pursueData = ReceivePursueData();
-        pursueData.navMeshAgent.destination = pursueData.player.transform.position;
+        _pursueData = ReceivePursueData();
     }
 
     private PursueData ReceivePursueData()
@@ -32,9 +34,14 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
         return null;
     }
 
+    private void Pursue()
+    {
+        _pursueData.navMeshAgent.destination = _pursueData.player.transform.position;
+    }
 
     public void Tick()
     {
         Pursue();
     }
+    
 }

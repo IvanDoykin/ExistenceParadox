@@ -11,8 +11,13 @@ public class FlyBehaviour : CustomBehaviour, ITick, ICustomBehaviour
         InstanceEntity.transform.Translate(Vector3.up * Time.deltaTime);
     }
 
-    public void ReceiveEntityInstance(Entity entity)
+    public void InitializeBehaviourInstance(Entity entity)
     {
         InstanceEntity = entity;
+    }
+
+    protected override void ReceiveAllData(Entity entity)
+    {
+        throw new NotImplementedException();
     }
 }
