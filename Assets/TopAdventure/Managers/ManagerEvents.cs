@@ -9,9 +9,14 @@ public class ManagerEvents : ManagerBase
 {
     private Dictionary<string, UnityEvent> _eventsDictionary;
     private Dictionary<string, OneArgumentEvent> _oneArgumentEventsDictionary;
+    private Dictionary<string, TwoArgumentEvent> _twoArgumentsEventsDictionary;
 
-    [System.Serializable]
-    public class OneArgumentEvent : UnityEvent<dynamic>
+
+    private class OneArgumentEvent : UnityEvent<dynamic>
+    {
+    }
+
+    private class TwoArgumentEvent : UnityEvent<dynamic, dynamic>
     {
     }
 
@@ -19,6 +24,8 @@ public class ManagerEvents : ManagerBase
     {
         _eventsDictionary = new Dictionary<string, UnityEvent>();
         _oneArgumentEventsDictionary = new Dictionary<string, OneArgumentEvent>();
+        _twoArgumentsEventsDictionary = new Dictionary<string, TwoArgumentEvent>();
+
         // mngEvents = Toolbox.Get<ManagerEvents>();
     }
 
@@ -58,6 +65,24 @@ public class ManagerEvents : ManagerBase
         }
     }
 
+    public static void StartListening(string eventName, UnityAction<dynamic, dynamic> listener)
+    {
+        ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
+        //We need to create place in memory for reference to the object 
+
+        if (mngEvents._twoArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
+        {
+            thisEvent.AddListener(listener);
+        }
+        else
+        {
+            //If there is no event with this name add new one to dictionary.
+            thisEvent = new TwoArgumentEvent();
+            thisEvent.AddListener(listener);
+            mngEvents._twoArgumentsEventsDictionary.Add(eventName, thisEvent);
+        }
+    }
+
     public static void StopListening(string eventName, UnityAction listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
@@ -71,6 +96,15 @@ public class ManagerEvents : ManagerBase
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._oneArgumentEventsDictionary.TryGetValue(eventName, out var thisEvent))
+        {
+            thisEvent.RemoveListener(listener);
+        }
+    }
+
+    public static void StopListening(string eventName, UnityAction<dynamic, dynamic> listener)
+    {
+        ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
+        if (mngEvents._twoArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
         {
             thisEvent.RemoveListener(listener);
         }
@@ -91,6 +125,15 @@ public class ManagerEvents : ManagerBase
         if (mngEvents._oneArgumentEventsDictionary.TryGetValue(eventName, out var thisEvent))
         {
             thisEvent.Invoke(argument);
+        }
+    }
+
+    public static void TriggerEvent(string eventName, dynamic argument, dynamic secondArgument)
+    {
+        ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
+        if (mngEvents._twoArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
+        {
+            thisEvent.Invoke(argument, secondArgument);
         }
     }
 }
