@@ -10,7 +10,6 @@ public abstract class CustomBehaviour : ScriptableObject, IEventSub
     protected Entity InstanceEntity;
     protected abstract void ReceiveAllData();
 
-
     public void Subscribe()
     {
         ManagerEvents.StartListening($"BehavioursListChanged{InstanceEntity.GetInstanceID()}",

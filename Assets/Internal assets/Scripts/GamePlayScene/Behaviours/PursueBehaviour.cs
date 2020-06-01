@@ -9,47 +9,48 @@ using UnityEngine.AI;
 [CreateAssetMenu(fileName = "Pursue", menuName = "CustomBehaviours/Pursue")]
 public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
 {
-    private PursueData _pursueData;
+    private readonly List<PursueData> _pursueDataList = new List<PursueData>();
 
     public void InitializeBehaviourInstance(Entity entity)
     {
         InstanceEntity = entity;
         ReceiveAllData();
-        ManagerUpdate.AddTo(this);
         base.Subscribe();
-        ManagerEvents.StartListening("kekchanskii", Gosue);
-        ManagerEvents.TriggerEvent("kekchanskii", 10);
+        ManagerUpdate.AddTo(this);
     }
 
     protected override void ReceiveAllData()
     {
-        _pursueData = ReceivePursueData();
+        var pursueData = ReceivePursueData();
+        _pursueDataList.Add(pursueData);
     }
 
     private PursueData ReceivePursueData()
     {
-        if (InstanceEntity.entityDataDictionary.TryGetValue("PursueData", out dynamic receivedHpData))
+        if (InstanceEntity.entityDataDictionary.TryGetValue("PursueData", out var receivedPursueData))
         {
-            return ((PursueData) receivedHpData);
+            return ((PursueData) receivedPursueData);
         }
 
         Debug.Log($"PursueData is not found in current entity: {InstanceEntity.GetType()}");
         return null;
     }
 
+
     private void Pursue()
     {
-        _pursueData.navMeshAgent.destination = _pursueData.player.transform.position;
+        foreach (var pursueData in _pursueDataList)
+        {
+            pursueData.navMeshAgent.destination = pursueData.player.transform.position;
+        }
     }
-
-    private static void Gosue<T>(T argument)
-    {
-        Debug.Log(argument);
-    }
-
 
     public void Tick()
     {
         Pursue();
+        foreach (var pursueData in _pursueDataList)
+        {
+            Debug.Log(pursueData.kek);
+        }
     }
 }

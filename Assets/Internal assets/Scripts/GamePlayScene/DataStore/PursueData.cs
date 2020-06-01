@@ -9,4 +9,5 @@ public class PursueData
 {
     public NavMeshAgent navMeshAgent;
     public GameObject player;
+    public int kek;
 }

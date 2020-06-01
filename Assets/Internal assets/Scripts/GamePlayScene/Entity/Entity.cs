@@ -72,8 +72,6 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 
     private void CheckBehavioursListCount(ref bool isCountChanged)
     {
-      
-
         if (behavioursList.Count != _previousBehavioursListCount)
         {
             isCountChanged = true;

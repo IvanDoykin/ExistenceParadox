@@ -93,7 +93,7 @@ public class ManagerEvents : ManagerBase
             thisEvent = new TwoArgumentEvent();
             thisEvent.AddListener(listener);
             mngEvents._twoArgumentsEventsDictionary.Add(eventName, thisEvent);
-        }
+        } 
     }
 
     public static void StartListening(string eventName, UnityAction<dynamic, dynamic, dynamic> listener)
