@@ -17,7 +17,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 
     private readonly CustomBehavioursList _previousBehavioursList = new CustomBehavioursList();
 
-    public Dictionary<dynamic, dynamic> entityDataDictionary = new Dictionary<dynamic, dynamic>();
+    public Dictionary<string, Data> entityDataDictionary = new Dictionary<string, Data>();
 
     public delegate void ListState(Entity currentEntity);
 
@@ -46,13 +46,14 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
     private void SendEntityInstanceToBehaviours(Entity currentEntity)
     {
         TriggerEvent($"BehavioursListChanged{currentEntity.GetInstanceID()}");
-        foreach (var behaviour in behavioursList)
+        foreach (CustomBehaviour behaviour in behavioursList)
         {
             if (behaviour == null)
             {
                 Debug.Log("Please set all specific behaviour to behavioursList");
                 return;
             }
+
 
             ((ICustomBehaviour) behaviour).InitializeBehaviourInstance(currentEntity);
         }

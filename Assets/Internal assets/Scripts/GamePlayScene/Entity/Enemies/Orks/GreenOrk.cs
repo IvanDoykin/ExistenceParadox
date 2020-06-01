@@ -20,7 +20,7 @@ public class GreenOrk : Entity
         Initialize();
     }
 
-    private void WriteCollectedData(params dynamic[] dataVariables)
+    private void WriteCollectedData(params Data[] dataVariables)
     {
         foreach (var currentData in dataVariables)
         {

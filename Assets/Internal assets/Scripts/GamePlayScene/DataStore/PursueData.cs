@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [Serializable]
-public class PursueData
+public class PursueData : Data
 {
     public NavMeshAgent navMeshAgent;
     public GameObject player;

@@ -19,6 +19,7 @@
               </e>
               <e p="DataStore" t="Include">
                 <e p="DamageData.cs" t="Include" />
+                <e p="Data.cs" t="Include" />
                 <e p="HpData.cs" t="Include" />
                 <e p="MovementData.cs" t="Include" />
                 <e p="PursueData.cs" t="Include" />

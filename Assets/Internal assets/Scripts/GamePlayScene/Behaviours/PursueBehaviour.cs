@@ -19,11 +19,6 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
         ManagerUpdate.AddTo(this);
     }
 
-    protected override void ReceiveAllData()
-    {
-        var pursueData = ReceivePursueData();
-        _pursueDataList.Add(pursueData);
-    }
 
     private PursueData ReceivePursueData()
     {
@@ -42,15 +37,19 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
         foreach (var pursueData in _pursueDataList)
         {
             pursueData.navMeshAgent.destination = pursueData.player.transform.position;
+            if (pursueData.kek == -5)
+                pursueData.kek = 10;
         }
     }
 
     public void Tick()
     {
         Pursue();
-        foreach (var pursueData in _pursueDataList)
-        {
-            Debug.Log(pursueData.kek);
-        }
+    }
+
+    protected override void ReceiveAllData()
+    {
+        PursueData pursueData = ReceivePursueData();
+        _pursueDataList.Add(pursueData);
     }
 }
