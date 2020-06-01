@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Packages.Rider.Editor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,6 +17,8 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
         ReceiveAllData();
         ManagerUpdate.AddTo(this);
         base.Subscribe();
+        ManagerEvents.StartListening("kekchanskii", Gosue);
+        ManagerEvents.TriggerEvent("kekchanskii", 10);
     }
 
     protected override void ReceiveAllData()
@@ -38,6 +41,12 @@ public class PursueBehaviour : CustomBehaviour, ICustomBehaviour, ITick
     {
         _pursueData.navMeshAgent.destination = _pursueData.player.transform.position;
     }
+
+    private static void Gosue<T>(T argument)
+    {
+        Debug.Log(argument);
+    }
+
 
     public void Tick()
     {

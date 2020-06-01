@@ -15,16 +15,6 @@ public class NavMeshGenerator : MonoBehaviour, IEventSub
         Subscribe();
     }
 
-    public void StartListening(string eventName, UnityAction listener)
-    {
-        ManagerEvents.StartListening(eventName, listener);
-    }
-
-    public void StopListening(string eventName, UnityAction listener)
-    {
-        ManagerEvents.StopListening(eventName, listener);
-    }
-
     private void RemakeNavMesh()
     {
         _navigation.BuildNavMesh();
@@ -32,11 +22,11 @@ public class NavMeshGenerator : MonoBehaviour, IEventSub
 
     public void Subscribe()
     {
-        StartListening(chunkCreated.currentEvent, RemakeNavMesh);
+        ManagerEvents.StartListening(chunkCreated.currentEvent, RemakeNavMesh);
     }
 
     public void UnSubscribe()
     {
-        StopListening(chunkCreated.currentEvent, RemakeNavMesh);
+        ManagerEvents.StopListening(chunkCreated.currentEvent, RemakeNavMesh);
     }
 }
