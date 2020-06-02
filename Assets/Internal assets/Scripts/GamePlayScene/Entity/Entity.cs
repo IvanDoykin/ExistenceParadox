@@ -9,7 +9,7 @@ using Microsoft.Win32;
 using TopAdventure.Unity;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
+public abstract class Entity : MonoBehaviour, ITick, IArgumentativeEventTrigger
 {
     [Reorderable] public CustomBehavioursList behavioursList;
 
@@ -31,7 +31,6 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
     protected void Initialize()
     {
         BehavioursListChanged += SendEntityInstanceToBehaviours;
-
         FillingPreviousBehavioursList();
         _previousBehavioursListCount = behavioursList.Count;
         SendEntityInstanceToBehaviours(this);
@@ -45,7 +44,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 
     private void SendEntityInstanceToBehaviours(Entity currentEntity)
     {
-        TriggerEvent($"BehavioursListChanged{currentEntity.GetInstanceID()}");
+        TriggerEvent($"BehavioursListChanged{currentEntity.GetInstanceID()}", currentEntity);
         foreach (CustomBehaviour behaviour in behavioursList)
         {
             if (behaviour == null)
@@ -54,8 +53,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
                 return;
             }
 
-
-            ((ICustomBehaviour) behaviour).InitializeBehaviourInstance(currentEntity);
+            behaviour.InitializeBehaviourInstance(currentEntity);
         }
     }
 
@@ -106,8 +104,8 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
     }
 
 
-    public void TriggerEvent(string eventName)
+    public void TriggerEvent(string eventName, params dynamic[] arguments)
     {
-        ManagerEvents.TriggerEvent(eventName);
+        ManagerEvents.TriggerEvent(eventName, arguments[0]);
     }
 }

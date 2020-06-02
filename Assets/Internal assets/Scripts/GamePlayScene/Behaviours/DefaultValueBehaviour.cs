@@ -5,17 +5,14 @@ using UnityEngine.Rendering;
 
 
 [CreateAssetMenu(fileName = "DefaultValue", menuName = "CustomBehaviours/DefaultValueBehaviour")]
-public class DefaultValueBehaviour : CustomBehaviour, ICustomBehaviour
+public class DefaultValueBehaviour : CustomBehaviour
 {
-    public void InitializeBehaviourInstance(Entity entity)
-    {
-        InstanceEntity = entity;
-    }
-
     protected override void ReceiveAllData()
     {
         throw new System.NotImplementedException();
     }
 
-    
+    protected override void DeactivateCurrentInstanceModule<T>(T argument)
+    {
+    }
 }

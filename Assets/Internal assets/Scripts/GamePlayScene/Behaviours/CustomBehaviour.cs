@@ -8,7 +8,18 @@ using UnityEngine.Events;
 public abstract class CustomBehaviour : ScriptableObject, IEventSub
 {
     protected Entity InstanceEntity;
+    private bool _isAlreadyUpdate = false;
     protected abstract void ReceiveAllData();
+    protected abstract void DeactivateCurrentInstanceModule<T>(T argument);
+
+    public void InitializeBehaviourInstance(Entity currentEntity)
+    {
+        InstanceEntity = currentEntity;
+        ReceiveAllData();
+        UnSubscribe();
+        Subscribe();
+        AddToUpdateManager();
+    }
 
     public void Subscribe()
     {
@@ -22,10 +33,10 @@ public abstract class CustomBehaviour : ScriptableObject, IEventSub
             DeactivateCurrentInstanceModule);
     }
 
-
-    private void DeactivateCurrentInstanceModule()
+    private void AddToUpdateManager()
     {
-        UnSubscribe();
-        ManagerUpdate.RemoveFrom(this);
+        if (_isAlreadyUpdate)
+            return;
+        ManagerUpdate.AddTo(this);
     }
 }

@@ -1088,7 +1088,7 @@ PrefabInstance:
     - target: {fileID: 2245537871463378725, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
       propertyPath: m_Name
-      value: GreenOrk (1)
+      value: Yellow
       objectReference: {fileID: 0}
     - target: {fileID: 5067327810221439636, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
@@ -1137,7 +1137,8 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8547792099999137155, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
 --- !u!1 &1109448885
 GameObject:
@@ -1968,7 +1969,8 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8547792099999137155, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
 --- !u!4 &789231071342362399 stripped
 Transform:

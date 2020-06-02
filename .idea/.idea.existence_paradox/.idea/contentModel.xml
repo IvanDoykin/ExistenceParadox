@@ -73,9 +73,6 @@
                 </e>
                 <e p="NavMeshGenerator.cs" t="Include" />
               </e>
-              <e p="Interfaces" t="Include">
-                <e p="ICustomBehaviour.cs" t="Include" />
-              </e>
             </e>
           </e>
         </e>

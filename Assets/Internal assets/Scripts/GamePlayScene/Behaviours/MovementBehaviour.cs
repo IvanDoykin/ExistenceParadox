@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Movement", menuName = "CustomBehaviours/MovementBehaviour")]
-public class MovementBehaviour : CustomBehaviour, ICustomBehaviour
+public class MovementBehaviour : CustomBehaviour
 {
     public void Move()
     {
@@ -19,5 +19,9 @@ public class MovementBehaviour : CustomBehaviour, ICustomBehaviour
     protected override void ReceiveAllData()
     {
         throw new NotImplementedException();
+    }
+
+    protected override void DeactivateCurrentInstanceModule<T>(T argument)
+    {
     }
 }
