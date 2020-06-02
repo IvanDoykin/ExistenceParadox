@@ -1132,13 +1132,11 @@ PrefabInstance:
       propertyPath: pursueData.kek
       value: -5
       objectReference: {fileID: 0}
-    - target: {fileID: 8547792099999137155, guid: f83269831431c1b4f957b5c3b73f92f6,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8547792099999137155, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
 --- !u!1 &1109448885
 GameObject:
@@ -1964,13 +1962,12 @@ PrefabInstance:
       propertyPath: pursueData.kek
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 8547792099999137155, guid: f83269831431c1b4f957b5c3b73f92f6,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 8547792099999137155, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
 --- !u!4 &789231071342362399 stripped
 Transform:

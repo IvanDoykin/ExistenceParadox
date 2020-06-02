@@ -6,14 +6,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Movement", menuName = "CustomBehaviours/MovementBehaviour")]
 public class MovementBehaviour : CustomBehaviour
 {
+    protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void Move()
     {
-        InstanceEntity.transform.Translate(Vector3.up * Time.deltaTime);
+        EntityInstance.transform.Translate(Vector3.up * Time.deltaTime);
     }
 
     public void InitializeBehaviourInstance(Entity entity)
     {
-        InstanceEntity = entity;
+        EntityInstance = entity;
     }
 
     protected override void ReceiveAllData()
@@ -21,7 +26,7 @@ public class MovementBehaviour : CustomBehaviour
         throw new NotImplementedException();
     }
 
-    protected override void DeactivateCurrentInstanceModule<T>(T argument)
+    protected override void DeactivateCurrentInstanceModule<T>(Entity argument)
     {
     }
 }

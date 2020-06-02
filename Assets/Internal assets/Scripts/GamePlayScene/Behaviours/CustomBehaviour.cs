@@ -5,32 +5,33 @@ using UnityEngine;
 using UnityEngine.Events;
 
 // [CreateAssetMenu(fileName = "CustomBehaviour", menuName = "CustomBehaviour")]
-public abstract class CustomBehaviour : ScriptableObject, IEventSub
+public abstract class CustomBehaviour : ScriptableObject
 {
-    protected Entity InstanceEntity;
+    protected Entity EntityInstance;
     private bool _isAlreadyUpdate = false;
     protected abstract void ReceiveAllData();
-    protected abstract void DeactivateCurrentInstanceModule<T>(T argument);
+    protected abstract void DeactivateCurrentInstanceModule<T>(Entity argument);
+    protected abstract void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance);
 
-    public void InitializeBehaviourInstance(Entity currentEntity)
+    public void PrimaryInitializeBehaviour(Entity currentEntity)
     {
-        InstanceEntity = currentEntity;
+        EntityInstance = currentEntity;
         ReceiveAllData();
         UnSubscribe();
         Subscribe();
         AddToUpdateManager();
     }
 
-    public void Subscribe()
+    private void Subscribe()
     {
-        ManagerEvents.StartListening($"BehavioursListChanged{InstanceEntity.GetInstanceID()}",
-            DeactivateCurrentInstanceModule);
+        ManagerEvents.StartListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
+            argument => DeactivateCurrentInstanceModule<object>(argument));
     }
 
-    public void UnSubscribe()
+    private void UnSubscribe()
     {
-        ManagerEvents.StopListening($"BehavioursListChanged{InstanceEntity.GetInstanceID()}",
-            DeactivateCurrentInstanceModule);
+        ManagerEvents.StopListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
+            argument => DeactivateCurrentInstanceModule<object>(argument));
     }
 
     private void AddToUpdateManager()

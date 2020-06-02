@@ -6,9 +6,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Fly", menuName = "CustomBehaviours/FlyBehaviour")]
 public class FlyBehaviour : CustomBehaviour, ITick
 {
+    protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void Tick()
     {
-        InstanceEntity.transform.Translate(Vector3.up * Time.deltaTime);
+        EntityInstance.transform.Translate(Vector3.up * Time.deltaTime);
     }
 
 
@@ -17,7 +22,7 @@ public class FlyBehaviour : CustomBehaviour, ITick
         throw new NotImplementedException();
     }
 
-    protected override void DeactivateCurrentInstanceModule<T>(T argument)
+    protected override void DeactivateCurrentInstanceModule<T>(Entity argument)
     {
     }
 }

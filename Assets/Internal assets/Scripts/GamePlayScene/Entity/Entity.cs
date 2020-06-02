@@ -53,7 +53,7 @@ public abstract class Entity : MonoBehaviour, ITick, IArgumentativeEventTrigger
                 return;
             }
 
-            behaviour.InitializeBehaviourInstance(currentEntity);
+            behaviour.PrimaryInitializeBehaviour(currentEntity);
         }
     }
 
