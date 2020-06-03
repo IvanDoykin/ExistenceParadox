@@ -9,7 +9,13 @@ using UnityEngine.Events;
 public abstract class CustomBehaviour : ScriptableObject
 {
     protected Entity EntityInstance;
+
     private bool _isAlreadyUpdate = false;
+
+    protected readonly Dictionary<Entity, Dictionary<string, Data>>
+        EntitiesDataDictionary =
+            new Dictionary<Entity, Dictionary<string, Data>>(); //словарь со списком экземпляров сущности со словарёи с  их data classes
+
     protected abstract void ReceiveAllData();
     protected abstract void DeactivateCurrentInstanceModule<T>(Entity argument);
 
