@@ -11,6 +11,12 @@ public abstract class CustomBehaviour : ScriptableObject
     private bool _isAlreadyUpdate = false;
     protected abstract void ReceiveAllData();
     protected abstract void DeactivateCurrentInstanceModule<T>(Entity argument);
+
+    protected abstract void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary,
+        int entityNumber,
+        string typeName,
+        out Data currentData);
+
     protected abstract void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance);
 
     public void PrimaryInitializeBehaviour(Entity currentEntity)

@@ -9,7 +9,6 @@ public class GreenOrk : Entity
     [Foldout("DATA", true)] [SerializeField]
     private MovementData movementData;
 
-
     [SerializeField] private DamageData damageData;
 
     [SerializeField] private PursueData pursueData;

@@ -11,9 +11,9 @@ using Object = System.Object;
 [CreateAssetMenu(fileName = "Pursue", menuName = "CustomBehaviours/Pursue")]
 public class PursueBehaviour : CustomBehaviour, ITick
 {
-    private readonly Dictionary<Entity, PursueData>
-        _pursueDataDictionary =
-            new Dictionary<Entity, PursueData>(); //словарь со списком экземпляров сущности и их Pursue data
+    private readonly Dictionary<Entity, Dictionary<string, Data>>
+        _entitiesDataDictionary =
+            new Dictionary<Entity, Dictionary<string, Data>>(); //словарь со списком экземпляров сущности и их Pursue data
 
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
@@ -21,33 +21,31 @@ public class PursueBehaviour : CustomBehaviour, ITick
 
     protected override void ReceiveAllData()
     {
-        PursueData pursueData = ReceivePursueData();
-        _pursueDataDictionary.Add(EntityInstance, pursueData);
+        if (EntityInstance.entityDataDictionary != null)
+            _entitiesDataDictionary.Add(EntityInstance, EntityInstance.entityDataDictionary);
+        // Debug.Log($"PursueData is not found in current entity: {EntityInstance.GetType()}");
+        // return null;
     }
 
     protected override void DeactivateCurrentInstanceModule<T>(Entity currentEntityPursueData)
     {
-        Debug.Log(currentEntityPursueData);
-        _pursueDataDictionary.Remove(currentEntityPursueData);
+        _entitiesDataDictionary.Remove(currentEntityPursueData);
     }
 
-    private PursueData ReceivePursueData()
+    protected override void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary,
+        int entityNumber,
+        string typeName,
+        out Data currentData)
     {
-        if (EntityInstance.entityDataDictionary.TryGetValue("PursueData", out var receivedPursueData))
-        {
-            return ((PursueData) receivedPursueData);
-        }
-
-        Debug.Log($"PursueData is not found in current entity: {EntityInstance.GetType()}");
-        return null;
+        dataDictionary.ElementAt(entityNumber).Value.TryGetValue(typeName, out currentData);
     }
 
     private void Pursue()
     {
-        for (int number = 0; number < _pursueDataDictionary.Count; number++)
+        for (int entityNumber = 0; entityNumber < _entitiesDataDictionary.Count; entityNumber++)
         {
-            Entity entity = _pursueDataDictionary.ElementAt(number).Key;
-            PursueData pursueData = _pursueDataDictionary.ElementAt(number).Value;
+            ReceiveEntityInstanceData(_entitiesDataDictionary, entityNumber, "PursueData", out var receivedPursueData1);
+            var pursueData = (PursueData) receivedPursueData1;
             pursueData.navMeshAgent.destination = pursueData.player.transform.position;
         }
     }
