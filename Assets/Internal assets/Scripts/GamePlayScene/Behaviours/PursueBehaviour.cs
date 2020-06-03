@@ -15,17 +15,6 @@ public class PursueBehaviour : CustomBehaviour, ITick
     {
     }
 
-    protected override void ReceiveAllData()
-    {
-        if (EntityInstance.entityDataDictionary == null)
-        {
-            Debug.Log($"no data was found in the current entity: {EntityInstance.GetType()}");
-            return;
-        }
-
-        EntitiesDataDictionary.Add(EntityInstance, EntityInstance.entityDataDictionary);
-    }
-
     public void Tick()
     {
         Pursue();

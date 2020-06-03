@@ -14,18 +14,7 @@ public class FlyBehaviour : CustomBehaviour, ITick
     {
         KekMessage();
     }
-
-
-    protected override void ReceiveAllData()
-    {
-        if (EntityInstance.entityDataDictionary == null)
-        {
-            Debug.Log($"no data was found in the current entity: {EntityInstance.GetType()}");
-            return;
-        }
-
-        EntitiesDataDictionary.Add(EntityInstance, EntityInstance.entityDataDictionary);
-    }
+    
 
     private void KekMessage()
     {

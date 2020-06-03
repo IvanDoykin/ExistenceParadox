@@ -6,11 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Movement", menuName = "CustomBehaviours/MovementBehaviour")]
 public class MovementBehaviour : CustomBehaviour
 {
-  
-
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
-        throw new System.NotImplementedException();
     }
 
     public void Move()
@@ -22,10 +19,4 @@ public class MovementBehaviour : CustomBehaviour
     {
         EntityInstance = entity;
     }
-
-    protected override void ReceiveAllData()
-    {
-        throw new NotImplementedException();
-    }
-    
 }

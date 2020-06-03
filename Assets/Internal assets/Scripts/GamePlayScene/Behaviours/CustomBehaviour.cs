@@ -16,7 +16,6 @@ public abstract class CustomBehaviour : ScriptableObject
         EntitiesDataDictionary =
             new Dictionary<Entity, Dictionary<string, Data>>(); //словарь со списком экземпляров сущности со словарёи с  их data classes
 
-    protected abstract void ReceiveAllData();
 
     protected abstract void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance);
 
@@ -29,23 +28,15 @@ public abstract class CustomBehaviour : ScriptableObject
         AddToUpdateManager();
     }
 
-    private void Subscribe()
+    private void ReceiveAllData()
     {
-        ManagerEvents.StartListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
-            argument => DeactivateCurrentInstanceModule<object>(argument));
-    }
-
-    private void UnSubscribe()
-    {
-        ManagerEvents.StopListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
-            argument => DeactivateCurrentInstanceModule<object>(argument));
-    }
-
-    private void AddToUpdateManager()
-    {
-        if (_isAlreadyUpdate)
+        if (EntityInstance.entityDataDictionary == null)
+        {
+            Debug.Log($"no data was found in the current entity: {EntityInstance.GetType()}");
             return;
-        ManagerUpdate.AddTo(this);
+        }
+
+        EntitiesDataDictionary.Add(EntityInstance, EntityInstance.entityDataDictionary);
     }
 
     protected void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary,
@@ -56,8 +47,27 @@ public abstract class CustomBehaviour : ScriptableObject
         dataDictionary.ElementAt(entityNumber).Value.TryGetValue(typeName, out currentData);
     }
 
-    private void DeactivateCurrentInstanceModule<T>(Entity currentEntityPursueData)
+    private void Subscribe()
+    {
+        ManagerEvents.StartListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
+            argument => ShutdownCurrentInstanceModule<object>(argument));
+    }
+
+    private void UnSubscribe()
+    {
+        ManagerEvents.StopListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
+            argument => ShutdownCurrentInstanceModule<object>(argument));
+    }
+
+    private void ShutdownCurrentInstanceModule<T>(Entity currentEntityPursueData)
     {
         EntitiesDataDictionary.Remove(currentEntityPursueData);
+    }
+
+    private void AddToUpdateManager()
+    {
+        if (_isAlreadyUpdate)
+            return;
+        ManagerUpdate.AddTo(this);
     }
 }
