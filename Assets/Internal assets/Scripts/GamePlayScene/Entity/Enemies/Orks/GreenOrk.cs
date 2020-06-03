@@ -18,12 +18,4 @@ public class GreenOrk : Entity
         WriteCollectedData(damageData, pursueData);
         Initialize();
     }
-
-    private void WriteCollectedData(params Data[] dataVariables)
-    {
-        foreach (var currentData in dataVariables)
-        {
-            entityDataDictionary.Add(currentData.GetType().ToString(), currentData);
-        }
-    }
 }

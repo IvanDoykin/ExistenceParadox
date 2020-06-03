@@ -57,6 +57,14 @@ public abstract class Entity : MonoBehaviour, ITick, IArgumentativeEventTrigger
         }
     }
 
+    protected void WriteCollectedData(params Data[] dataVariables)
+    {
+        foreach (var currentData in dataVariables)
+        {
+            entityDataDictionary.Add(currentData.GetType().ToString(), currentData);
+        }
+    }
+
 
     private void CheckBehavioursListState()
     {
