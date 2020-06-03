@@ -31,11 +31,6 @@ public class PursueBehaviour : CustomBehaviour, ITick
         Pursue();
     }
 
-    protected override void DeactivateCurrentInstanceModule<T>(Entity currentEntityPursueData)
-    {
-        EntitiesDataDictionary.Remove(currentEntityPursueData);
-    }
-
     private void Pursue()
     {
         for (int entityNumber = 0; entityNumber < EntitiesDataDictionary.Count; entityNumber++)

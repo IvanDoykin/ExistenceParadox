@@ -17,7 +17,6 @@ public abstract class CustomBehaviour : ScriptableObject
             new Dictionary<Entity, Dictionary<string, Data>>(); //словарь со списком экземпляров сущности со словарёи с  их data classes
 
     protected abstract void ReceiveAllData();
-    protected abstract void DeactivateCurrentInstanceModule<T>(Entity argument);
 
     protected abstract void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance);
 
@@ -55,5 +54,10 @@ public abstract class CustomBehaviour : ScriptableObject
         out Data currentData)
     {
         dataDictionary.ElementAt(entityNumber).Value.TryGetValue(typeName, out currentData);
+    }
+
+    private void DeactivateCurrentInstanceModule<T>(Entity currentEntityPursueData)
+    {
+        EntitiesDataDictionary.Remove(currentEntityPursueData);
     }
 }

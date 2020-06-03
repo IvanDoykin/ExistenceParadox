@@ -27,11 +27,6 @@ public class FlyBehaviour : CustomBehaviour, ITick
         EntitiesDataDictionary.Add(EntityInstance, EntityInstance.entityDataDictionary);
     }
 
-    protected override void DeactivateCurrentInstanceModule<T>(Entity currentEntityPursueData)
-    {
-        EntitiesDataDictionary.Remove(currentEntityPursueData);
-    }
-
     private void KekMessage()
     {
         for (int entityNumber = 0; entityNumber < EntitiesDataDictionary.Count; entityNumber++)

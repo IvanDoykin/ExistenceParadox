@@ -27,8 +27,5 @@ public class MovementBehaviour : CustomBehaviour
     {
         throw new NotImplementedException();
     }
-
-    protected override void DeactivateCurrentInstanceModule<T>(Entity argument)
-    {
-    }
+    
 }
