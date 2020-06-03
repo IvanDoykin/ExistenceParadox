@@ -6,10 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Movement", menuName = "CustomBehaviours/MovementBehaviour")]
 public class MovementBehaviour : CustomBehaviour
 {
-    protected override void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary, int entityNumber, string typeName, out Data currentData)
-    {
-        throw new NotImplementedException();
-    }
+  
 
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {

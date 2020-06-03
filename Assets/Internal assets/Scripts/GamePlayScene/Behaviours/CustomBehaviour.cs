@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,11 +12,6 @@ public abstract class CustomBehaviour : ScriptableObject
     private bool _isAlreadyUpdate = false;
     protected abstract void ReceiveAllData();
     protected abstract void DeactivateCurrentInstanceModule<T>(Entity argument);
-
-    protected abstract void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary,
-        int entityNumber,
-        string typeName,
-        out Data currentData);
 
     protected abstract void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance);
 
@@ -45,5 +41,13 @@ public abstract class CustomBehaviour : ScriptableObject
         if (_isAlreadyUpdate)
             return;
         ManagerUpdate.AddTo(this);
+    }
+
+    protected void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary,
+        int entityNumber,
+        string typeName,
+        out Data currentData)
+    {
+        dataDictionary.ElementAt(entityNumber).Value.TryGetValue(typeName, out currentData);
     }
 }

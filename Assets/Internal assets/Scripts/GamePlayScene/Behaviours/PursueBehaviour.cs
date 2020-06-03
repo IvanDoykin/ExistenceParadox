@@ -21,23 +21,18 @@ public class PursueBehaviour : CustomBehaviour, ITick
 
     protected override void ReceiveAllData()
     {
-        if (EntityInstance.entityDataDictionary != null)
-            _entitiesDataDictionary.Add(EntityInstance, EntityInstance.entityDataDictionary);
-        // Debug.Log($"PursueData is not found in current entity: {EntityInstance.GetType()}");
-        // return null;
+        if (EntityInstance.entityDataDictionary == null)
+        {
+            Debug.Log($"no data was found in the current entity: {EntityInstance.GetType()}");
+            return;
+        }
+
+        _entitiesDataDictionary.Add(EntityInstance, EntityInstance.entityDataDictionary);
     }
 
     protected override void DeactivateCurrentInstanceModule<T>(Entity currentEntityPursueData)
     {
         _entitiesDataDictionary.Remove(currentEntityPursueData);
-    }
-
-    protected override void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary,
-        int entityNumber,
-        string typeName,
-        out Data currentData)
-    {
-        dataDictionary.ElementAt(entityNumber).Value.TryGetValue(typeName, out currentData);
     }
 
     private void Pursue()
