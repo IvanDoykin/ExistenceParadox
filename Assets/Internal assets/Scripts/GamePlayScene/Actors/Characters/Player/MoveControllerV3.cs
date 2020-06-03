@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
+public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed, IAwake
 {
-    //write in VK
     [Range(5f, 15f)]
     [SerializeField] float maxMoveSpeed = 5f;
     
@@ -27,25 +26,23 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
     [SerializeField] private Transform climbPoint;
 
     [SerializeField] private LayerMask noPlayer;
-
-                                    //why 2 empty lines?
+    
     private Vector3 moveDirection;
     private float currentMoveSpeed;
     
 
     private float inputVertical;
     private float inputHorizontal;
-    private Rigidbody rb;   //other name, please
+    private Rigidbody rigidbodyPlayer;
 
-                                //again 2 empty lines
     private bool isGrounded;
-    //lines 9-42
 
-    private void Awake() //good - 'private' is there :)
+    public void OnAwake()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        rigidbodyPlayer = GetComponent<Rigidbody>();
+        rigidbodyPlayer.freezeRotation = true;
     }
+
 
     private void Start()
     {
@@ -68,7 +65,7 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
         
     }
 
-    private void ClimbHelper() //why 'helper'?
+    private void Climb()
     {
         RaycastHit hit;
         moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
@@ -76,7 +73,6 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
 
         if (Physics.Raycast(ray, out hit, 1f, noPlayer))
         {
-                                                                //why is there empty line?
             moveDirection = new Vector3(moveDirection.x, hit.distance / 1, moveDirection.z);                        
         }
     }
@@ -88,7 +84,7 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
 
         moveDirection = new Vector3(inputHorizontal, 0f, inputVertical);
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        ClimbHelper();
+        Climb();
 
         var t =  new Quaternion(0, Camera.main.transform.rotation.y, 0, Camera.main.transform.rotation.w);
         transform.rotation = Quaternion.Lerp(transform.rotation, t, 100 * Time.deltaTime);
@@ -98,7 +94,7 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
     {
         if (Input.GetKeyDown(jumpButton) && isGrounded)
         {
-            rb.AddForce(0, jumpForce * 50, 0, ForceMode.Impulse); //again 'magic numbers'
+            rigidbodyPlayer.AddForce(0, jumpForce * 50, 0, ForceMode.Impulse);//number for convenience
         }
     }
 
@@ -108,7 +104,7 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
         Jump();         //nice
         CheckGround();  //perfect
 
-        currentMoveSpeed = rb.velocity.magnitude; //create method with that
+        currentMoveSpeed = rigidbodyPlayer.velocity.magnitude; //create method with that
     }
 
     public float GetSpeed()
@@ -118,20 +114,20 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
 
     public void TickFixed()
     {
-        rb.AddForce(Physics.gravity * 2,ForceMode.Impulse);
+        rigidbodyPlayer.AddForce(Physics.gravity * 2,ForceMode.Impulse);
 
         if (isGrounded)
         {
-            rb.AddForce(moveDirection.normalized * acceleration * rb.mass);
+            rigidbodyPlayer.AddForce(moveDirection.normalized * acceleration * rigidbodyPlayer.mass);
         }
         else
         {
-            rb.AddForce(moveDirection.normalized * acceleration * rb.mass * 0.1f * flySpeed);
+            rigidbodyPlayer.AddForce(moveDirection.normalized * acceleration * rigidbodyPlayer.mass * 0.1f * flySpeed);
         }
         
         if (currentMoveSpeed > maxMoveSpeed)
         {
-            rb.drag = (currentMoveSpeed - maxMoveSpeed) * 2;
+            rigidbodyPlayer.drag = (currentMoveSpeed - maxMoveSpeed) * 2;
         }
 
     }

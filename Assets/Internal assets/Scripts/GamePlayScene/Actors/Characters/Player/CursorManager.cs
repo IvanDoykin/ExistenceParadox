@@ -10,7 +10,8 @@ public class CursorManager : MonoBehaviour
     private void Start()
     {
         ChangeStateCursor();        
-    } // create empty line - one style for code
+    }
+
     void Update()   //TODO fix this shit
     {
         for(int i = 0; i < codes.Length; i++) //NEVER include 'for' in update
