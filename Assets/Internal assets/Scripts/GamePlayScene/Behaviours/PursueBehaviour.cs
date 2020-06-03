@@ -24,8 +24,8 @@ public class PursueBehaviour : CustomBehaviour, ITick
     {
         for (int entityNumber = 0; entityNumber < EntitiesDataDictionary.Count; entityNumber++)
         {
-            ReceiveEntityInstanceData(EntitiesDataDictionary, entityNumber, "PursueData", out var receivedPursueData);
-            var pursueData = (PursueData) receivedPursueData;
+            ReceiveEntityInstanceData(EntitiesDataDictionary, entityNumber, "PursueData", out var receivedData);
+            var pursueData = (PursueData) receivedData;
             pursueData.navMeshAgent.destination = pursueData.player.transform.position;
         }
     }

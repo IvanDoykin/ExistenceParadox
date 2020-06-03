@@ -13,6 +13,7 @@
               <e p="Behaviours" t="Include">
                 <e p="CustomBehaviour.cs" t="Include" />
                 <e p="DefaultValueBehaviour.cs" t="Include" />
+                <e p="DetectingBehaviour.cs" t="Include" />
                 <e p="FlyBehaviour.cs" t="Include" />
                 <e p="MovementBehaviour.cs" t="Include" />
                 <e p="PursueBehaviour.cs" t="Include" />
@@ -20,6 +21,7 @@
               <e p="DataStore" t="Include">
                 <e p="DamageData.cs" t="Include" />
                 <e p="Data.cs" t="Include" />
+                <e p="DetectingData.cs" t="Include" />
                 <e p="HpData.cs" t="Include" />
                 <e p="MovementData.cs" t="Include" />
                 <e p="PursueData.cs" t="Include" />

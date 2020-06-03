@@ -7,15 +7,15 @@ using UnityEngine;
 public class GreenOrk : Entity
 {
     [Foldout("DATA", true)] [SerializeField]
-    private MovementData movementData;
-
-    [SerializeField] private DamageData damageData;
+    private DamageData damageData;
 
     [SerializeField] private PursueData pursueData;
 
+    [SerializeField] private DetectingData detectingData;
+
     private void Awake()
     {
-        WriteCollectedData(damageData, pursueData);
+        WriteCollectedData(damageData, pursueData, detectingData);
         Initialize();
     }
 }

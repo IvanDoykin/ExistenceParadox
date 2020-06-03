@@ -14,7 +14,7 @@ public class FlyBehaviour : CustomBehaviour, ITick
     {
         KekMessage();
     }
-    
+
 
     private void KekMessage()
     {
@@ -22,8 +22,6 @@ public class FlyBehaviour : CustomBehaviour, ITick
         {
             ReceiveEntityInstanceData(EntitiesDataDictionary, entityNumber, "PursueData", out var receivedPursueData);
             var pursueData = (PursueData) receivedPursueData;
-
-            Debug.Log(pursueData.kek);
         }
     }
 }
