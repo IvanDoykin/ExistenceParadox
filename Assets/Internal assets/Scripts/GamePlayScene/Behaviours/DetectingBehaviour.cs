@@ -4,7 +4,7 @@ using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Detecting", menuName = "CustomBehaviours/Detecting")]
-public class DetectingBehaviour : CustomBehaviour, IEventSub, IEventTrigger, IArgumentativeEventTrigger
+public class DetectingBehaviour : CustomBehaviour
 {
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity entity)
     {
@@ -17,21 +17,17 @@ public class DetectingBehaviour : CustomBehaviour, IEventSub, IEventTrigger, IAr
         // if (collider != null && collider.name == "Player")
     }
 
-    public void Subscribe()
+    public override void Subscribe()
     {
         ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityColliderTriggered}",
             DetectNearEntities);
     }
 
-    public void UnSubscribe()
+    public override void UnSubscribe()
     {
     }
 
-    public void TriggerEvent(string eventName)
-    {
-    }
-
-    public void TriggerEvent(string eventName, params dynamic[] arguments)
+    public override void TriggerEvent(string eventName, params dynamic[] arguments)
     {
     }
 }

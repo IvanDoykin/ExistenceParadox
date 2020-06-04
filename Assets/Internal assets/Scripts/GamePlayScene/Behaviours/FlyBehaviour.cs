@@ -12,16 +12,17 @@ public class FlyBehaviour : CustomBehaviour, ITick
 
     public void Tick()
     {
-        KekMessage();
     }
 
-
-    private void KekMessage()
+    public override void TriggerEvent(string eventName, params dynamic[] arguments)
     {
-        for (int entityNumber = 0; entityNumber < EntitiesDataDictionary.Count; entityNumber++)
-        {
-            ReceiveEntityInstanceData(EntitiesDataDictionary, entityNumber, "PursueData", out var receivedPursueData);
-            var pursueData = (PursueData) receivedPursueData;
-        }
+    }
+
+    public override void Subscribe()
+    {
+    }
+
+    public override void UnSubscribe()
+    {
     }
 }

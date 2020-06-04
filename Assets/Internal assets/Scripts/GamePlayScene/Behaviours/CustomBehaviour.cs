@@ -6,8 +6,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 // [CreateAssetMenu(fileName = "CustomBehaviour", menuName = "CustomBehaviour")]
-public abstract class CustomBehaviour : ScriptableObject
+public abstract class CustomBehaviour : ScriptableObject, IEventTrigger, IEventSub
 {
+    public abstract void TriggerEvent(string eventName, params dynamic[] arguments);
+    public abstract void Subscribe();
+    public abstract void UnSubscribe();
+
     protected Entity EntityInstance;
 
     private bool _isAlreadyUpdate = false;
@@ -24,8 +28,8 @@ public abstract class CustomBehaviour : ScriptableObject
         EntityInstance = currentEntity;
         InitializeCurrentBehaviourByReceivedEntityInstance(currentEntity);
         ReceiveAllData();
-        UnSubscribe();
-        Subscribe();
+        StopListening();
+        StartListening();
         AddToUpdateManager();
     }
 
@@ -48,13 +52,13 @@ public abstract class CustomBehaviour : ScriptableObject
         dataDictionary.ElementAt(entityNumber).Value.TryGetValue(typeName, out currentData);
     }
 
-    private void Subscribe()
+    private void StartListening()
     {
         ManagerEvents.StartListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
             ShutdownCurrentInstanceModule);
     }
 
-    private void UnSubscribe()
+    private void StopListening()
     {
         ManagerEvents.StopListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
             ShutdownCurrentInstanceModule);

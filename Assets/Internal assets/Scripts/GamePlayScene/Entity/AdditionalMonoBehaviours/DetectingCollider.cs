@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectingCollider : MonoBehaviour, IArgumentativeEventTrigger
+public class DetectingCollider : MonoBehaviour, IEventTrigger
 {
     public void TriggerEvent(string eventName, params dynamic[] arguments)
     {

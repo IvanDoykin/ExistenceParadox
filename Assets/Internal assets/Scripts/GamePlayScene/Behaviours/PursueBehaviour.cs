@@ -13,11 +13,23 @@ public class PursueBehaviour : CustomBehaviour, ITick
 {
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
-    } 
+    }
 
     public void Tick()
     {
         Pursue();
+    }
+
+    public override void TriggerEvent(string eventName, params dynamic[] arguments)
+    {
+    }
+
+    public override void Subscribe()
+    {
+    }
+
+    public override void UnSubscribe()
+    {
     }
 
     private void Pursue()

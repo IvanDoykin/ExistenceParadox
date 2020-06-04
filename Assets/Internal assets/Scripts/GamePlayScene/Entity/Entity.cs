@@ -8,8 +8,9 @@ using Malee.List;
 using Microsoft.Win32;
 using TopAdventure.Unity;
 using UnityEngine;
+using Object = System.Object;
 
-public abstract class Entity : MonoBehaviour, ITick, IArgumentativeEventTrigger
+public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 {
     [Reorderable] public CustomBehavioursList behavioursList;
 
@@ -112,7 +113,7 @@ public abstract class Entity : MonoBehaviour, ITick, IArgumentativeEventTrigger
     }
 
 
-    public void TriggerEvent(string eventName, params dynamic[] arguments)
+    public void TriggerEvent(string eventName, params Object[] arguments)
     {
         ManagerEvents.CheckTriggeringEvent(eventName, arguments[0]);
     }

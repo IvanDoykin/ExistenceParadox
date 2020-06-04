@@ -164,7 +164,6 @@
           </e>
           <e p="EventsCollection.cs" t="Include" />
           <e p="Interfaces" t="Include">
-            <e p="IArgumentativeEventTrigger.cs" t="Include" />
             <e p="IAwake.cs" t="Include" />
             <e p="IEventSub.cs" t="Include" />
             <e p="IEventTrigger.cs" t="Include" />

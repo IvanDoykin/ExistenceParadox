@@ -10,6 +10,18 @@ public class MovementBehaviour : CustomBehaviour
     {
     }
 
+    public override void TriggerEvent(string eventName, params dynamic[] arguments)
+    {
+    }
+
+    public override void Subscribe()
+    {
+    }
+
+    public override void UnSubscribe()
+    {
+    }
+
     public void Move()
     {
         EntityInstance.transform.Translate(Vector3.up * Time.deltaTime);

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Object = System.Object;
 
 //[RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -75,7 +76,7 @@ public class ChunksBlockAssembler : MonoBehaviour, IEventTrigger
         AssemblyChunksBlock();
     }
 
-    public void TriggerEvent(string eventName)
+    public void TriggerEvent(string eventName, params Object[] arguments)
     {
         ManagerEvents.CheckTriggeringEvent(eventName);
     }
