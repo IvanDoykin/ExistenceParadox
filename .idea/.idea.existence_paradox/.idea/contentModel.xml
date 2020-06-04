@@ -22,11 +22,17 @@
                 <e p="DamageData.cs" t="Include" />
                 <e p="Data.cs" t="Include" />
                 <e p="DetectingData.cs" t="Include" />
+                <e p="EventsCollection" t="Include">
+                  <e p="DetectingEvents.cs" t="Include" />
+                </e>
                 <e p="HpData.cs" t="Include" />
                 <e p="MovementData.cs" t="Include" />
                 <e p="PursueData.cs" t="Include" />
               </e>
               <e p="Entity" t="Include">
+                <e p="AdditionalMonoBehaviours" t="Include">
+                  <e p="DetectingCollider.cs" t="Include" />
+                </e>
                 <e p="Characters" t="Include">
                   <e p="Player" t="Include">
                     <e p="Bullet.cs" t="Include" />
@@ -43,7 +49,9 @@
                 </e>
                 <e p="Enemies" t="Include">
                   <e p="Orks" t="Include">
-                    <e p="GreenOrk.cs" t="Include" />
+                    <e p="GreenOrk" t="Include">
+                      <e p="GreenOrk.cs" t="Include" />
+                    </e>
                     <e p="YellowOrk.cs" t="Include" />
                   </e>
                 </e>

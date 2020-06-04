@@ -1276,12 +1276,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
+      propertyPath: behavioursList.array.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
       propertyPath: pursueData.player
       value: 
       objectReference: {fileID: 1430672201}
     - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
       propertyPath: detectingData.DetectingBoxCollider
+      value: 
+      objectReference: {fileID: 1339087766}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: behavioursList.array.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa23e8dbbac85db4ba140c03294c5dda,
+        type: 2}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: detectingData.detectingBoxCollider
       value: 
       objectReference: {fileID: 1339087766}
     m_RemovedComponents: []
@@ -1305,6 +1321,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 50, y: 50, z: 50}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1339087768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339087765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198fdff34e95569499efda5f471cc4e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1430672201
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ public abstract class CustomBehaviour : ScriptableObject
     public void PrimaryInitializeBehaviour(Entity currentEntity)
     {
         EntityInstance = currentEntity;
+        InitializeCurrentBehaviourByReceivedEntityInstance(currentEntity);
         ReceiveAllData();
         UnSubscribe();
         Subscribe();
