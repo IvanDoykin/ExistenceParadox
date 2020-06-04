@@ -6,11 +6,13 @@ public class DetectingCollider : MonoBehaviour, IArgumentativeEventTrigger
 {
     public void TriggerEvent(string eventName, params dynamic[] arguments)
     {
-        ManagerEvents.TriggerEvent(eventName, arguments[0]);
+        ManagerEvents.CheckTriggeringEvent(eventName, arguments);
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
-        TriggerEvent($"{transform.parent.name}{DetectingEvents.EntityColliderTriggered}", other);
+        string parentName = transform.parent.name;
+        TriggerEvent($"{parentName}{DetectingEvents.EntityColliderTriggered}", other, parentName);
     }
 }

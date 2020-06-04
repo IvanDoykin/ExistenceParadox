@@ -1,32 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Detecting", menuName = "CustomBehaviours/Detecting")]
-public class DetectingBehaviour : CustomBehaviour, IEventSub
+public class DetectingBehaviour : CustomBehaviour, IEventSub, IEventTrigger, IArgumentativeEventTrigger
 {
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity entity)
     {
         Subscribe();
     }
 
-    private void DetectNearEntities<T>(T collider)
+    private void DetectNearEntities<T, TDetectingEntityName>(T collidedEntity, TDetectingEntityName detectingEntityName)
     {
-        for (int entityNumber = 0; entityNumber < EntitiesDataDictionary.Count; entityNumber++)
-        {
-            ReceiveEntityInstanceData(EntitiesDataDictionary, entityNumber, "DetectingData", out var receivedData);
-            var detectingData = (DetectingData) receivedData;
-            var kek = (collider as Collider);
-            Debug.Log(kek.name);
-        }
+        var collider = (collidedEntity as Collider);
+        // if (collider != null && collider.name == "Player")
     }
 
     public void Subscribe()
     {
-        ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityColliderTriggered}", DetectNearEntities);
+        ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityColliderTriggered}",
+            DetectNearEntities);
     }
 
     public void UnSubscribe()
+    {
+    }
+
+    public void TriggerEvent(string eventName)
+    {
+    }
+
+    public void TriggerEvent(string eventName, params dynamic[] arguments)
     {
     }
 }

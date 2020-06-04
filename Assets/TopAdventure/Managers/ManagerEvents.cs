@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
+using Object = System.Object;
 
 [CreateAssetMenu(fileName = "ManagerEvents", menuName = "Managers/ManagerEvents")]
 public class ManagerEvents : ManagerBase
@@ -15,19 +16,19 @@ public class ManagerEvents : ManagerBase
     private Dictionary<string, FourArgumentEvent> _fourArgumentsEventsDictionary;
 
 
-    private class OneArgumentEvent : UnityEvent<dynamic>
+    private class OneArgumentEvent : UnityEvent<object>
     {
     }
 
-    private class TwoArgumentEvent : UnityEvent<dynamic, dynamic>
+    private class TwoArgumentEvent : UnityEvent<object, object>
     {
     }
 
-    private class ThreeArgumentEvent : UnityEvent<dynamic, dynamic, dynamic>
+    private class ThreeArgumentEvent : UnityEvent<object, object, object>
     {
     }
 
-    private class FourArgumentEvent : UnityEvent<dynamic, dynamic, dynamic, dynamic>
+    private class FourArgumentEvent : UnityEvent<object, object, object, object>
     {
     }
 
@@ -60,7 +61,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void StartListening(string eventName, UnityAction<dynamic> listener)
+    public static void StartListening(string eventName, UnityAction<object> listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         //We need to create place in memory for reference to the object 
@@ -78,7 +79,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void StartListening(string eventName, UnityAction<dynamic, dynamic> listener)
+    public static void StartListening(string eventName, UnityAction<object, object> listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         //We need to create place in memory for reference to the object 
@@ -93,10 +94,10 @@ public class ManagerEvents : ManagerBase
             thisEvent = new TwoArgumentEvent();
             thisEvent.AddListener(listener);
             mngEvents._twoArgumentsEventsDictionary.Add(eventName, thisEvent);
-        } 
+        }
     }
 
-    public static void StartListening(string eventName, UnityAction<dynamic, dynamic, dynamic> listener)
+    public static void StartListening(string eventName, UnityAction<object, object, object> listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         //We need to create place in memory for reference to the object 
@@ -114,7 +115,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void StartListening(string eventName, UnityAction<dynamic, dynamic, dynamic, dynamic> listener)
+    public static void StartListening(string eventName, UnityAction<object, object, object, object> listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         //We need to create place in memory for reference to the object 
@@ -141,7 +142,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void StopListening(string eventName, UnityAction<dynamic> listener)
+    public static void StopListening(string eventName, UnityAction<object> listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._oneArgumentEventsDictionary.TryGetValue(eventName, out var thisEvent))
@@ -150,7 +151,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void StopListening(string eventName, UnityAction<dynamic, dynamic> listener)
+    public static void StopListening(string eventName, UnityAction<object, object> listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._twoArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
@@ -159,7 +160,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void StopListening(string eventName, UnityAction<dynamic, dynamic, dynamic> listener)
+    public static void StopListening(string eventName, UnityAction<object, object, object> listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._threeArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
@@ -168,7 +169,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void StopListening(string eventName, UnityAction<dynamic, dynamic, dynamic, dynamic> listener)
+    public static void StopListening(string eventName, UnityAction<object, object, object, object> listener)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._fourArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
@@ -177,7 +178,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void TriggerEvent(string eventName)
+    private static void TriggerEvent(string eventName)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._eventsDictionary.TryGetValue(eventName, out var thisEvent))
@@ -186,7 +187,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void TriggerEvent(string eventName, dynamic argument)
+    private static void TriggerEvent(string eventName, object argument)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._oneArgumentEventsDictionary.TryGetValue(eventName, out var thisEvent))
@@ -195,7 +196,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void TriggerEvent(string eventName, dynamic argument, dynamic secondArgument)
+    private static void TriggerEvent(string eventName, object argument, object secondArgument)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._twoArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
@@ -204,7 +205,7 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void TriggerEvent(string eventName, dynamic argument, dynamic secondArgument, dynamic thirdArgument)
+    private static void TriggerEvent(string eventName, object argument, object secondArgument, object thirdArgument)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._threeArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
@@ -213,13 +214,35 @@ public class ManagerEvents : ManagerBase
         }
     }
 
-    public static void TriggerEvent(string eventName, dynamic argument, dynamic secondArgument, dynamic thirdArgument,
-        dynamic fourthArgument)
+    private static void TriggerEvent(string eventName, object argument, object secondArgument, object thirdArgument,
+        object fourthArgument)
     {
         ManagerEvents mngEvents = Toolbox.Get<ManagerEvents>();
         if (mngEvents._fourArgumentsEventsDictionary.TryGetValue(eventName, out var thisEvent))
         {
             thisEvent.Invoke(argument, secondArgument, thirdArgument, fourthArgument);
+        }
+    }
+
+    public static void CheckTriggeringEvent(string eventName, params Object[] arguments)
+    {
+        switch (arguments.Length)
+        {
+            case 0:
+                TriggerEvent(eventName);
+                break;
+            case 1:
+                TriggerEvent(eventName, arguments[0]);
+                break;
+            case 2:
+                TriggerEvent(eventName, arguments[0], arguments[1]);
+                break;
+            case 3:
+                TriggerEvent(eventName, arguments[0], arguments[1], arguments[2]);
+                break;
+            case 4:
+                TriggerEvent(eventName, arguments[0], arguments[1], arguments[2], arguments[3]);
+                break;
         }
     }
 }

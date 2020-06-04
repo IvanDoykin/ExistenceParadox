@@ -13,7 +13,7 @@ public class PursueBehaviour : CustomBehaviour, ITick
 {
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
-    }
+    } 
 
     public void Tick()
     {

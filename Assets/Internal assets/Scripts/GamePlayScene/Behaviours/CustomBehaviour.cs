@@ -51,18 +51,20 @@ public abstract class CustomBehaviour : ScriptableObject
     private void Subscribe()
     {
         ManagerEvents.StartListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
-            argument => ShutdownCurrentInstanceModule<object>(argument));
+            ShutdownCurrentInstanceModule);
     }
 
     private void UnSubscribe()
     {
         ManagerEvents.StopListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",
-            argument => ShutdownCurrentInstanceModule<object>(argument));
+            ShutdownCurrentInstanceModule);
     }
 
-    private void ShutdownCurrentInstanceModule<T>(Entity currentEntityPursueData)
+    private void ShutdownCurrentInstanceModule<T>(T currentEntityData)
     {
-        EntitiesDataDictionary.Remove(currentEntityPursueData);
+        var entityData = (currentEntityData as Entity);
+        if (entityData != null)
+            EntitiesDataDictionary.Remove(entityData);
     }
 
     private void AddToUpdateManager()

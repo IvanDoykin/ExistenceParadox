@@ -77,6 +77,6 @@ public class ChunksBlockAssembler : MonoBehaviour, IEventTrigger
 
     public void TriggerEvent(string eventName)
     {
-        ManagerEvents.TriggerEvent(eventName);
+        ManagerEvents.CheckTriggeringEvent(eventName);
     }
 }

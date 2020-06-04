@@ -114,6 +114,6 @@ public abstract class Entity : MonoBehaviour, ITick, IArgumentativeEventTrigger
 
     public void TriggerEvent(string eventName, params dynamic[] arguments)
     {
-        ManagerEvents.TriggerEvent(eventName, arguments[0]);
+        ManagerEvents.CheckTriggeringEvent(eventName, arguments[0]);
     }
 }
