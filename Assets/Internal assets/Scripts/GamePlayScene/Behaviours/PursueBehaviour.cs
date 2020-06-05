@@ -11,8 +11,13 @@ using Object = System.Object;
 [CreateAssetMenu(fileName = "Pursue", menuName = "CustomBehaviours/Pursue")]
 public class PursueBehaviour : CustomBehaviour, ITick
 {
+    readonly List<string> _pursuers = new List<string>();
+
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
+        if (_pursuers != null)
+            _pursuers.Clear();
+        Subscribe();
     }
 
     public void Tick()
@@ -26,19 +31,33 @@ public class PursueBehaviour : CustomBehaviour, ITick
 
     public override void Subscribe()
     {
+        ManagerEvents.StartListening(DetectingEvents.PlayerHasBeenDetected + $"by:{EntityInstance.name}",
+            TakeACloserLook);
     }
 
     public override void UnSubscribe()
     {
     }
 
+    private void TakeACloserLook<TDetectingEntityName>(
+        TDetectingEntityName detectingEntityName)
+    {
+        Debug.Log($"playerHasBeenDetected by:{detectingEntityName}");
+        string entityName = detectingEntityName as string;
+        _pursuers.Add(entityName);
+    }
+
     private void Pursue()
     {
-        for (int entityNumber = 0; entityNumber < EntitiesDataDictionary.Count; entityNumber++)
+        foreach (var pursuer in _pursuers)
         {
-            ReceiveEntityInstanceData(EntitiesDataDictionary, entityNumber, "PursueData", out var receivedData);
-            var pursueData = (PursueData) receivedData;
-            pursueData.navMeshAgent.destination = pursueData.player.transform.position;
+            if (EntitiesDataDictionary.TryGetValue(pursuer, out Dictionary<string, Data> pursuerEntity))
+            {
+                pursuerEntity.TryGetValue("PursueData", out var receivedData);
+                var pursueData = (PursueData) receivedData;
+                if (pursueData != null)
+                    pursueData.navMeshAgent.destination = pursueData.player.transform.position;
+            }
         }
     }
 }

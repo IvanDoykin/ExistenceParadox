@@ -16,9 +16,9 @@ public abstract class CustomBehaviour : ScriptableObject, IEventTrigger, IEventS
 
     private bool _isAlreadyUpdate = false;
 
-    protected readonly Dictionary<Entity, Dictionary<string, Data>>
+    protected readonly Dictionary<string, Dictionary<string, Data>>
         EntitiesDataDictionary =
-            new Dictionary<Entity, Dictionary<string, Data>>(); //словарь со списком экземпляров сущности со словарёи с  их data classes
+            new Dictionary<string, Dictionary<string, Data>>(); //словарь со списком экземпляров сущности со словарёи с  их data classes
 
 
     protected abstract void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance);
@@ -41,7 +41,7 @@ public abstract class CustomBehaviour : ScriptableObject, IEventTrigger, IEventS
             return;
         }
 
-        EntitiesDataDictionary.Add(EntityInstance, EntityInstance.entityDataDictionary);
+        EntitiesDataDictionary.Add(EntityInstance.name, EntityInstance.entityDataDictionary);
     }
 
     protected void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary,
@@ -68,7 +68,7 @@ public abstract class CustomBehaviour : ScriptableObject, IEventTrigger, IEventS
     {
         var entityData = (currentEntityData as Entity);
         if (entityData != null)
-            EntitiesDataDictionary.Remove(entityData);
+            EntitiesDataDictionary.Remove(entityData.name);
     }
 
     private void AddToUpdateManager()

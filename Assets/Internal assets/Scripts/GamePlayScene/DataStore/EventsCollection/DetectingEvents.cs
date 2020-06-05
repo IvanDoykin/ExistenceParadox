@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class DetectingEvents
 {
-    public const string Detected = "Detected";
+    public const string PlayerHasBeenDetected = "PlayerHasBeenDetected";
     public const string EntityColliderTriggered = "ColliderTriggered";
 }

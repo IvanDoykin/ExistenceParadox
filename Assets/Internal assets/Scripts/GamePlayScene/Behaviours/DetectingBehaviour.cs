@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
+using Object = System.Object;
 
 [CreateAssetMenu(fileName = "Detecting", menuName = "CustomBehaviours/Detecting")]
 public class DetectingBehaviour : CustomBehaviour
@@ -14,7 +15,8 @@ public class DetectingBehaviour : CustomBehaviour
     private void DetectNearEntities<T, TDetectingEntityName>(T collidedEntity, TDetectingEntityName detectingEntityName)
     {
         var collider = (collidedEntity as Collider);
-        // if (collider != null && collider.name == "Player")
+        if (collider != null && collider.name == "Person")
+            TriggerEvent(DetectingEvents.PlayerHasBeenDetected + $"by:{detectingEntityName}", detectingEntityName);
     }
 
     public override void Subscribe()
@@ -27,7 +29,8 @@ public class DetectingBehaviour : CustomBehaviour
     {
     }
 
-    public override void TriggerEvent(string eventName, params dynamic[] arguments)
+    public override void TriggerEvent(string eventName, params Object[] arguments)
     {
+        ManagerEvents.CheckTriggeringEvent(eventName, arguments);
     }
 }
