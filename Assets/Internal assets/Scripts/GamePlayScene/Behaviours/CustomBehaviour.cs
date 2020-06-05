@@ -44,14 +44,6 @@ public abstract class CustomBehaviour : ScriptableObject, IEventTrigger, IEventS
         EntitiesDataDictionary.Add(EntityInstance.name, EntityInstance.entityDataDictionary);
     }
 
-    protected void ReceiveEntityInstanceData(Dictionary<Entity, Dictionary<string, Data>> dataDictionary,
-        int entityNumber,
-        string typeName,
-        out Data currentData)
-    {
-        dataDictionary.ElementAt(entityNumber).Value.TryGetValue(typeName, out currentData);
-    }
-
     private void StartListening()
     {
         ManagerEvents.StartListening($"BehavioursListChanged{EntityInstance.GetInstanceID()}",

@@ -15,8 +15,7 @@ public class PursueBehaviour : CustomBehaviour, ITick
 
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
-        if (_pursuers != null)
-            _pursuers.Clear();
+        _pursuers?.Clear();
         Subscribe();
     }
 
