@@ -11,7 +11,7 @@ using Object = System.Object;
 [CreateAssetMenu(fileName = "Pursue", menuName = "CustomBehaviours/Pursue")]
 public class PursueBehaviour : CustomBehaviour, ITick
 {
-    readonly List<string> _pursuers = new List<string>();
+    readonly List<Entity> _pursuers = new List<Entity>();
 
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
@@ -42,9 +42,10 @@ public class PursueBehaviour : CustomBehaviour, ITick
         TDetectingEntityName detectingEntityName)
     {
         Debug.Log($"playerHasBeenDetected by:{detectingEntityName}");
-        string entityName = detectingEntityName as string;
-        _pursuers.Add(entityName);
+        Entity entity = detectingEntityName as Entity;
+        if (entity != null) _pursuers.Add(entity);
     }
+
 
     private void Pursue()
     {
@@ -54,8 +55,10 @@ public class PursueBehaviour : CustomBehaviour, ITick
             {
                 pursuerEntity.TryGetValue("PursueData", out var receivedData);
                 var pursueData = (PursueData) receivedData;
-                if (pursueData != null)
+                if (pursueData != null && pursueData.IsDisabled != true)
+                {
                     pursueData.navMeshAgent.destination = pursueData.player.transform.position;
+                }
             }
         }
     }

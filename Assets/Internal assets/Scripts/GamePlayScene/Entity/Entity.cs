@@ -12,6 +12,7 @@ using Object = System.Object;
 
 public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 {
+    public string currentState;
     [Reorderable] public CustomBehavioursList behavioursList;
 
     private int _previousBehavioursListCount;
@@ -60,6 +61,7 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 
     protected void WriteCollectedData(params Data[] dataVariables)
     {
+        entityDataDictionary.Clear();
         foreach (var currentData in dataVariables)
         {
             entityDataDictionary.Add(currentData.GetType().ToString(), currentData);

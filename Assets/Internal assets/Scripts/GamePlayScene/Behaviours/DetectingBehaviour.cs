@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using Object = System.Object;
@@ -12,11 +13,32 @@ public class DetectingBehaviour : CustomBehaviour
         Subscribe();
     }
 
-    private void DetectNearEntities<T, TDetectingEntityName>(T collidedEntity, TDetectingEntityName detectingEntityName)
+    private void DetectNearEntities<T, TDetectingEntityName>(T collidedEntity, TDetectingEntityName detectingEntity)
     {
         var collider = (collidedEntity as Collider);
         if (collider != null && collider.name == "Person")
-            TriggerEvent(DetectingEvents.PlayerHasBeenDetected + $"by:{detectingEntityName}", detectingEntityName);
+        {
+            var entity = (detectingEntity as Entity);
+            if (entity != null)
+            {
+                TriggerEvent(DetectingEvents.PlayerHasBeenDetected + $"by:{entity.name}", entity);
+                ChangeCurrentState(entity);
+            }
+        }
+    }
+
+    private void ChangeCurrentState(Entity detectingEntity)
+    {
+        if (EntitiesDataDictionary.TryGetValue(detectingEntity, out Dictionary<string, Data> pursuerEntity))
+        {
+            for (int componentNumber = 0; componentNumber < pursuerEntity.Count; componentNumber++)
+            {
+                pursuerEntity.Values.ElementAt(componentNumber).IsDisabled =
+                    pursuerEntity.Keys.ElementAt(componentNumber) != "PursueData";
+            }
+        }
+
+        detectingEntity.currentState = $"{detectingEntity.name}: Pursuing a player";
     }
 
     public override void Subscribe()

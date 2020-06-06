@@ -1300,6 +1300,41 @@ PrefabInstance:
       propertyPath: detectingData.detectingBoxCollider
       value: 
       objectReference: {fileID: 1339087766}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: damageData.damage
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: detectingData.isDesabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: damageData.currentStateDisabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: damageData.IsDisabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: detectingData.IsDisabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: pursueData.IsDisabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: currentState
+      value: GreenOrk Has been destroyed
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
 --- !u!1 &1339087765 stripped

@@ -1,18 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DetectingCollider : MonoBehaviour, IEventTrigger
 {
+    private Entity _entity;
+
+    private void Start()
+    {
+        _entity = GetComponentInParent<Entity>();
+    }
+
     public void TriggerEvent(string eventName, params dynamic[] arguments)
     {
         ManagerEvents.CheckTriggeringEvent(eventName, arguments);
     }
 
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider otherCollider)
     {
-        string parentName = transform.parent.name;
-        TriggerEvent($"{parentName}{DetectingEvents.EntityColliderTriggered}", other, parentName);
+        TriggerEvent($"{_entity.name}{DetectingEvents.EntityColliderTriggered}", otherCollider, _entity);
     }
 }
