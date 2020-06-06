@@ -6,7 +6,7 @@ using UnityEngine;
 using Object = System.Object;
 
 [CreateAssetMenu(fileName = "Detecting", menuName = "CustomBehaviours/Detecting")]
-public class DetectingBehaviour : CustomBehaviour
+public class DetectingBehaviour : CustomBehaviour, IState
 {
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity entity)
     {
@@ -27,19 +27,6 @@ public class DetectingBehaviour : CustomBehaviour
         }
     }
 
-    private void ChangeCurrentState(Entity detectingEntity)
-    {
-        if (EntitiesDataDictionary.TryGetValue(detectingEntity, out Dictionary<string, Data> pursuerEntity))
-        {
-            for (int componentNumber = 0; componentNumber < pursuerEntity.Count; componentNumber++)
-            {
-                pursuerEntity.Values.ElementAt(componentNumber).IsDisabled =
-                    pursuerEntity.Keys.ElementAt(componentNumber) != "PursueData";
-            }
-        }
-
-        detectingEntity.currentState = $"{detectingEntity.name}: Pursuing a player";
-    }
 
     public override void Subscribe()
     {
@@ -54,5 +41,19 @@ public class DetectingBehaviour : CustomBehaviour
     public override void TriggerEvent(string eventName, params Object[] arguments)
     {
         ManagerEvents.CheckTriggeringEvent(eventName, arguments);
+    }
+
+    public void ChangeCurrentState(Entity entity)
+    {
+        if (EntitiesDataDictionary.TryGetValue(entity, out Dictionary<string, Data> pursuerEntity))
+        {
+            for (int componentNumber = 0; componentNumber < pursuerEntity.Count; componentNumber++)
+            {
+                pursuerEntity.Values.ElementAt(componentNumber).IsDisabled =
+                    pursuerEntity.Keys.ElementAt(componentNumber) != "PursueData";
+            }
+        }
+
+        entity.currentState = $"{entity.name}: Pursuing a player";
     }
 }

@@ -1333,7 +1333,7 @@ PrefabInstance:
     - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
       propertyPath: currentState
-      value: GreenOrk Has been destroyed
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}
