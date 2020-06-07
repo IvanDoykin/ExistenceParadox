@@ -12,6 +12,7 @@ public abstract class CustomBehaviour : ScriptableObject, IEventTrigger, IEventS
     public abstract void Subscribe();
     public abstract void UnSubscribe();
 
+    protected abstract void ClearModule();
     protected Entity EntityInstance;
 
     private bool _isAlreadyUpdate = false;
@@ -59,8 +60,10 @@ public abstract class CustomBehaviour : ScriptableObject, IEventTrigger, IEventS
     {
         var entityData = (currentEntityData as Entity);
         if (entityData != null)
-            EntitiesDataDictionary.Remove(entityData);
+            ClearModule();
+        EntitiesDataDictionary.Remove(entityData);
     }
+
 
     private void AddToUpdateManager()
     {

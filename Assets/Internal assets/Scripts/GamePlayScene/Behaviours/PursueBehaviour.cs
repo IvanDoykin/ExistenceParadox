@@ -15,7 +15,6 @@ public class PursueBehaviour : CustomBehaviour, ITick
 
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
-        _pursuers?.Clear();
         Subscribe();
     }
 
@@ -36,6 +35,14 @@ public class PursueBehaviour : CustomBehaviour, ITick
 
     public override void UnSubscribe()
     {
+        ManagerEvents.StopListening(DetectingEvents.PlayerHasBeenDetected + $"by:{EntityInstance.name}",
+            TakeACloserLook);
+    }
+
+    protected override void ClearModule()
+    {
+        _pursuers?.Clear();
+        UnSubscribe();
     }
 
     private void TakeACloserLook<TDetectingEntityName>(

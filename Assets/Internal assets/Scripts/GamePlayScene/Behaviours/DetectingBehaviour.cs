@@ -36,6 +36,13 @@ public class DetectingBehaviour : CustomBehaviour, IState
 
     public override void UnSubscribe()
     {
+        ManagerEvents.StopListening($"{EntityInstance.name}{DetectingEvents.EntityColliderTriggered}",
+            DetectNearEntities);
+    }
+
+    protected override void ClearModule()
+    {
+        UnSubscribe();
     }
 
     public override void TriggerEvent(string eventName, params Object[] arguments)

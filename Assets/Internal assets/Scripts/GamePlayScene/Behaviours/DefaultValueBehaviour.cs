@@ -22,4 +22,9 @@ public class DefaultValueBehaviour : CustomBehaviour
     public override void UnSubscribe()
     {
     }
+
+    protected override void ClearModule()
+    {
+        
+    }
 }

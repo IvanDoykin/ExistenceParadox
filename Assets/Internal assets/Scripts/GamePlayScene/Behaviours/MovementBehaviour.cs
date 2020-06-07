@@ -22,6 +22,10 @@ public class MovementBehaviour : CustomBehaviour
     {
     }
 
+    protected override void ClearModule()
+    {
+    }
+
     public void Move()
     {
         EntityInstance.transform.Translate(Vector3.up * Time.deltaTime);

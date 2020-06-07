@@ -25,4 +25,9 @@ public class FlyBehaviour : CustomBehaviour, ITick
     public override void UnSubscribe()
     {
     }
+
+    protected override void ClearModule()
+    {
+        
+    }
 }
