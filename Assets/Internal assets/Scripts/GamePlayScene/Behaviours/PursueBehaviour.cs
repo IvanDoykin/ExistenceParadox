@@ -31,12 +31,16 @@ public class PursueBehaviour : CustomBehaviour, ITick
     {
         ManagerEvents.StartListening(DetectingEvents.PlayerHasBeenDetected + $"by:{EntityInstance.name}",
             TakeACloserLook);
+        ManagerEvents.StartListening(DetectingEvents.PlayerHasBeenMissed + $"by:{EntityInstance.name}",
+            StopBeingAPursuer);
     }
 
     public override void UnSubscribe()
     {
         ManagerEvents.StopListening(DetectingEvents.PlayerHasBeenDetected + $"by:{EntityInstance.name}",
             TakeACloserLook);
+        ManagerEvents.StopListening(DetectingEvents.PlayerHasBeenMissed + $"by:{EntityInstance.name}",
+            StopBeingAPursuer);
     }
 
     protected override void ClearModule()
@@ -45,14 +49,19 @@ public class PursueBehaviour : CustomBehaviour, ITick
         UnSubscribe();
     }
 
-    private void TakeACloserLook<TDetectingEntityName>(
-        TDetectingEntityName detectingEntityName)
+    private void TakeACloserLook<TDetectingEntity>(
+        TDetectingEntity detectingEntityName)
     {
-        Debug.Log($"playerHasBeenDetected by:{detectingEntityName}");
         Entity entity = detectingEntityName as Entity;
         if (entity != null) _pursuers.Add(entity);
     }
 
+    private void StopBeingAPursuer<TMissingEntity>(TMissingEntity missingEntity)
+    {
+        Debug.Log("NearEntities");
+        Entity entity = missingEntity as Entity;
+        if (entity != null) _pursuers.Remove(entity);
+    }
 
     private void Pursue()
     {

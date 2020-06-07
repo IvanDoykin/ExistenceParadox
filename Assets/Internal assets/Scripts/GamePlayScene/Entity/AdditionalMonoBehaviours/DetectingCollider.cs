@@ -6,6 +6,7 @@ using UnityEngine;
 public class DetectingCollider : MonoBehaviour, IEventTrigger
 {
     private Entity _entity;
+    private bool _isTriggering;
 
     private void Start()
     {
@@ -19,6 +20,22 @@ public class DetectingCollider : MonoBehaviour, IEventTrigger
 
     private void OnTriggerEnter(Collider otherCollider)
     {
+        _isTriggering = true;
         TriggerEvent($"{_entity.name}{DetectingEvents.EntityColliderTriggered}", otherCollider, _entity);
+    }
+
+    private void OnTriggerExit(Collider otherCollider)
+    {
+        _isTriggering = false;
+        StartCoroutine(CountdownAfterTriggerExit(otherCollider));
+    }
+
+    IEnumerator CountdownAfterTriggerExit(Collider otherCollider)
+    {
+        yield return new WaitForSeconds(6);
+        if (_isTriggering == false)
+        {
+            TriggerEvent($"{_entity.name}{DetectingEvents.EntityColliderExit}", otherCollider, _entity);
+        }
     }
 }

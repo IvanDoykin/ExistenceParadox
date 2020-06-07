@@ -6,23 +6,39 @@ using UnityEngine;
 using Object = System.Object;
 
 [CreateAssetMenu(fileName = "Detecting", menuName = "CustomBehaviours/Detecting")]
-public class DetectingBehaviour : CustomBehaviour, IState
+public class DetectingBehaviour : CustomBehaviour
 {
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity entity)
     {
         Subscribe();
     }
 
-    private void DetectNearEntities<T, TDetectingEntityName>(T collidedEntity, TDetectingEntityName detectingEntity)
+    private void RecognitionNearEntities<TEntity, TDetectingEntity>(TEntity otherCollidedEntity,
+        TDetectingEntity detectingEntity)
     {
-        var collider = (collidedEntity as Collider);
+        var collider = (otherCollidedEntity as Collider);
         if (collider != null && collider.name == "Person")
         {
             var entity = (detectingEntity as Entity);
             if (entity != null)
             {
                 TriggerEvent(DetectingEvents.PlayerHasBeenDetected + $"by:{entity.name}", entity);
-                ChangeCurrentState(entity);
+                ChangeStateToPursuingAPlayer(entity);
+            }
+        }
+    }
+
+    private void MissNearEntities<TEntity, TMissingEntity>(TEntity otherCollidedEntity,
+        TMissingEntity missingEntity)
+    {
+        var collider = (otherCollidedEntity as Collider);
+        if (collider != null && collider.name == "Person")
+        {
+            var entity = (missingEntity as Entity);
+            if (entity != null)
+            {
+                TriggerEvent(DetectingEvents.PlayerHasBeenMissed + $"by:{entity.name}", entity);
+                ChangeStateToRelax(entity);
             }
         }
     }
@@ -31,13 +47,17 @@ public class DetectingBehaviour : CustomBehaviour, IState
     public override void Subscribe()
     {
         ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityColliderTriggered}",
-            DetectNearEntities);
+            RecognitionNearEntities);
+        ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityColliderExit}",
+            MissNearEntities);
     }
 
     public override void UnSubscribe()
     {
         ManagerEvents.StopListening($"{EntityInstance.name}{DetectingEvents.EntityColliderTriggered}",
-            DetectNearEntities);
+            RecognitionNearEntities);
+        ManagerEvents.StopListening($"{EntityInstance.name}{DetectingEvents.EntityColliderExit}",
+            MissNearEntities);
     }
 
     protected override void ClearModule()
@@ -50,7 +70,7 @@ public class DetectingBehaviour : CustomBehaviour, IState
         ManagerEvents.CheckTriggeringEvent(eventName, arguments);
     }
 
-    public void ChangeCurrentState(Entity entity)
+    private void ChangeStateToPursuingAPlayer(Entity entity)
     {
         if (EntitiesDataDictionary.TryGetValue(entity, out Dictionary<string, Data> pursuerEntity))
         {
@@ -62,5 +82,19 @@ public class DetectingBehaviour : CustomBehaviour, IState
         }
 
         entity.currentState = $"{entity.name}: Pursuing a player";
+    }
+
+    private void ChangeStateToRelax(Entity entity)
+    {
+        if (EntitiesDataDictionary.TryGetValue(entity, out Dictionary<string, Data> pursuerEntity))
+        {
+            for (int componentNumber = 0; componentNumber < pursuerEntity.Count; componentNumber++)
+            {
+                pursuerEntity.Values.ElementAt(componentNumber).IsDisabled =
+                    pursuerEntity.Keys.ElementAt(componentNumber) == "PursueData";
+            }
+        }
+
+        entity.currentState = $"{entity.name}: Relaxed";
     }
 }

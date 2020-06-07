@@ -59,11 +59,10 @@ public abstract class CustomBehaviour : ScriptableObject, IEventTrigger, IEventS
     private void ShutdownCurrentInstanceModule<T>(T currentEntityData)
     {
         var entityData = (currentEntityData as Entity);
+        ClearModule();
         if (entityData != null)
-            ClearModule();
-        EntitiesDataDictionary.Remove(entityData);
+            EntitiesDataDictionary.Remove(entityData);
     }
-
 
     private void AddToUpdateManager()
     {
