@@ -5,7 +5,9 @@ using UnityEngine;
 public static class DetectingEvents
 {
     public const string PlayerHasBeenDetected = "PlayerHasBeenDetected";
-    public const string EntityColliderTriggered = "ColliderTriggered";
-    public const string EntityColliderExit = "ColliderExit";
+    public const string EntityDetectingColliderTriggered = "EntityDetectingColliderTriggered";
+    public const string EntityDetectingColliderExit = "EntityDetectingColliderExit";
     public const string PlayerHasBeenMissed = "PlayerHasBeenMissed";
+    public const string PlayerEnteredTheRadiusOfMeleeAttack = "PlayerEnteredTheRadiusOfMeleeAttack";
+    public const string PlayerExitTheRadiusOfMeleeAttack = "PlayerExitTheRadiusOfMeleeAttack";
 }

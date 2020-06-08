@@ -13,32 +13,48 @@ public class DetectingBehaviour : CustomBehaviour
         Subscribe();
     }
 
-    private void RecognitionNearEntities<TEntity, TDetectingEntity>(TEntity otherCollidedEntity,
-        TDetectingEntity detectingEntity)
+    private void RecognitionNearEntities<TEntity, TDetectingEntity, TDetectingCollider>(TEntity otherCollidedEntity,
+        TDetectingEntity detectingEntity, TDetectingCollider detectingColliderName)
     {
-        var collider = (otherCollidedEntity as Collider);
-        if (collider != null && collider.name == "Person")
+        var currentColliderName = detectingColliderName as string;
+        var otherCollider = (otherCollidedEntity as Collider);
+        if (otherCollider != null && otherCollider.name == "Person")
         {
             var entity = (detectingEntity as Entity);
             if (entity != null)
             {
-                TriggerEvent(DetectingEvents.PlayerHasBeenDetected + $"by:{entity.name}", entity);
-                ChangeStateToPursuingAPlayer(entity);
+                switch (currentColliderName)
+                {
+                    case "DetectingCollider":
+                        TriggerEvent(DetectingEvents.PlayerHasBeenDetected + $"by:{entity.name}", entity);
+                        break;
+                    case "MeleeAttackCollider":
+                        TriggerEvent(DetectingEvents.PlayerEnteredTheRadiusOfMeleeAttack + $"by:{entity.name}", entity);
+                        break;
+                }
             }
         }
     }
 
-    private void MissNearEntities<TEntity, TMissingEntity>(TEntity otherCollidedEntity,
-        TMissingEntity missingEntity)
+    private void MissNearEntities<TEntity, TMissingEntity, TDetectingCollider>(TEntity otherCollidedEntity,
+        TMissingEntity missingEntity, TDetectingCollider detectingColliderName)
     {
+        var currentColliderName = detectingColliderName as string;
         var collider = (otherCollidedEntity as Collider);
         if (collider != null && collider.name == "Person")
         {
             var entity = (missingEntity as Entity);
             if (entity != null)
             {
-                TriggerEvent(DetectingEvents.PlayerHasBeenMissed + $"by:{entity.name}", entity);
-                ChangeStateToRelax(entity);
+                switch (currentColliderName)
+                {
+                    case "DetectingCollider":
+                        TriggerEvent(DetectingEvents.PlayerHasBeenMissed + $"by:{entity.name}", entity);
+                        break;
+                    case "MeleeAttackCollider":
+                        TriggerEvent(DetectingEvents.PlayerExitTheRadiusOfMeleeAttack + $"by:{entity.name}", entity);
+                        break;
+                }
             }
         }
     }
@@ -46,17 +62,25 @@ public class DetectingBehaviour : CustomBehaviour
 
     public override void Subscribe()
     {
-        ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityColliderTriggered}",
+        ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityDetectingColliderTriggered}",
             RecognitionNearEntities);
-        ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityColliderExit}",
+        ManagerEvents.StartListening($"{EntityInstance.name}{DetectingEvents.EntityDetectingColliderExit}",
+            MissNearEntities);
+        ManagerEvents.StartListening($"{EntityInstance.name}{MeleeAttackEvents.MeleeAttackIsOnAvailableNow}",
+            RecognitionNearEntities);
+        ManagerEvents.StartListening($"{EntityInstance.name}{MeleeAttackEvents.MeleeAttackIsNotAvailableNow}",
             MissNearEntities);
     }
 
     public override void UnSubscribe()
     {
-        ManagerEvents.StopListening($"{EntityInstance.name}{DetectingEvents.EntityColliderTriggered}",
+        ManagerEvents.StopListening($"{EntityInstance.name}{DetectingEvents.EntityDetectingColliderTriggered}",
             RecognitionNearEntities);
-        ManagerEvents.StopListening($"{EntityInstance.name}{DetectingEvents.EntityColliderExit}",
+        ManagerEvents.StopListening($"{EntityInstance.name}{DetectingEvents.EntityDetectingColliderExit}",
+            MissNearEntities);
+        ManagerEvents.StopListening($"{EntityInstance.name}{MeleeAttackEvents.MeleeAttackIsOnAvailableNow}",
+            RecognitionNearEntities);
+        ManagerEvents.StopListening($"{EntityInstance.name}{MeleeAttackEvents.MeleeAttackIsNotAvailableNow}",
             MissNearEntities);
     }
 
@@ -68,33 +92,5 @@ public class DetectingBehaviour : CustomBehaviour
     public override void TriggerEvent(string eventName, params Object[] arguments)
     {
         ManagerEvents.CheckTriggeringEvent(eventName, arguments);
-    }
-
-    private void ChangeStateToPursuingAPlayer(Entity entity)
-    {
-        if (EntitiesDataDictionary.TryGetValue(entity, out Dictionary<string, Data> pursuerEntity))
-        {
-            for (int componentNumber = 0; componentNumber < pursuerEntity.Count; componentNumber++)
-            {
-                pursuerEntity.Values.ElementAt(componentNumber).IsDisabled =
-                    pursuerEntity.Keys.ElementAt(componentNumber) != "PursueData";
-            }
-        }
-
-        entity.currentState = $"{entity.name}: Pursuing a player";
-    }
-
-    private void ChangeStateToRelax(Entity entity)
-    {
-        if (EntitiesDataDictionary.TryGetValue(entity, out Dictionary<string, Data> pursuerEntity))
-        {
-            for (int componentNumber = 0; componentNumber < pursuerEntity.Count; componentNumber++)
-            {
-                pursuerEntity.Values.ElementAt(componentNumber).IsDisabled =
-                    pursuerEntity.Keys.ElementAt(componentNumber) == "PursueData";
-            }
-        }
-
-        entity.currentState = $"{entity.name}: Relaxed";
     }
 }

@@ -226,6 +226,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235399478}
   m_CullTransparentMesh: 0
+--- !u!1 &267229982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 267229983}
+  - component: {fileID: 267229985}
+  - component: {fileID: 267229984}
+  m_Layer: 0
+  m_Name: MeleeAttackCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &267229983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267229982}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 362830006}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &267229984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267229982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcd1d3f4fd82e184aa23b9ffa4545ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &267229985
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267229982}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.57, y: 2.57, z: 2.57}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &362830006 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 643010654388840527, guid: f83269831431c1b4f957b5c3b73f92f6,
@@ -1277,7 +1334,7 @@ PrefabInstance:
     - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
       propertyPath: behavioursList.array.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
         type: 3}
@@ -1340,6 +1397,12 @@ PrefabInstance:
       propertyPath: behavioursList.array.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: fa23e8dbbac85db4ba140c03294c5dda,
+        type: 2}
+    - target: {fileID: 6282349036197087988, guid: f83269831431c1b4f957b5c3b73f92f6,
+        type: 3}
+      propertyPath: behavioursList.array.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: de21da739423af647994792dcc23360a,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83269831431c1b4f957b5c3b73f92f6, type: 3}

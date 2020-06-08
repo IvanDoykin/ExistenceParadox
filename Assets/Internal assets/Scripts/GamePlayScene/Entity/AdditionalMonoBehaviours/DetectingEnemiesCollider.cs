@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectingCollider : MonoBehaviour, IEventTrigger
+public class DetectingEnemiesCollider : MonoBehaviour, IEventTrigger
 {
     private Entity _entity;
     private bool _isTriggering;
+    private string _currentColliderName;
 
     private void Start()
     {
         _entity = GetComponentInParent<Entity>();
+        _currentColliderName = name;
     }
 
     public void TriggerEvent(string eventName, params dynamic[] arguments)
@@ -21,7 +23,8 @@ public class DetectingCollider : MonoBehaviour, IEventTrigger
     private void OnTriggerEnter(Collider otherCollider)
     {
         _isTriggering = true;
-        TriggerEvent($"{_entity.name}{DetectingEvents.EntityColliderTriggered}", otherCollider, _entity);
+        TriggerEvent($"{_entity.name}{DetectingEvents.EntityDetectingColliderTriggered}", otherCollider, _entity,
+            _currentColliderName);
     }
 
     private void OnTriggerExit(Collider otherCollider)
@@ -35,7 +38,8 @@ public class DetectingCollider : MonoBehaviour, IEventTrigger
         yield return new WaitForSeconds(6);
         if (_isTriggering == false)
         {
-            TriggerEvent($"{_entity.name}{DetectingEvents.EntityColliderExit}", otherCollider, _entity);
+            TriggerEvent($"{_entity.name}{DetectingEvents.EntityDetectingColliderExit}", otherCollider, _entity,
+                _currentColliderName);
         }
     }
 }

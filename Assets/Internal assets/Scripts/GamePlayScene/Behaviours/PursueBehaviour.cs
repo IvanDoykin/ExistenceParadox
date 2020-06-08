@@ -50,17 +50,24 @@ public class PursueBehaviour : CustomBehaviour, ITick
     }
 
     private void TakeACloserLook<TDetectingEntity>(
-        TDetectingEntity detectingEntityName)
+        TDetectingEntity detectingEntity)
     {
-        Entity entity = detectingEntityName as Entity;
-        if (entity != null) _pursuers.Add(entity);
+        Entity entity = detectingEntity as Entity;
+        if (entity != null)
+        {
+            _pursuers.Add(entity);
+            ChangeStateToPursuingAPlayer(entity);
+        }
     }
 
     private void StopBeingAPursuer<TMissingEntity>(TMissingEntity missingEntity)
     {
-        Debug.Log("NearEntities");
         Entity entity = missingEntity as Entity;
-        if (entity != null) _pursuers.Remove(entity);
+        if (entity != null)
+        {
+            _pursuers.Remove(entity);
+            ChangeStateToRelax(entity);
+        }
     }
 
     private void Pursue()
@@ -77,5 +84,33 @@ public class PursueBehaviour : CustomBehaviour, ITick
                 }
             }
         }
+    }
+
+    private void ChangeStateToPursuingAPlayer(Entity entity)
+    {
+        if (EntitiesDataDictionary.TryGetValue(entity, out Dictionary<string, Data> pursuerEntity))
+        {
+            for (int componentNumber = 0; componentNumber < pursuerEntity.Count; componentNumber++)
+            {
+                pursuerEntity.Values.ElementAt(componentNumber).IsDisabled =
+                    pursuerEntity.Keys.ElementAt(componentNumber) != "PursueData";
+            }
+        }
+
+        entity.currentState = $"{entity.name}: Pursuing a player";
+    }
+
+    private void ChangeStateToRelax(Entity entity)
+    {
+        if (EntitiesDataDictionary.TryGetValue(entity, out Dictionary<string, Data> pursuerEntity))
+        {
+            for (int componentNumber = 0; componentNumber < pursuerEntity.Count; componentNumber++)
+            {
+                pursuerEntity.Values.ElementAt(componentNumber).IsDisabled =
+                    pursuerEntity.Keys.ElementAt(componentNumber) == "PursueData";
+            }
+        }
+
+        entity.currentState = $"{entity.name}: Relaxed";
     }
 }
