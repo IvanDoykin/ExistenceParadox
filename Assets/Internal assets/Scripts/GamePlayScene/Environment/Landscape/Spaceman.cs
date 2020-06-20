@@ -7,7 +7,7 @@ public class Spaceman : MonoBehaviour, ITick
 
     public delegate void CoordinatesChanging();
     public static event CoordinatesChanging CoordinatesChanged;
-
+    
     public delegate void SendChanging(int x, int z);
     public static event SendChanging SendChange;
 
@@ -20,10 +20,10 @@ public class Spaceman : MonoBehaviour, ITick
     private void Start()
     {
         ManagerUpdate.AddTo(this);
-
+        
         coordinating = GetComponent<Coordinating>();
         coordinatesData = GetComponent<CoordinatesData>();
-
+        
         CoordinatesChanged += coordinating.SetUpCoordinates;
         CoordinatesChanged();
 
@@ -38,7 +38,6 @@ public class Spaceman : MonoBehaviour, ITick
         if ((previousX != coordinatesData.x) || (previousZ != coordinatesData.z))
         {
             SendChange(coordinatesData.x - previousX, coordinatesData.z - previousZ);
-            Debug.Log("call event");
 
             previousX = coordinatesData.x;
             previousZ = coordinatesData.z;

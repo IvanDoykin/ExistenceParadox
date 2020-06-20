@@ -50,8 +50,8 @@ public class ManagerUpdate : ManagerBase, IAwake
     {
         for (var i = 0; i < ticks.Count; i++)
         {
-            if(ticks[i]!=null)
-            ticks[i].Tick();
+            if (ticks[i] != null)
+                ticks[i].Tick();
         }
     }
 
