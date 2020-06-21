@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Packages.Rider.Editor;
 using UnityEngine;
 using UnityEngine.AI;
+using Object = System.Object;
+
+// ReSharper disable CheckNamespace
 
 [CreateAssetMenu(fileName = "Pursue", menuName = "CustomBehaviours/Pursue")]
 public class PursueBehaviour : CustomBehaviour, ITick
 {
-    readonly List<Entity> _pursuers = new List<Entity>();
-    public TickData tickData { get; set; }
+    private readonly List<PursueDataCash> pursuers = new List<PursueDataCash>();
+
+    public TickData tickData { get; set;}
 
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
@@ -15,6 +23,8 @@ public class PursueBehaviour : CustomBehaviour, ITick
         tickData.needTick = 30;
 
         Subscribe();
+
+        PursueDataCash pursueDataCash = new PursueDataCash(instance);
     }
 
     public void Tick()
@@ -44,7 +54,7 @@ public class PursueBehaviour : CustomBehaviour, ITick
 
     protected override void ClearModule()
     {
-        _pursuers?.Clear();
+        pursuers?.Clear();
         UnSubscribe();
     }
 
@@ -54,7 +64,7 @@ public class PursueBehaviour : CustomBehaviour, ITick
         Entity entity = detectingEntity as Entity;
         if (entity != null)
         {
-            _pursuers.Add(entity);
+            pursuers.Add(new PursueDataCash(entity));
             ChangeStateToPursuingAPlayer(entity);
         }
     }
@@ -62,25 +72,28 @@ public class PursueBehaviour : CustomBehaviour, ITick
     private void StopBeingAPursuer<TMissingEntity>(TMissingEntity missingEntity)
     {
         Entity entity = missingEntity as Entity;
+
+        for (int pursuerNumber = 0; pursuerNumber < pursuers.Count; pursuerNumber++)
+        {
+            if (entity != null && pursuers[pursuerNumber].entity.name == entity.name)
+            {
+                pursuers.Remove(pursuers[pursuerNumber]);
+            }
+        }
+
         if (entity != null)
         {
-            _pursuers.Remove(entity);
             ChangeStateToRelax(entity);
         }
     }
 
     private void Pursue()
     {
-        foreach (var pursuer in _pursuers)
+        foreach (PursueDataCash pursuer in pursuers)
         {
-            if (EntitiesDataDictionary.TryGetValue(pursuer, out Dictionary<string, Data> pursuerEntity))
+            if (pursuer.pursueData != null && pursuer.pursueData.IsDisabled != true)
             {
-                pursuerEntity.TryGetValue("PursueData", out var receivedData);
-                PursueData pursueData = (PursueData) receivedData;
-                if (pursueData != null && pursueData.IsDisabled != true)
-                {
-                    pursueData.navMeshAgent.destination = pursueData.player.transform.position;
-                }
+                pursuer.pursueData.navMeshAgent.destination = pursuer.pursueData.player.transform.position;
             }
         }
     }
