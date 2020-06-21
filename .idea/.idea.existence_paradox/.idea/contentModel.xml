@@ -11,6 +11,9 @@
           <e p="Scripts" t="Include">
             <e p="GamePlayScene" t="Include">
               <e p="Behaviours" t="Include">
+                <e p="CashClasses" t="Include">
+                  <e p="PursueDataCash.cs" t="Include" />
+                </e>
                 <e p="CustomBehaviour.cs" t="Include" />
                 <e p="DefaultValueBehaviour.cs" t="Include" />
                 <e p="DetectingBehaviour.cs" t="Include" />

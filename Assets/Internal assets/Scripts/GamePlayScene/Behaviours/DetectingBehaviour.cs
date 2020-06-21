@@ -39,11 +39,11 @@ public class DetectingBehaviour : CustomBehaviour
     private void MissNearEntities<TEntity, TMissingEntity, TDetectingCollider>(TEntity otherCollidedEntity,
         TMissingEntity missingEntity, TDetectingCollider detectingColliderName)
     {
-        var currentColliderName = detectingColliderName as string;
-        var collider = (otherCollidedEntity as Collider);
+        string currentColliderName = detectingColliderName as string;
+        Collider collider = (otherCollidedEntity as Collider);
         if (collider != null && collider.name == "Person")
         {
-            var entity = (missingEntity as Entity);
+            Entity entity = (missingEntity as Entity);
             if (entity != null)
             {
                 switch (currentColliderName)
