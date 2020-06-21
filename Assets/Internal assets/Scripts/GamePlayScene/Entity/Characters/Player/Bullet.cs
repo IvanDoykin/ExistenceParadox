@@ -4,7 +4,8 @@ public class Bullet : MonoBehaviour, ITick
 {
 	public int damage = 50;                     //write in VK 
 	private float lifeTime = 10f;               //for discussion
-    public string[] targetTags = { "Enemy" };   
+    public string[] targetTags = { "Enemy" };
+    public TickData tickData { get; set; }
 
     private void Start()
     {

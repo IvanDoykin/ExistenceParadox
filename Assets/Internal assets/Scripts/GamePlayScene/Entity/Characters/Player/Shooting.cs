@@ -12,6 +12,7 @@ public class Shooting : MonoBehaviour, ITick
 	public float timeout = 0.5f;
 	private float curTimeout;
     //lines 8-13
+    public TickData tickData { get; set; }
 
     private void Start()
     {

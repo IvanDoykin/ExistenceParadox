@@ -16,6 +16,7 @@ public class Spaceman : MonoBehaviour, ITick
 
     private int previousX;
     private int previousZ;
+    public TickData tickData { get; set; }
 
     private void Start()
     {

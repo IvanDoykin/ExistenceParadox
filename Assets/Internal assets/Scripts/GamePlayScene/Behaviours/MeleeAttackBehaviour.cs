@@ -6,9 +6,11 @@ using UnityEngine;
 public class MeleeAttackBehaviour : CustomBehaviour, ITick
 {
     readonly List<Entity> _meleeAttackers = new List<Entity>();
+    public TickData tickData { get; set; }
 
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
+        tickData = new TickData();
         Subscribe();
     }
 

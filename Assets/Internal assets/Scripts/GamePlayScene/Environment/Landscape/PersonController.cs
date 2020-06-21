@@ -5,9 +5,12 @@ public class PersonController : MonoBehaviour, ITick
     private CharacterController characterController;
     private float speed = 18.0f;
     private float gravity = -19f;
+    public TickData tickData { get; set; }
 
     private void Start()
     {
+        tickData = new TickData();
+
         ManagerUpdate.AddTo(this);
         characterController = GetComponent<CharacterController>();
     }

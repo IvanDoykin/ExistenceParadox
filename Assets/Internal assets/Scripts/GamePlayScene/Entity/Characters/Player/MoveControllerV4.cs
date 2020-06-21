@@ -38,6 +38,7 @@ public class MoveControllerV4 : MonoBehaviour, ITick, ITickFixed
     public float jumpForce = 550f;
 
     //lines 9-39
+    public TickData tickData { get; set; }
 
     void Awake()
     {

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// Апдейт менеджер позволяет использовать Update как и всегда он используется в unity,
@@ -10,7 +9,6 @@ public class ManagerUpdate : ManagerBase, IAwake
     private List<ITick> ticks = new List<ITick>(); //список для апдейтов
     private List<ITickFixed> ticksFixes = new List<ITickFixed>(); //список для фиксед апдейтов
     private List<ITickLate> ticksLate = new List<ITickLate>(); //список для лейт апдейтов
-
 
     /// <summary>
     /// Добавление в данный менеджер(в соответствующий список) реализации интерфесйсов ITick, ITickFixed, или ITickLate
@@ -50,8 +48,15 @@ public class ManagerUpdate : ManagerBase, IAwake
     {
         for (var i = 0; i < ticks.Count; i++)
         {
-            if (ticks[i] != null)
-                ticks[i].Tick();
+            if ((ticks[i] != null) && (ticks[i].tickData != null))
+            {
+                ticks[i].tickData.currentTick++;
+                if (ticks[i].tickData.currentTick >= ticks[i].tickData.needTick)
+                {
+                    ticks[i].tickData.currentTick = 0;
+                    ticks[i].Tick();
+                }
+            }
         }
     }
 
