@@ -55,7 +55,7 @@ public class LookBehaviour : CustomBehaviour, ITick
             if (EntitiesDataDictionary.TryGetValue(player, out Dictionary<string, Data> playerEntity))
             {
                 playerEntity.TryGetValue("PersData", out var receivedData);
-                var persData = (PersData)receivedData;
+                var persData = (PlayerMovementData)receivedData;
                 if (persData != null && persData.IsDisabled != true)
                 {
                     if (persData.axes == RotationAxes.MouseX)

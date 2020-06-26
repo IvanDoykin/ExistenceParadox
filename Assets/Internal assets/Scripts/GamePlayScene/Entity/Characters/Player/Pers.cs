@@ -6,7 +6,7 @@ using TopAdventure.Unity;
 public class Pers : Entity
 {
     [Foldout("DATA", true)]
-    [SerializeField] private PersData personData;
+    [SerializeField] private PlayerMovementData personData;
 
     private void Awake()
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class PersData : Data
+public class PlayerMovementData : Data
 {
     public RotationAxes axes = RotationAxes.MouseXAndY;
     public Rigidbody rigidbody;
