@@ -40,6 +40,7 @@ public class MoveControllerV3 : MonoBehaviour, ITick, ITickFixed
                                 //again 2 empty lines
     private bool isGrounded;
     //lines 9-42
+    public TickData tickData { get; set; }
 
     private void Awake() //good - 'private' is there :)
     {

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using Object = System.Object;
 
@@ -39,11 +38,11 @@ public class DetectingBehaviour : CustomBehaviour
     private void MissNearEntities<TEntity, TMissingEntity, TDetectingCollider>(TEntity otherCollidedEntity,
         TMissingEntity missingEntity, TDetectingCollider detectingColliderName)
     {
-        string currentColliderName = detectingColliderName as string;
-        Collider collider = (otherCollidedEntity as Collider);
+        var currentColliderName = detectingColliderName as string;
+        var collider = (otherCollidedEntity as Collider);
         if (collider != null && collider.name == "Person")
         {
-            Entity entity = (missingEntity as Entity);
+            var entity = (missingEntity as Entity);
             if (entity != null)
             {
                 switch (currentColliderName)

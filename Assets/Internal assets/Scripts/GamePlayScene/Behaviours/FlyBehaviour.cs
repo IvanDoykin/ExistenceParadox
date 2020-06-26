@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Fly", menuName = "CustomBehaviours/FlyBehaviour")]
 public class FlyBehaviour : CustomBehaviour, ITick
 {
+    public TickData tickData { get; set; }
+
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
     }

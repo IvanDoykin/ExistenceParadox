@@ -2,22 +2,18 @@
 
 public class MouseLook : MonoBehaviour, ITick
 {
-    public enum RotationAxes
-    {
-        MouseXAndY = 0,
-        MouseX = 1,
-        MouseY = 2
-    }
-
     public RotationAxes axes = RotationAxes.MouseXAndY;
     public float sensitivityHor = 9.0f;
     public float sensitivityVert = 9.0f;
     public float minimumVert = -45.0f;
     public float maximumVert = 45.0f;
     private float rotationX = 0;
+    public TickData tickData { get; set; }
 
     void Start()
     {
+        tickData = new TickData();
+
         ManagerUpdate.AddTo(this);
 
         Rigidbody body = GetComponent<Rigidbody>();

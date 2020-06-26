@@ -7,6 +7,7 @@ public class Speedometer : MonoBehaviour, ITick
 {
     [SerializeField] private MoveControllerV3 controllerV3;
     TextMeshProUGUI text;
+    public TickData tickData { get; set; }
 
     private void Start()
     {

@@ -7,6 +7,7 @@ public class Mele : MonoBehaviour, ITick //maybe 'Melee'?
 {
     [SerializeField] private Transform attackPoint;
     private int damage = 50;
+    public TickData tickData { get; set; }
 
     private void Start()
     {

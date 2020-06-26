@@ -6,9 +6,11 @@ using UnityEngine;
 public class MeleeAttackBehaviour : CustomBehaviour, ITick
 {
     readonly List<Entity> _meleeAttackers = new List<Entity>();
+    public TickData tickData { get; set; }
 
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
+        tickData = new TickData();
         Subscribe();
     }
 
@@ -37,18 +39,18 @@ public class MeleeAttackBehaviour : CustomBehaviour, ITick
 
     private void ToAttackOfMelee()
     {
-        foreach (Entity attacker in _meleeAttackers)
+        foreach (var attacker in _meleeAttackers)
         {
             if (EntitiesDataDictionary.TryGetValue(attacker, out Dictionary<string, Data> attackerEntity))
             {
-                attackerEntity.TryGetValue("meleeAttackData", out Data receivedData);
-                PursueData meleeAttackData = (PursueData) receivedData;
-                // if (meleeAttackData != null && meleeAttackData.IsDisabled != true)
-                // {
-                //     meleeAttackData.navMeshAgent.destination = meleeAttackData.player.transform.position;
-                // }
+                attackerEntity.TryGetValue("meleeAttackData", out var receivedData);
+                var meleeAttackData = (PursueData) receivedData;
+                if (meleeAttackData != null && meleeAttackData.IsDisabled != true)
+                {
+                    meleeAttackData.navMeshAgent.destination = meleeAttackData.player.transform.position;
+                }
             }
-        } 
+        }
     }
 
     private void PrepareWeapon<TDetectingEntity>(

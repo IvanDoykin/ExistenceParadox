@@ -2,8 +2,8 @@
 
 public class ChunkData : MonoBehaviour
 {
-    public float range = 0; //height 'strength'
-    public float smallerRange = 0;//allow change generating mode (smaller - flatter, bigger - 'hilly')
+    public float range = 2; //height 'strength'
+    public float smallerRange = 2;//allow change generating mode (smaller - flatter, bigger - 'hilly')
 
     [HideInInspector] public const int metric = 16;
     [HideInInspector] public const int size = 8;

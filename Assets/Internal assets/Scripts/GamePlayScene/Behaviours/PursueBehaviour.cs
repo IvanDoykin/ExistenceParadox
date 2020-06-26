@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Packages.Rider.Editor;
 using UnityEngine;
 using UnityEngine.AI;
 using Object = System.Object;
@@ -15,8 +14,13 @@ public class PursueBehaviour : CustomBehaviour, ITick
 {
     private readonly List<PursueDataCash> pursuers = new List<PursueDataCash>();
 
+    public TickData tickData { get; set;}
+
     protected override void InitializeCurrentBehaviourByReceivedEntityInstance(Entity instance)
     {
+        tickData = new TickData();
+        tickData.needTick = 30;
+
         Subscribe();
 
         PursueDataCash pursueDataCash = new PursueDataCash(instance);

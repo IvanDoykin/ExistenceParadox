@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ITick
+public class TickData
 {
-    TickData tickData {get; set;}
-    void Tick();
+    public int currentTick = 0;
+    public int needTick = 1;
 }

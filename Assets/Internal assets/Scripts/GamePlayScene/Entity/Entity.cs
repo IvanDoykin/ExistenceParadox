@@ -21,6 +21,8 @@ public abstract class Entity : MonoBehaviour, ITick, IEventTrigger
 
     public Dictionary<string, Data> entityDataDictionary = new Dictionary<string, Data>();
 
+    public TickData tickData { get; set; }
+
     public delegate void ListState(Entity currentEntity);
 
     public event ListState BehavioursListChanged;
