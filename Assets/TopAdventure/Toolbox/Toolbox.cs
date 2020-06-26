@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using TopAdventure;
 
-
 public class Toolbox : Singleton<Toolbox>
 {  //делаем тулбокс синглтоном 
 

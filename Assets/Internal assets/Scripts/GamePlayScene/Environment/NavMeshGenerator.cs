@@ -6,38 +6,40 @@ using UnityEngine.Events;
 
 public class NavMeshGenerator : MonoBehaviour, IEventSub
 {
-                        //not need in empty line
-    [SerializeField]
-    private EventsCollection _chunkCreated; //with _
-    private NavMeshSurface navigation; //without _
-    //let's give private name without _ 
+    [SerializeField] private EventsCollection chunkCreated;
+    [SerializeField] private GameObject person;
+
+    private NavMeshSurface _navigation;
+
+    private const float needLength = 24f;
+
     void Awake()
     {
-        navigation = GetComponent<NavMeshSurface>();
+        _navigation = GetComponent<NavMeshSurface>();
         Subscribe();
-    } //add empty line
-    public void StartListening(string eventName, UnityAction listener)
-    {
-        ManagerEvents.StartListening(eventName, listener);
     }
 
-    public void StopListening(string eventName, UnityAction listener)
+    void Update()
     {
-        ManagerEvents.StopListening(eventName, listener);
+        if(Vector3.Distance(gameObject.transform.position, person.transform.position) >= needLength)
+        {
+            gameObject.transform.position = person.transform.position;
+            RemakeNavMesh();
+        }
     }
 
-    void RebakenavMesh() //better RebakeNavMesh
+    private void RemakeNavMesh()
     {
-        navigation.BuildNavMesh();
+        _navigation.BuildNavMesh();
     }
 
     public void Subscribe()
     {
-        StartListening(_chunkCreated.currentEvent, RebakenavMesh);
+        ManagerEvents.StartListening(chunkCreated.currentEvent, RemakeNavMesh);
     }
 
     public void UnSubscribe()
     {
-        StopListening(_chunkCreated.currentEvent, RebakenavMesh);
+        ManagerEvents.StopListening(chunkCreated.currentEvent, RemakeNavMesh);
     }
 }

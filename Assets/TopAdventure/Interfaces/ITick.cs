@@ -4,7 +4,6 @@ using UnityEngine;
 
 public interface ITick
 {
-
+    TickData tickData {get; set;}
     void Tick();
-
 }
