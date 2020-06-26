@@ -3,10 +3,7 @@ using UnityEngine;
 
 public class Starter : MonoBehaviour
 {
-
     public List<ManagerBase> managers = new List<ManagerBase>(); // список всех менеджеров
-
-
     void Awake()
     {
         Toolbox.ClearScene();
@@ -15,6 +12,4 @@ public class Starter : MonoBehaviour
             Toolbox.Add(managerBase); //менеджеры на старте проги(сцены) добавляются в тулбокс
         }
     }
-
-
 }
