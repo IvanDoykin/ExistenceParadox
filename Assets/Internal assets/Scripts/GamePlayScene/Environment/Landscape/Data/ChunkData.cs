@@ -3,7 +3,8 @@
 public class ChunkData : MonoBehaviour
 {
     public float range = 2; //height 'strength'
-    public float smallerRange = 2;//allow change generating mode (smaller - flatter, bigger - 'hilly')
+    public float rangeOffset = 0;
+    public float smallerRange = 0; //allow change generating mode (smaller - flatter, bigger - 'hilly')
 
     [HideInInspector] public const int metric = 16;
     [HideInInspector] public const int size = 8;
@@ -13,10 +14,13 @@ public class ChunkData : MonoBehaviour
     public Vector3[] dots = new Vector3[(size + 1) * (size + 1)]; //main dots = (size + 1) ^ 2 //for saving
 
     [HideInInspector] public Vector3[] vertices = new Vector3[size * size * 6]; //vertics = ordinalNumbers (IMPORTANT!)
-    [HideInInspector] public int[] ordinalNumbers = new int[size * size * 6]; //ordinalNumbers = verics (IMPORTANT!)
+    [HideInInspector] public int[] ordinalNumbers = new int[size * size * 6]; //ordinalNumbers = vertics (IMPORTANT!)
 
     [HideInInspector] public bool constructed = false; //is chunck constructed?
 
     [HideInInspector] public Mesh mesh;
     [HideInInspector] public int[] triangles;
+
+    [HideInInspector] public int argX = 0;
+    [HideInInspector] public int argZ = 0;
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class ChunkNameSetuper : MonoBehaviour
 {
-    public static event ChunkGenerating.GeneratingEvents GeneratingDone;
+    public static event SecondaryChunkGenerating.GeneratingEvents GeneratingDone;
 
     private ChunkNameData chunkNameData;
     private CoordinatesData coordinatesData;

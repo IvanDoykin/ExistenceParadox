@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 9006879815140472246}
   - component: {fileID: 9006879815140472248}
   - component: {fileID: 9006879815140472255}
-  - component: {fileID: 9006879815140472251}
-  - component: {fileID: 9006879815140472253}
+  - component: {fileID: 5567501146582331500}
+  - component: {fileID: 4908052287403077627}
   - component: {fileID: 9006879815140472252}
+  - component: {fileID: 9006879815140472253}
   m_Layer: 0
   m_Name: Chunk
   m_TagString: Untagged
@@ -91,8 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c9ce5bc2fcaf04dac01725ddf60838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 8
-  smallerRange: 3
+  range: 11
+  rangeOffset: 0
+  smallerRange: 0
   notCalculatedVecs: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   dots:
   - {x: 0, y: 0, z: 0}
@@ -589,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba6bcae84f7b02f4399c606830ec0839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9006879815140472251
+--- !u!114 &5567501146582331500
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -598,17 +600,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 9006879815140472245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3ac29cf6ae20fe49951a236d4e3afb6, type: 3}
+  m_Script: {fileID: 11500000, guid: 903b452ead0a79140b5e9d826e812e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!33 &9006879815140472253
-MeshFilter:
+  chunkCreated: {fileID: 11400000, guid: c731cb7fb5454e04aa6fc18aa333ba16, type: 2}
+--- !u!114 &4908052287403077627
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9006879815140472245}
-  m_Mesh: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b136809490ec34c8296d706e3f99c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &9006879815140472252
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -648,3 +655,11 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!33 &9006879815140472253
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9006879815140472245}
+  m_Mesh: {fileID: 0}

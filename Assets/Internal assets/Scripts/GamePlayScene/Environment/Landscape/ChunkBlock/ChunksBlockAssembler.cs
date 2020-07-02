@@ -5,12 +5,11 @@ using Object = System.Object;
 //[RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(ChunksBlockAssemblerData))]
-public class ChunksBlockAssembler : MonoBehaviour, IEventTrigger
+public class ChunksBlockAssembler : MonoBehaviour
 {
     ChunksBlockAssemblerData assemblerData;
-    [SerializeField] private EventsCollection chunkCreated;
-    public static event ChunkGenerating.GeneratingEvents GeneratingDone;
-    public static event ChunksBlock.ChunkAssembly AssemblyChunk;
+    //public static event SecondaryChunkGenerating.GeneratingEvents GeneratingDone;
+    // static event ChunksBlock.ChunkAssembly AssemblyChunk;
 
     private void Start()
     {
@@ -61,7 +60,6 @@ public class ChunksBlockAssembler : MonoBehaviour, IEventTrigger
 
         gameObject.transform.position = chunksBlockPosition;
         MeshCollider meshCol = this.gameObject.AddComponent<MeshCollider>();
-        TriggerEvent(chunkCreated.currentEvent);
     }
 
     private void DeleteOldChunksBlock()
@@ -74,10 +72,5 @@ public class ChunksBlockAssembler : MonoBehaviour, IEventTrigger
     {
         DeleteOldChunksBlock();
         AssemblyChunksBlock();
-    }
-
-    public void TriggerEvent(string eventName, params Object[] arguments)
-    {
-        ManagerEvents.CheckTriggeringEvent(eventName);
     }
 }

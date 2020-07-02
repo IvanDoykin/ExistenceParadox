@@ -2618,12 +2618,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364032040}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f1dc936b0e67a1498f34ccb43670515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkCreated: {fileID: 11400000, guid: c731cb7fb5454e04aa6fc18aa333ba16, type: 2}
   person: {fileID: 1430672201}
 --- !u!1 &386690279 stripped
 GameObject:
@@ -11296,7 +11295,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1701782087
 Transform:
   m_ObjectHideFlags: 0
@@ -12577,6 +12576,7 @@ GameObject:
   - component: {fileID: 1808647740}
   - component: {fileID: 1808647738}
   - component: {fileID: 1808647737}
+  - component: {fileID: 1808647739}
   m_Layer: 0
   m_Name: Landscape
   m_TagString: Untagged
@@ -12605,12 +12605,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808647735}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa115ee41f7cef74aa2c3457311bed6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkCreated: {fileID: 11400000, guid: c731cb7fb5454e04aa6fc18aa333ba16, type: 2}
 --- !u!114 &1808647738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12621,6 +12620,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2cdf3333a94b21c46a4dabbbf2244f88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1808647739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808647735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953321ae228569f43aa4d212b9a93fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1808647740
