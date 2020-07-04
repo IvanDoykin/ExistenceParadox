@@ -31,6 +31,9 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventTrigger
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
+            if (chunk.fullUpdated)
+                return;
+
             gameObject.GetComponent<MeshFilter>().mesh.Clear();
 
             CreateMesh();
