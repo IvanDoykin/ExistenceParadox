@@ -32,147 +32,14 @@ public class ChunksBlock : MonoBehaviour
         StarterGenerating();
     }
 
+    #region LinkChunks
+
     public void LinkChunk(CoordinatesData coordinatesData)
     {
         int x = coordinatesData.x - chunksBlockData.zeroPointX;
         int z = coordinatesData.z - chunksBlockData.zeroPointZ;
 
         LinkChunk(x, z);
-    }
-
-    public void ChunksUpdate(int offsetX, int offsetZ)
-    {
-        //chunksAssembler.SetNeedGeneratedChunks(Mathf.Abs(offsetX) * ChunksBlockData.chunksBlockSize + Mathf.Abs(offsetZ) * ChunksBlockData.chunksBlockSize - Mathf.Abs(offsetX) * Mathf.Abs(offsetZ));
-
-        ChangeZeroPoints(offsetX, offsetZ);
-        ChunksMassiveUpdate(offsetX, offsetZ);
-        ChunksFilling();
-    }
-
-    private void ChangeZeroPoints(int offsetX, int offsetZ)
-    {
-        chunksBlockData.zeroPointX += offsetX;
-        chunksBlockData.zeroPointZ += offsetZ;
-    }
-
-    private void ChunksMassiveUpdate(int offsetX, int offsetZ)
-    {
-        ChunkData[,] buffer = new ChunkData[ChunksBlockData.chunksBlockSize, ChunksBlockData.chunksBlockSize];
-
-        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
-        {
-            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
-            {
-                bool iIsOverflow = ((i - offsetX) >= ChunksBlockData.chunksBlockSize) || ((i - offsetX) < 0);
-                bool jIsOverflow = ((j - offsetZ) >= ChunksBlockData.chunksBlockSize) || ((j - offsetZ) < 0);
-
-                if (iIsOverflow || jIsOverflow)
-                {
-                    if (ChunksBlockData.chunks[i, j] != null)
-                    {
-                        Destroy(ChunksBlockData.chunks[i, j].gameObject);
-                        ChunksBlockData.chunks[i, j] = null;
-                    }
-                }
-
-                else
-                {
-                    buffer[i - offsetX, j - offsetZ] = ChunksBlockData.chunks[i, j];
-                }
-            }
-        }
-
-        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
-        {
-            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
-            {
-                ChunksBlockData.chunks[i, j] = buffer[i, j];
-            }
-        }
-    }
-
-    private void ChunksFilling()
-    {
-        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
-        {
-            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
-            {
-                if (ChunksBlockData.chunks[i, j] == null)
-                {
-                    CreateChunk(i - ChunksBlockData.halfChunkBlockSize, j - ChunksBlockData.halfChunkBlockSize);
-                }
-            }
-        }
-    }
-
-    private void StarterCoordinating()
-    {
-        chunksBlockData.zeroPointX = (int)SetUpCoordinate(transform.position.x) + ChunksBlockData.halfChunkBlockSize;
-        chunksBlockData.zeroPointZ = (int)SetUpCoordinate(transform.position.z) + ChunksBlockData.halfChunkBlockSize;
-    }
-
-    private void StarterGenerating()
-    {
-        CreateChunk(0,0); //chunks[0,0] isn't includes in algoryth of generating
-        CreateBlockOfChunks();
-    }
-
-    private void CreateBlockOfChunks()
-    {
-        for (int round = 1; round < ChunksBlockData.halfChunkBlockSize + 1; round++)
-        {
-            int coordinateX = -round;
-            int coordinateZ = -round;
-
-            while (coordinateZ < round)
-            {
-                CreateChunk(coordinateX, coordinateZ);
-                coordinateZ++;
-            }
-
-            while (coordinateX < round)
-            {
-                CreateChunk(coordinateX, coordinateZ);
-                coordinateX++;
-            }
-
-            while (coordinateZ > -round)
-            {
-                CreateChunk(coordinateX, coordinateZ);
-                coordinateZ--;
-            }
-
-            while (coordinateX > -round)
-            {
-                CreateChunk(coordinateX, coordinateZ);
-                coordinateX--;
-            }
-
-        }
-    }
-
-    private float SetUpCoordinate(float coordinate)
-    {
-        return (int)Mathf.Floor(coordinate / ChunkData.metric);
-    }
-
-    private float PopUpCoordinate(float coordinate)
-    {
-        return (coordinate * ChunkData.metric);
-    }
-
-    private void CreateChunk(int x, int z)
-    {
-        if (ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] != null)
-            return;
-
-        GameObject createdChunk = Instantiate(chunksBlockData.chunk, new Vector3(PopUpCoordinate(x + chunksBlockData.zeroPointX), 0, PopUpCoordinate(z + chunksBlockData.zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
-
-        createdChunk.GetComponent<ChunkData>().argX = x + ChunksBlockData.halfChunkBlockSize;
-        createdChunk.GetComponent<ChunkData>().argZ = z + ChunksBlockData.halfChunkBlockSize;
-
-        ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
-        createdChunk.GetComponent<ChunkData>().rangeOffset = Random.Range(-3,3); 
     }
 
     private void LinkChunk(int x, int z)
@@ -183,28 +50,28 @@ public class ChunksBlock : MonoBehaviour
         bool down = z != -ChunksBlockData.halfChunkBlockSize;
 
         if (right)
-           EqualEdgeDots(x, z, Directions.Right);
+            EqualEdgeDots(x, z, Directions.Right);
 
         if (left)
-           EqualEdgeDots(x, z, Directions.Left);
+            EqualEdgeDots(x, z, Directions.Left);
 
         if (down)
-           EqualEdgeDots(x, z, Directions.Down);
+            EqualEdgeDots(x, z, Directions.Down);
 
         if (up)
-           EqualEdgeDots(x, z, Directions.Up);
+            EqualEdgeDots(x, z, Directions.Up);
 
         if (right && down)
-           EqualEdgeDots(x, z, Directions.RightDown);
+            EqualEdgeDots(x, z, Directions.RightDown);
 
         if (right && up)
-           EqualEdgeDots(x, z, Directions.RightUp);
+            EqualEdgeDots(x, z, Directions.RightUp);
 
         if (left && down)
-           EqualEdgeDots(x, z, Directions.LeftDown);
+            EqualEdgeDots(x, z, Directions.LeftDown);
 
         if (left && up)
-           EqualEdgeDots(x, z, Directions.LeftUp);
+            EqualEdgeDots(x, z, Directions.LeftUp);
     }
 
     private void EqualEdgeDots(int x, int z, Directions direction)
@@ -316,4 +183,166 @@ public class ChunksBlock : MonoBehaviour
             }
         }
     }
+
+    #endregion
+
+    #region ChunksCoordination
+
+    private void StarterCoordinating()
+    {
+        chunksBlockData.zeroPointX = (int)SetUpCoordinate(transform.position.x) + ChunksBlockData.halfChunkBlockSize;
+        chunksBlockData.zeroPointZ = (int)SetUpCoordinate(transform.position.z) + ChunksBlockData.halfChunkBlockSize;
+    }
+
+    private float SetUpCoordinate(float coordinate)
+    {
+        return (int)Mathf.Floor(coordinate / ChunkData.metric);
+    }
+
+    private float PopUpCoordinate(float coordinate)
+    {
+        return (coordinate * ChunkData.metric);
+    }
+
+    #endregion
+
+    #region ChunksUpdate
+
+    public void ChunksUpdate(int offsetX, int offsetZ)
+    {
+        //chunksAssembler.SetNeedGeneratedChunks(Mathf.Abs(offsetX) * ChunksBlockData.chunksBlockSize + Mathf.Abs(offsetZ) * ChunksBlockData.chunksBlockSize - Mathf.Abs(offsetX) * Mathf.Abs(offsetZ));
+        ChunksStateUpdate();
+
+        ChangeZeroPoints(offsetX, offsetZ);
+        ChunksMassiveUpdate(offsetX, offsetZ);
+        ChunksFilling();
+    }
+
+    private void ChangeZeroPoints(int offsetX, int offsetZ)
+    {
+        chunksBlockData.zeroPointX += offsetX;
+        chunksBlockData.zeroPointZ += offsetZ;
+    }
+
+    private void ChunksMassiveUpdate(int offsetX, int offsetZ)
+    {
+        ChunkData[,] buffer = new ChunkData[ChunksBlockData.chunksBlockSize, ChunksBlockData.chunksBlockSize];
+
+        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
+        {
+            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
+            {
+                bool iIsOverflow = ((i - offsetX) >= ChunksBlockData.chunksBlockSize) || ((i - offsetX) < 0);
+                bool jIsOverflow = ((j - offsetZ) >= ChunksBlockData.chunksBlockSize) || ((j - offsetZ) < 0);
+
+                if (iIsOverflow || jIsOverflow)
+                {
+                    if (ChunksBlockData.chunks[i, j] != null)
+                    {
+                        Destroy(ChunksBlockData.chunks[i, j].gameObject);
+                        ChunksBlockData.chunks[i, j] = null;
+                    }
+                }
+
+                else
+                {
+                    buffer[i - offsetX, j - offsetZ] = ChunksBlockData.chunks[i, j];
+                }
+            }
+        }
+
+        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
+        {
+            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
+            {
+                ChunksBlockData.chunks[i, j] = buffer[i, j];
+            }
+        }
+    }
+
+    private void ChunksFilling()
+    {
+        for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)
+        {
+            for (int j = 0; j < ChunksBlockData.chunksBlockSize; j++)
+            {
+                if (ChunksBlockData.chunks[i, j] == null)
+                {
+                    CreateChunk(i - ChunksBlockData.halfChunkBlockSize, j - ChunksBlockData.halfChunkBlockSize);
+                }
+            }
+        }
+    }
+
+    private void ChunksStateUpdate()
+    {
+        for (int i = 1; i < (ChunksBlockData.chunksBlockSize - 1); i++)
+        {
+            for (int j = 1; (j < ChunksBlockData.chunksBlockSize - 1); j++)
+            {
+                ChunksBlockData.chunks[i, j].fullUpdated = true;
+            }
+        }
+    }
+
+    #endregion
+
+    #region StarterGenerating
+
+    private void StarterGenerating()
+    {
+        CreateChunk(0, 0); //chunks[0,0] isn't includes in algoryth of generating
+        CreateBlockOfChunks();
+    }
+
+    private void CreateBlockOfChunks()
+    {
+        for (int round = 1; round < ChunksBlockData.halfChunkBlockSize + 1; round++)
+        {
+            int coordinateX = -round;
+            int coordinateZ = -round;
+
+            while (coordinateZ < round)
+            {
+                CreateChunk(coordinateX, coordinateZ);
+                coordinateZ++;
+            }
+
+            while (coordinateX < round)
+            {
+                CreateChunk(coordinateX, coordinateZ);
+                coordinateX++;
+            }
+
+            while (coordinateZ > -round)
+            {
+                CreateChunk(coordinateX, coordinateZ);
+                coordinateZ--;
+            }
+
+            while (coordinateX > -round)
+            {
+                CreateChunk(coordinateX, coordinateZ);
+                coordinateX--;
+            }
+
+        }
+    }
+
+    #endregion
+
+    private void CreateChunk(int x, int z)
+    {
+        if (ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] != null)
+            return;
+
+        GameObject createdChunk = Instantiate(chunksBlockData.chunk, new Vector3(PopUpCoordinate(x + chunksBlockData.zeroPointX), 0, PopUpCoordinate(z + chunksBlockData.zeroPointZ)), new Quaternion(0, 0, 0, 0), gameObject.transform);
+
+        createdChunk.GetComponent<ChunkData>().argX = x + ChunksBlockData.halfChunkBlockSize;
+        createdChunk.GetComponent<ChunkData>().argZ = z + ChunksBlockData.halfChunkBlockSize;
+
+        ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
+        createdChunk.GetComponent<ChunkData>().rangeOffset = Random.Range(-3,3); 
+    }
+
 }

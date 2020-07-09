@@ -16,6 +16,7 @@ public class ChunkData : MonoBehaviour
     [HideInInspector] public Vector3[] vertices = new Vector3[size * size * 6]; //vertics = ordinalNumbers (IMPORTANT!)
     [HideInInspector] public int[] ordinalNumbers = new int[size * size * 6]; //ordinalNumbers = vertics (IMPORTANT!)
 
+    [HideInInspector] public bool readyForUpdate = false;
     [HideInInspector] public bool constructed = false; //is chunck constructed?
     [HideInInspector] public bool fullUpdated = false;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 
 [RequireComponent(typeof(ChunksBlockData))]
-public class EdgeSmoother : MonoBehaviour
+public class EdgeSmoother : MonoBehaviour, IEventTrigger
 {
     private enum CornerDots
     {
@@ -14,18 +14,13 @@ public class EdgeSmoother : MonoBehaviour
         fourth
     }
 
-    private EventsCollection ChunkCreated;
-    ChunksBlockData chunksBlockData;
-
-    private void Start()
-    { 
-        chunksBlockData = GetComponent<ChunksBlockData>();
-    }
+    [SerializeField] private EventsCollection ChunkCreated;
 
     public void Smooth(int x, int z)
     {
         DetermineDirection(x, z);
         SmoothCornerDots(x, z);
+        TriggerEvent(ChunkCreated.currentEvent);
         //ChunksBlockData.chunks[x, z].gameObject.GetComponent<MeshFilter>().mesh.Clear();
 
         //CreateMesh();
@@ -51,9 +46,6 @@ public class EdgeSmoother : MonoBehaviour
 
         if (up)
             SmoothEdge(x, z, Directions.Up);
-
-        if (right && left && up && down)
-            ChunksBlockData.chunks[x, z].fullUpdated = true;
     }
 
     private void SmoothEdge(int x, int z, Directions direction)
@@ -113,10 +105,6 @@ public class EdgeSmoother : MonoBehaviour
                     break;
                 }
         }
-
-        Debug.Log("direction = " + direction);
-        Debug.Log("parent_chunk = [" + (x + indexAdditionX) + "; " + (z + indexAdditionZ) + "]");
-        Debug.Log("child_chunk = [" + x + "; " + z + "]");
 
         ChunkData parentChunk = ChunksBlockData.chunks[x + indexAdditionX, z + indexAdditionZ];
         ChunkData childChunk = ChunksBlockData.chunks[x, z];
@@ -230,5 +218,10 @@ public class EdgeSmoother : MonoBehaviour
                     ((z + offsetZ) >= 0) && ((z + offsetZ) < ChunksBlockData.chunksBlockSize))
                 ChunksBlockData.chunks[x + offsetX, z + offsetZ].dots[childDot].y = ChunksBlockData.chunks[x, z].dots[parentDot].y;
         }
+    }
+
+    public void TriggerEvent(string eventName, params object[] arguments)
+    {
+        ManagerEvents.CheckTriggeringEvent(eventName, arguments);
     }
 }

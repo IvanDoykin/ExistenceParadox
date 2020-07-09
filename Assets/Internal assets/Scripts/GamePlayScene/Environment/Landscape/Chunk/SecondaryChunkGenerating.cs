@@ -9,9 +9,9 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 
-public class SecondaryChunkGenerating : MonoBehaviour, IEventTrigger
+public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
 {
-    static bool first = true;
+    [SerializeField] private EventsCollection ChunkCreated;
 
     public delegate void Smooth(int x, int z);
     public static event Smooth SmoothMe;
@@ -29,21 +29,21 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventTrigger
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (chunk.readyForUpdate)
         {
+            chunk.readyForUpdate = false;
             if (chunk.fullUpdated)
                 return;
 
-            gameObject.GetComponent<MeshFilter>().mesh.Clear();
-
             CreateMesh();
-            Destroy(GetComponent<MeshCollider>());
-            MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
+            GetComponent<MeshCollider>().sharedMesh = chunk.mesh;
         }
     }
 
     private void Start()
     {
+        Subscribe();
+
         verticesData = GetComponent<VerticesData>();
         chunk = GetComponent<ChunkData>();
         chunkNameSetuper = GetComponent<ChunkNameSetuper>();
@@ -62,19 +62,10 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventTrigger
         {
             if (((i % (ChunkData.size + 1)) != 0) && ((i + 1) % (ChunkData.size + 1) != 0) && (i < (ChunkData.size * (ChunkData.size + 1) + 1)) && (i > ChunkData.size))
             {
-                if (first)
-                {
-                    Debug.Log("dot..... " + i);
-                }
                 chunk.dots[i].y = Average(chunk.dots[i - 1].y, chunk.dots[i + (ChunkData.size + 1)].y, chunk.dots[i - (ChunkData.size + 1)].y, chunk.dots[i + 1].y);
-            }
-            else
-            {
-
             }
         }
 
-        first = false;
         CreateMesh();
         MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
 
@@ -164,8 +155,18 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventTrigger
         gameObject.GetComponent<MeshFilter>().mesh = chunk.mesh;
     }
 
-    public void TriggerEvent(string eventName, params object[] arguments)
+    private void ChangeUpdateState()
     {
-        ManagerEvents.CheckTriggeringEvent(eventName);
+        chunk.readyForUpdate = true;
+    }
+
+    public void Subscribe()
+    {
+        ManagerEvents.StartListening(ChunkCreated.currentEvent, ChangeUpdateState);
+    }
+
+    public void UnSubscribe()
+    {
+        ManagerEvents.StopListening(ChunkCreated.currentEvent, ChangeUpdateState);
     }
 }
