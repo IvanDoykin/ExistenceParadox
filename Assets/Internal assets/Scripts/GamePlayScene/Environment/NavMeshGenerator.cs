@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class NavMeshGenerator : MonoBehaviour, IEventSub
+public class NavMeshGenerator : MonoBehaviour
 {
-    [SerializeField] private EventsCollection chunkCreated;
     [SerializeField] private GameObject person;
 
     private NavMeshSurface _navigation;
@@ -16,7 +15,6 @@ public class NavMeshGenerator : MonoBehaviour, IEventSub
     void Awake()
     {
         _navigation = GetComponent<NavMeshSurface>();
-        Subscribe();
     }
 
     void Update()
@@ -31,15 +29,5 @@ public class NavMeshGenerator : MonoBehaviour, IEventSub
     private void RemakeNavMesh()
     {
         _navigation.BuildNavMesh();
-    }
-
-    public void Subscribe()
-    {
-        ManagerEvents.StartListening(chunkCreated.currentEvent, RemakeNavMesh);
-    }
-
-    public void UnSubscribe()
-    {
-        ManagerEvents.StopListening(chunkCreated.currentEvent, RemakeNavMesh);
     }
 }
