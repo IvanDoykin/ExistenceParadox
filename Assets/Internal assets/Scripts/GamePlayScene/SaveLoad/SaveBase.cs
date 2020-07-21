@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public abstract class SaveBase<SavingData> where SavingData : MonoBehaviour
+public abstract class SaveBase<SavingData> : MonoBehaviour where SavingData : Saveable
 {
     protected const string DataFormat = ".dat";
 

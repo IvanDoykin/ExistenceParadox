@@ -7,7 +7,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 public sealed class SaveChunk : SaveBase<ChunkData>
 {
     private static Dictionary<string, ChunkData> savingChunks = new Dictionary<string, ChunkData>();
-    private readonly string chunksFolder = Application.persistentDataPath + "/Cached/Chunks/";
+    private string chunksFolder;
+
+    private void Start()
+    {
+        chunksFolder = Application.persistentDataPath + "/Cached/Chunks/";
+
+        if (!Directory.Exists(chunksFolder))
+        {
+            DirectoryInfo directory = Directory.CreateDirectory(chunksFolder);
+        }
+    }
 
     public override void WriteData(ChunkData chunk, string chunkName)
     {
@@ -34,7 +44,7 @@ public sealed class SaveChunk : SaveBase<ChunkData>
         string path = chunksFolder + chunkName + DataFormat;
 
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        using(Stream fStream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Delete))
+        using(Stream fStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Delete))
         {
             binaryFormatter.Serialize(fStream, savedChunk);
         }

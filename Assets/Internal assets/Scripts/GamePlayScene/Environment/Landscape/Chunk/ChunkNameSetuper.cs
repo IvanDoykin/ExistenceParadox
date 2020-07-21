@@ -20,6 +20,6 @@ public class ChunkNameSetuper : MonoBehaviour
 
     public void SetName()
     {
-        chunkNameData.value = "" + coordinatesData.x + ":" + coordinatesData.z + ".cached";
+        chunkNameData.value = "" + coordinatesData.x + "_" + coordinatesData.z + ".cached";
     }
 }

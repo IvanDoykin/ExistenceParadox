@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ChunkData : MonoBehaviour
+public class ChunkData : Saveable
 {
     public Vector3 position;
 
