@@ -29,6 +29,14 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SaveChunk saveChunk = new SaveChunk();
+
+            saveChunk.WriteData(chunk, chunk.gameObject.GetComponent<ChunkNameData>().value);
+            Debug.Log("all right");
+        }
+
         if (chunk.readyForUpdate)
         {
             chunk.readyForUpdate = false;
@@ -55,14 +63,13 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
 
     public void SecondaryGenerating()
     {
-        //GeneratingDone += chunksAssembler.ChunkIsReady;
         GeneratingDone += chunkNameSetuper.SetName;
 
         for (int i = 0; i < chunk.dots.Length; i++)
         {
-            if (((i % (ChunkData.size + 1)) != 0) && ((i + 1) % (ChunkData.size + 1) != 0) && (i < (ChunkData.size * (ChunkData.size + 1) + 1)) && (i > ChunkData.size))
+            if (((i % (ChunkData.Size + 1)) != 0) && ((i + 1) % (ChunkData.Size + 1) != 0) && (i < (ChunkData.Size * (ChunkData.Size + 1) + 1)) && (i > ChunkData.Size))
             {
-                chunk.dots[i].y = Average(chunk.dots[i - 1].y, chunk.dots[i + (ChunkData.size + 1)].y, chunk.dots[i - (ChunkData.size + 1)].y, chunk.dots[i + 1].y);
+                chunk.dots[i].y = Average(chunk.dots[i - 1].y, chunk.dots[i + (ChunkData.Size + 1)].y, chunk.dots[i - (ChunkData.Size + 1)].y, chunk.dots[i + 1].y);
             }
         }
 
@@ -71,7 +78,6 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
 
         GeneratingDone();
         GeneratingDone -= chunkNameSetuper.SetName;
-        //GeneratingDone -= chunksAssembler.ChunkIsReady;
 
         SmoothMe(chunk.argX, chunk.argZ);
         SmoothMe -= edgeSmoother.Smooth;
@@ -101,27 +107,27 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
         #region upper_tr 
         //generating triangles from dots (x, x+5, x+1) last dot = (dots.len - 1) - (size + 1)
         int index = 0;
-        for (int x = 0; x < chunk.dots.Length - 2 - ChunkData.size; x++)
+        for (int x = 0; x < chunk.dots.Length - 2 - ChunkData.Size; x++)
         {
-            if (((x + 1) % (ChunkData.size + 1) == 0) && (x != 0))
+            if (((x + 1) % (ChunkData.Size + 1) == 0) && (x != 0))
                 continue;
 
             chunk.vertices[index] = chunk.dots[x];
-            chunk.vertices[index + 1] = chunk.dots[x + (ChunkData.size + 1)];
+            chunk.vertices[index + 1] = chunk.dots[x + (ChunkData.Size + 1)];
             chunk.vertices[index + 2] = chunk.dots[x + 1];
             index += 3;
         }
         #endregion
         #region lower_tr
         //generating triangles fromchunk.ordinalNumbers (x, x+4, x+5) last dot =chunk.ordinalNumbers.len - (ChunkData.size + 1)
-        for (int x = 0; x < chunk.dots.Length - 1 - ChunkData.size; x++)
+        for (int x = 0; x < chunk.dots.Length - 1 - ChunkData.Size; x++)
         {
-            if (x % (ChunkData.size + 1) == 0)
+            if (x % (ChunkData.Size + 1) == 0)
                 continue;
 
             chunk.vertices[index] = chunk.dots[x];
-            chunk.vertices[index + 1] = chunk.dots[x + ChunkData.size];
-            chunk.vertices[index + 2] = chunk.dots[x + (ChunkData.size + 1)];
+            chunk.vertices[index + 1] = chunk.dots[x + ChunkData.Size];
+            chunk.vertices[index + 2] = chunk.dots[x + (ChunkData.Size + 1)];
             index += 3;
         }
         #endregion

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(ChunkData))]
 [RequireComponent(typeof(VerticesData))]
@@ -34,6 +33,7 @@ public class PrimaryChunkGenerating : MonoBehaviour
         PrimaryGeneratingDone += secondaryChunkGenerating.SecondaryGenerating;
 
         InitializeChunk();
+        chunk.position = gameObject.transform.position;
 
         bool created = false; //temp simplify
 
@@ -42,7 +42,7 @@ public class PrimaryChunkGenerating : MonoBehaviour
             NeedLink(coordinatesData);
             NeedLink -= chunksController.LinkChunk;
 
-            DiamondSquare(ChunkData.size);
+            DiamondSquare(ChunkData.Size);
             PrimaryGeneratingDone();
         }
 
@@ -71,13 +71,13 @@ public class PrimaryChunkGenerating : MonoBehaviour
         if (mesh_size == 1) return;
 
         //for more smooth generating
-        float multiply = mesh_size / ChunkData.size;
+        float multiply = mesh_size / ChunkData.Size;
 
         //corner dots index
         int left_down_corner_index = 0 + coord_offset;
         int right_down_corner_index = mesh_size + coord_offset;
-        int left_up_corner_index = (ChunkData.size + 1) * mesh_size + coord_offset;
-        int right_up_corner_index = (ChunkData.size + 2) * mesh_size + coord_offset;
+        int left_up_corner_index = (ChunkData.Size + 1) * mesh_size + coord_offset;
+        int right_up_corner_index = (ChunkData.Size + 2) * mesh_size + coord_offset;
         int middle_index = (left_down_corner_index + right_up_corner_index) / 2;
 
         //directional dots index
@@ -87,7 +87,7 @@ public class PrimaryChunkGenerating : MonoBehaviour
         int down_index = (left_down_corner_index + right_down_corner_index) / 2;
 
         //if the first function calling
-        if (mesh_size == ChunkData.size)
+        if (mesh_size == ChunkData.Size)
         {
             //then initialize corner dots
             chunk.dots[0].y += (Random.Range(-chunk.range + chunk.rangeOffset, chunk.range + chunk.rangeOffset) + Random.Range(-chunk.smallerRange, chunk.smallerRange) * multiply) * chunk.notCalculatedVecs[0];
@@ -123,22 +123,19 @@ public class PrimaryChunkGenerating : MonoBehaviour
         chunk.dots[down_index].y += ((chunk.dots[left_down_corner_index].y + chunk.dots[middle_index].y + chunk.dots[right_down_corner_index].y) / 3 + Random.Range(-chunk.smallerRange, chunk.smallerRange) * multiply) * chunk.notCalculatedVecs[down_index];
         chunk.notCalculatedVecs[down_index] = 0;
 
-
         DiamondSquare(mesh_size / 2, coord_offset);
         DiamondSquare(mesh_size / 2, (left_down_corner_index + right_down_corner_index) / 2);
         DiamondSquare(mesh_size / 2, (left_down_corner_index + left_up_corner_index) / 2);
-        DiamondSquare(mesh_size / 2, (left_down_corner_index + right_up_corner_index) / 2);
-
-        
+        DiamondSquare(mesh_size / 2, (left_down_corner_index + right_up_corner_index) / 2);        
     }
 
     private void InitializeVectors()
     {
-        for (int i = 0; i <= ChunkData.size; i++)
+        for (int i = 0; i <= ChunkData.Size; i++)
         {
-            for (int j = 0; j <= ChunkData.size; j++)
+            for (int j = 0; j <= ChunkData.Size; j++)
             {
-                chunk.dots[(i * (ChunkData.size + 1)) + j] = new Vector3(j * ChunkData.sizeNormaller, 0, i * ChunkData.sizeNormaller); //coord for ever dot
+                chunk.dots[(i * (ChunkData.Size + 1)) + j] = new Vector3(j * ChunkData.SizeNormaller, 0, i * ChunkData.SizeNormaller); //coord for ever dot
             }
         }
     }

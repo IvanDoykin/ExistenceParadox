@@ -64,9 +64,9 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
                 {
                     indexAdditionX = 1;
                     indexAdditionZ = 0;
-                    startPoint = ChunkData.size;
-                    step = ChunkData.size + 1;
-                    otherChunkDot = -ChunkData.size;
+                    startPoint = ChunkData.Size;
+                    step = ChunkData.Size + 1;
+                    otherChunkDot = -ChunkData.Size;
                     chunkDotOffset = 1;
                     break;
                 }
@@ -76,8 +76,8 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
                     indexAdditionX = -1;
                     indexAdditionZ = 0;
                     startPoint = 0;
-                    step = ChunkData.size + 1;
-                    otherChunkDot = ChunkData.size;
+                    step = ChunkData.Size + 1;
+                    otherChunkDot = ChunkData.Size;
                     chunkDotOffset = -1;
                     break;
                 }
@@ -86,7 +86,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
                 {
                     indexAdditionX = 0;
                     indexAdditionZ = 1;
-                    startPoint = ChunkData.size * (ChunkData.size + 1);
+                    startPoint = ChunkData.Size * (ChunkData.Size + 1);
                     step = 1;
                     otherChunkDot = -startPoint;
                     chunkDotOffset = 9;
@@ -99,7 +99,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
                     indexAdditionZ = -1;
                     startPoint = 0;
                     step = 1;
-                    otherChunkDot = ChunkData.size * (ChunkData.size + 1);
+                    otherChunkDot = ChunkData.Size * (ChunkData.Size + 1);
                     offsetDown = -otherChunkDot;
                     chunkDotOffset = -9;
                     break;
@@ -111,7 +111,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
 
         if ((parentChunk != null) && (parentChunk.constructed == true))
         {
-            int dotsLength = (ChunkData.size + 1) * (ChunkData.size + 1);
+            int dotsLength = (ChunkData.Size + 1) * (ChunkData.Size + 1);
 
             for (int i = startPoint; i < dotsLength + offsetDown; i += step)
             {
@@ -132,9 +132,9 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
     private void LinkCornerDots(int x, int z, CornerDots cornerDot, params Directions[] chunksDirections)
     {
         int firstDot = 0;
-        int secondDot = ChunkData.size;
-        int thirdDot = ChunkData.size * (ChunkData.size + 1);
-        int fourthDot = (ChunkData.size + 1) * (ChunkData.size + 1) - 1;
+        int secondDot = ChunkData.Size;
+        int thirdDot = ChunkData.Size * (ChunkData.Size + 1);
+        int fourthDot = (ChunkData.Size + 1) * (ChunkData.Size + 1) - 1;
 
         int offsetX = 0;
         int offsetZ = 0;
@@ -168,25 +168,25 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
                 case (Directions.Down):
                     offsetX = 0;
                     offsetZ = -1;
-                    childDot = parentDot + (ChunkData.size * (ChunkData.size + 1));
+                    childDot = parentDot + (ChunkData.Size * (ChunkData.Size + 1));
                     break;
 
                 case (Directions.Up):
                     offsetX = 0;
                     offsetZ = 1;
-                    childDot = parentDot - (ChunkData.size * (ChunkData.size + 1));
+                    childDot = parentDot - (ChunkData.Size * (ChunkData.Size + 1));
                     break;
 
                 case (Directions.Left):
                     offsetX = -1;
                     offsetZ = 0;
-                    childDot = parentDot + ChunkData.size;
+                    childDot = parentDot + ChunkData.Size;
                     break;
 
                 case (Directions.Right):
                     offsetX = 1;
                     offsetZ = 0;
-                    childDot = parentDot - ChunkData.size;
+                    childDot = parentDot - ChunkData.Size;
                     break;
 
                 case (Directions.LeftDown):

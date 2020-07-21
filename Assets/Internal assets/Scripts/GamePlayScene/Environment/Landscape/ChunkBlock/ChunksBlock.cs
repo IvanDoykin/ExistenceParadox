@@ -89,9 +89,9 @@ public class ChunksBlock : MonoBehaviour
                 {
                     indexAdditionX = 1;
                     indexAdditionZ = 0;
-                    startPoint = ChunkData.size;
-                    step = ChunkData.size + 1;
-                    otherChunkDot = -ChunkData.size;
+                    startPoint = ChunkData.Size;
+                    step = ChunkData.Size + 1;
+                    otherChunkDot = -ChunkData.Size;
                     break;
                 }
 
@@ -100,8 +100,8 @@ public class ChunksBlock : MonoBehaviour
                     indexAdditionX = -1;
                     indexAdditionZ = 0;
                     startPoint = 0;
-                    step = ChunkData.size + 1;
-                    otherChunkDot = ChunkData.size;
+                    step = ChunkData.Size + 1;
+                    otherChunkDot = ChunkData.Size;
                     break;
                 }
 
@@ -109,7 +109,7 @@ public class ChunksBlock : MonoBehaviour
                 {
                     indexAdditionX = 0;
                     indexAdditionZ = 1;
-                    startPoint = ChunkData.size * (ChunkData.size + 1);
+                    startPoint = ChunkData.Size * (ChunkData.Size + 1);
                     step = 1;
                     otherChunkDot = -startPoint;
                     break;
@@ -121,7 +121,7 @@ public class ChunksBlock : MonoBehaviour
                     indexAdditionZ = -1;
                     startPoint = 0;
                     step = 1;
-                    otherChunkDot = ChunkData.size * (ChunkData.size + 1);
+                    otherChunkDot = ChunkData.Size * (ChunkData.Size + 1);
                     offsetDown = -otherChunkDot;
                     break;
                 }
@@ -130,7 +130,7 @@ public class ChunksBlock : MonoBehaviour
                 {
                     indexAdditionX = 1;
                     indexAdditionZ = 1;
-                    startPoint = (ChunkData.size + 1) * (ChunkData.size + 1) - 1;
+                    startPoint = (ChunkData.Size + 1) * (ChunkData.Size + 1) - 1;
                     step = startPoint + 1;
                     otherChunkDot = -startPoint;
                     break;
@@ -140,9 +140,9 @@ public class ChunksBlock : MonoBehaviour
                 {
                     indexAdditionX = -1;
                     indexAdditionZ = 1;
-                    startPoint = ChunkData.size * (ChunkData.size + 1);
-                    step = startPoint + ChunkData.size + 1;
-                    otherChunkDot = ChunkData.size - startPoint;
+                    startPoint = ChunkData.Size * (ChunkData.Size + 1);
+                    step = startPoint + ChunkData.Size + 1;
+                    otherChunkDot = ChunkData.Size - startPoint;
                     break;
                 }
 
@@ -150,9 +150,9 @@ public class ChunksBlock : MonoBehaviour
                 {
                     indexAdditionX = 1;
                     indexAdditionZ = -1;
-                    startPoint = ChunkData.size;
-                    step = (ChunkData.size + 1) * (ChunkData.size + 1) + 1;
-                    otherChunkDot = ChunkData.size * ChunkData.size;
+                    startPoint = ChunkData.Size;
+                    step = (ChunkData.Size + 1) * (ChunkData.Size + 1) + 1;
+                    otherChunkDot = ChunkData.Size * ChunkData.Size;
                     break;
                 }
 
@@ -161,9 +161,9 @@ public class ChunksBlock : MonoBehaviour
                     indexAdditionX = -1;
                     indexAdditionZ = -1;
                     startPoint = 0;
-                    step = (ChunkData.size + 1) * (ChunkData.size + 1) + 1;
+                    step = (ChunkData.Size + 1) * (ChunkData.Size + 1) + 1;
                     otherChunkDot = step - 2;
-                    offsetDown = -ChunkData.size * (ChunkData.size + 1);
+                    offsetDown = -ChunkData.Size * (ChunkData.Size + 1);
                     break;
                 }
         }
@@ -173,7 +173,7 @@ public class ChunksBlock : MonoBehaviour
 
         if ((parentChunk != null) && (parentChunk.constructed == true))
         {
-            int dotsLength = (ChunkData.size + 1) * (ChunkData.size + 1);
+            int dotsLength = (ChunkData.Size + 1) * (ChunkData.Size + 1);
 
             for (int i = startPoint; i < dotsLength + offsetDown; i += step)
             {
@@ -196,12 +196,12 @@ public class ChunksBlock : MonoBehaviour
 
     private float SetUpCoordinate(float coordinate)
     {
-        return (int)Mathf.Floor(coordinate / ChunkData.metric);
+        return (int)Mathf.Floor(coordinate / ChunkData.Metric);
     }
 
     private float PopUpCoordinate(float coordinate)
     {
-        return (coordinate * ChunkData.metric);
+        return (coordinate * ChunkData.Metric);
     }
 
     #endregion
