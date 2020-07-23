@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class SomeStaff : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            SaveChunk saveChunk = new SaveChunk();
+            saveChunk.SaveAll();
+        }
+
     }
 }

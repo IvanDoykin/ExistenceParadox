@@ -37,12 +37,6 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
             Debug.Log("all right");
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            SaveChunk saveChunk = new SaveChunk();
-            saveChunk.Save();
-        }
-
         if (chunk.readyForUpdate)
         {
             chunk.readyForUpdate = false;

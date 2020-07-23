@@ -27,4 +27,12 @@ public class ChunkData : Saveable
 
     [HideInInspector] public Mesh mesh;
     [HideInInspector] public int[] triangles;
+
+    public void SetStartData(Vector3 Position, float RangeOffset, bool FullUpdated, Vector3[] Dots)
+    {
+        position = Position;
+        rangeOffset = RangeOffset;
+        fullUpdated = FullUpdated;
+        dots = Dots;
+    }
 }

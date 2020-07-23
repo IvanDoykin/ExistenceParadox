@@ -2,5 +2,5 @@
 
 public class ChunkNameData : MonoBehaviour
 {
-    public string value = "0:0";
+    public string value = "0_0";
 }

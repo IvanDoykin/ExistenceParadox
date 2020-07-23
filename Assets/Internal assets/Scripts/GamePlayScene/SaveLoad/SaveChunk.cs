@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public sealed class SaveChunk : SaveBase<ChunkData>
 {
-    private static Dictionary<string, ChunkData> savingChunks = new Dictionary<string, ChunkData>();
     private string chunksFolder;
 
     private void Start()
@@ -27,19 +25,25 @@ public sealed class SaveChunk : SaveBase<ChunkData>
             return;
         }
 
+        if (savingChunks.TryGetValue(chunkName, out ChunkData value)) return;
+
         savingChunks.Add(chunkName, chunk);
     }
 
-    public override void Save()
+    public override void SaveAll()
     {
+        chunksFolder = Application.persistentDataPath + "/Cached/Chunks/";
+
         foreach (KeyValuePair<string, ChunkData> chunk in savingChunks)
         {
             SaveData(chunk.Value, chunk.Key);
         }
+
+        savingChunks.Clear();
     }
 
     private void SaveData(ChunkData chunk, string chunkName)
-    {
+    { 
         SavedChunk savedChunk = new SavedChunk(ConvertVectorIntoVec(chunk.position), chunk.rangeOffset, chunk.fullUpdated, ConvertVectorIntoVec(chunk.dots));
         string path = chunksFolder + chunkName + DataFormat;
 
@@ -47,6 +51,8 @@ public sealed class SaveChunk : SaveBase<ChunkData>
         using(Stream fStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Delete))
         {
             binaryFormatter.Serialize(fStream, savedChunk);
+            Debug.Log("Its fine");
+            Debug.Log("Path: " + path);
         }
     }
 
@@ -67,21 +73,4 @@ public sealed class SaveChunk : SaveBase<ChunkData>
         return new Vec3(vector.x, vector.y, vector.z);
     }
 
-    [Serializable]
-    private struct SavedChunk
-    {
-        public Vec3 position;
-        public float rangeOffset;
-        public bool fullUpdated;
-
-        public Vec3[] dots;
-
-        public SavedChunk(Vec3 Position, float RangeOffset, bool FullUpdated, Vec3[] Dots)
-        {
-            position = Position;
-            rangeOffset = RangeOffset;
-            fullUpdated = FullUpdated;
-            dots = Dots;
-        }
-    }
 }
