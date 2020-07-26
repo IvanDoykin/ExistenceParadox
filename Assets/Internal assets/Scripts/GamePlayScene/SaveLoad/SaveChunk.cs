@@ -25,7 +25,7 @@ public sealed class SaveChunk : SaveBase<ChunkData>
             return;
         }
 
-        if (savingChunks.TryGetValue(chunkName, out ChunkData value)) return;
+        if (savingChunks.TryGetValue(chunkName, out ChunkData value)) { Debug.Log("Some awful kek"); return; }
 
         savingChunks.Add(chunkName, chunk);
     }

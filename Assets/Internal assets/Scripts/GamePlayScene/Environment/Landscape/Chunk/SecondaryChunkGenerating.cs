@@ -63,6 +63,16 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
 
     public void SecondaryGenerating()
     {
+        if (gameObject.GetComponent<PrimaryChunkGenerating>().created)
+        {
+            GeneratingDone();
+            GeneratingDone -= chunkNameSetuper.SetName;
+
+            CreateMesh();
+            MeshCollider meshCol = this.gameObject.AddComponent<MeshCollider>();
+
+        }
+
         GeneratingDone += chunkNameSetuper.SetName;
 
         for (int i = 0; i < chunk.dots.Length; i++)
@@ -73,11 +83,11 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
             }
         }
 
-        CreateMesh();
-        MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
-
         GeneratingDone();
         GeneratingDone -= chunkNameSetuper.SetName;
+
+        CreateMesh();
+        MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
 
         SmoothMe(chunk.argX, chunk.argZ);
         SmoothMe -= edgeSmoother.Smooth;

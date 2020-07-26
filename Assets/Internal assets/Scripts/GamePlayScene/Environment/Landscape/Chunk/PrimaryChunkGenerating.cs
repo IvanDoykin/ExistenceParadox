@@ -10,6 +10,9 @@
 
 public class PrimaryChunkGenerating : MonoBehaviour
 {
+    public bool created;
+
+    private LoadChunk loadChunk;
     private SecondaryChunkGenerating secondaryChunkGenerating;
     private ChunkData chunk;
     private CoordinatesData coordinatesData;
@@ -22,7 +25,9 @@ public class PrimaryChunkGenerating : MonoBehaviour
     public static event CallPrimaryGenerating PrimaryGeneratingDone;
 
     private void Start()
-    { 
+    {
+        loadChunk = GetComponent<LoadChunk>();
+
         chunksController = GetComponentInParent<ChunksBlock>();
 
         secondaryChunkGenerating = GetComponent<SecondaryChunkGenerating>();
@@ -35,16 +40,20 @@ public class PrimaryChunkGenerating : MonoBehaviour
         InitializeChunk();
         chunk.position = gameObject.transform.position;
 
-        bool created = false; //temp simplify
+        created = loadChunk.TryLoadData(ref chunk, gameObject.GetComponent<ChunkNameData>().value);
 
         if (!created)
         {
+            Debug.Log("Not load");
             NeedLink(coordinatesData);
             NeedLink -= chunksController.LinkChunk;
 
             DiamondSquare(ChunkData.Size);
             PrimaryGeneratingDone();
         }
+        
+        else
+            secondaryChunkGenerating.CreateMesh();
 
         chunk.constructed = true;
 

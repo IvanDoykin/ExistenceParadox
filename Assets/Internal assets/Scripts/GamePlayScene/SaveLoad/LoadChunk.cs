@@ -10,20 +10,16 @@ public sealed class LoadChunk : LoadBase<ChunkData>
     {
         chunksFolder = Application.persistentDataPath + "/Cached/Chunks/";
 
-        loadingData = GetData(key);
+        GetData(ref loadingData, key);
         if (loadingData == null)
             return false;
 
         else return true;
     }
 
-    protected override ChunkData GetData(string key)
+    protected override void GetData(ref ChunkData chunk, string key)
     {
-        ChunkData chunk = new ChunkData();
-        if (TryGetFromDictionary(out chunk, key)) 
-            return chunk;
-
-        else
+        if (true)
         {
             string path = chunksFolder + key + DataFormat;
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -31,14 +27,15 @@ public sealed class LoadChunk : LoadBase<ChunkData>
             using (Stream fStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 if (!File.Exists(path))
-                    return null;
-
+                {
+                    chunk = null;
+                    return;
+                }
                 SavedChunk savedChunk = (SavedChunk)binaryFormatter.Deserialize(fStream);
+
                 Debug.Log("Nice load :)");
                 Debug.Log("Load from: " + path);
                 chunk.SetStartData(ConvertVecToVector(savedChunk.position), savedChunk.rangeOffset, savedChunk.fullUpdated, ConvertVecToVector(savedChunk.dots));
-
-                return chunk;
             }
         }
     }
@@ -62,16 +59,9 @@ public sealed class LoadChunk : LoadBase<ChunkData>
 
     protected override bool TryGetFromDictionary(out ChunkData loadingData, string key)
     {
-        ChunkData chunk = new ChunkData();
-        if (savingChunks.TryGetValue(key, out chunk))
-        {
-            loadingData = null;
-            return false;
-        }
-        else
-        {
-            loadingData = chunk;
+        if (savingChunks.TryGetValue(key, out loadingData))
             return true;
-        }
+
+        return false;
     }
 }
