@@ -3,6 +3,7 @@
 [RequireComponent(typeof(ChunkData))]
 [RequireComponent(typeof(VerticesData))]
 [RequireComponent(typeof(CoordinatesData))]
+[RequireComponent(typeof(Coordinating))]
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -12,6 +13,7 @@ public class PrimaryChunkGenerating : MonoBehaviour
 {
     public bool created;
 
+    private Coordinating coordinating;
     private LoadChunk loadChunk;
     private SecondaryChunkGenerating secondaryChunkGenerating;
     private ChunkData chunk;
@@ -27,6 +29,9 @@ public class PrimaryChunkGenerating : MonoBehaviour
     private void Start()
     {
         loadChunk = GetComponent<LoadChunk>();
+
+        coordinating = GetComponent<Coordinating>();
+        coordinating.SetUpCoordinates();
 
         chunksController = GetComponentInParent<ChunksBlock>();
 

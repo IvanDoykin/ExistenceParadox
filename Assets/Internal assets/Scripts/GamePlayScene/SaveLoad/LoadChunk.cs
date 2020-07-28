@@ -10,32 +10,28 @@ public sealed class LoadChunk : LoadBase<ChunkData>
     {
         chunksFolder = Application.persistentDataPath + "/Cached/Chunks/";
 
-        GetData(ref loadingData, key);
-        if (loadingData == null)
-            return false;
-
-        else return true;
+        return GetData(ref loadingData, key);
     }
 
-    protected override void GetData(ref ChunkData chunk, string key)
+    protected override bool GetData(ref ChunkData chunk, string key)
     {
         if (true)
         {
             string path = chunksFolder + key + DataFormat;
             BinaryFormatter binaryFormatter = new BinaryFormatter();
 
+            if (!File.Exists(path))
+                return false;
+
             using (Stream fStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                if (!File.Exists(path))
-                {
-                    chunk = null;
-                    return;
-                }
                 SavedChunk savedChunk = (SavedChunk)binaryFormatter.Deserialize(fStream);
 
                 Debug.Log("Nice load :)");
                 Debug.Log("Load from: " + path);
                 chunk.SetStartData(ConvertVecToVector(savedChunk.position), savedChunk.rangeOffset, savedChunk.fullUpdated, ConvertVecToVector(savedChunk.dots));
+
+                return true;
             }
         }
     }

@@ -63,18 +63,6 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
 
     public void SecondaryGenerating()
     {
-        if (gameObject.GetComponent<PrimaryChunkGenerating>().created)
-        {
-            GeneratingDone();
-            GeneratingDone -= chunkNameSetuper.SetName;
-
-            CreateMesh();
-            MeshCollider meshCol = this.gameObject.AddComponent<MeshCollider>();
-
-        }
-
-        GeneratingDone += chunkNameSetuper.SetName;
-
         for (int i = 0; i < chunk.dots.Length; i++)
         {
             if (((i % (ChunkData.Size + 1)) != 0) && ((i + 1) % (ChunkData.Size + 1) != 0) && (i < (ChunkData.Size * (ChunkData.Size + 1) + 1)) && (i > ChunkData.Size))
@@ -83,11 +71,7 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
             }
         }
 
-        GeneratingDone();
-        GeneratingDone -= chunkNameSetuper.SetName;
-
         CreateMesh();
-        MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
 
         SmoothMe(chunk.argX, chunk.argZ);
         SmoothMe -= edgeSmoother.Smooth;
@@ -109,6 +93,9 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
         CreateTriangles();
         CreateShape();
         UpdateMesh();
+
+        MeshCollider meshCollider = this.gameObject.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = chunk.mesh;
     }
 
     private void CreateTriangles()

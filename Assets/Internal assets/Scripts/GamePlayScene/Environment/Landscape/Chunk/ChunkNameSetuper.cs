@@ -16,6 +16,8 @@ public class ChunkNameSetuper : MonoBehaviour
     {
         chunkNameData = GetComponent<ChunkNameData>();
         coordinatesData = GetComponent<CoordinatesData>();
+
+        SetName();
     }
 
     public void SetName()

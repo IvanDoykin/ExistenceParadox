@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(CoordinatesData))]
-
 public class Coordinating : MonoBehaviour
 {
     private CoordinatesData coordinatesData;
@@ -19,6 +18,4 @@ public class Coordinating : MonoBehaviour
         coordinatesData.x = (int)Mathf.Floor(transform.position.x / 16);
         coordinatesData.z = (int)Mathf.Floor(transform.position.z / 16);
     }
-
-    
 }
