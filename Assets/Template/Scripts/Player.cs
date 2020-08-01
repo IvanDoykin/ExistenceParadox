@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponDistance : Weapon
+public class Player : Interactable
 {
-   
+
 }

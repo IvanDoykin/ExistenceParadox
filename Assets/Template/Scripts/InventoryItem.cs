@@ -16,20 +16,20 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public ItemType itemType;
     public string itemName;
     public string itemDescription;
-    public string prefab;
+    public string itemPrefab;
 
     private Vector3 startPosition;
     private Transform startParent;
-    private Image image;
+    private Image itemIcon;
 
     private void Start()
     {
-        image = GetComponent<Image>();
+        itemIcon = GetComponent<Image>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        image.raycastTarget = false;
+        itemIcon.raycastTarget = false;
         startParent = transform.parent;
         startPosition = transform.position;
     }
@@ -55,6 +55,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             transform.position = startPosition;
         }
-        image.raycastTarget = true;
+        itemIcon.raycastTarget = true;
     }
 }

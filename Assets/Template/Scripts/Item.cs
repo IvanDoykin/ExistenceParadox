@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
+    public IItemType itemType { get; private protected set; }
 
     [SerializeField]
-    private Sprite icon;
-    public Sprite Icon { get => icon; }
+    private Sprite itemIcon;
+    public Sprite Icon { get => itemIcon; }
 
     [SerializeField]
     private string itemName;
@@ -20,8 +21,8 @@ public class Item : MonoBehaviour
     public string ItemDescription { get => itemDescription; }
 
     [SerializeField]
-    private string prefab;
-    public string  Prefab { get => prefab; }
+    private string itemPrefab;
+    public string  Prefab { get => itemPrefab; }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,4 +30,8 @@ public class Item : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public interface IItemType
+    {
+        InventoryItem.ItemType AddItemType();
+    }
 }

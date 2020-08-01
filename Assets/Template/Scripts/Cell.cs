@@ -6,9 +6,9 @@ public class Cell : MonoBehaviour
 {
     enum TypeCell
     {
-        every,
-        melee,
-        distanse
+        everyItem,
+        meleeItem,
+        distanseItem
     }
     [SerializeField]
     private TypeCell typeCell;
@@ -18,12 +18,12 @@ public class Cell : MonoBehaviour
     {
         switch(typeCell)
         {
-            case TypeCell.melee:
+            case TypeCell.meleeItem:
                 if (itemType == InventoryItem.ItemType.WeaponMelee)
                     return true;
                 else  return false;
 
-            case TypeCell.distanse:
+            case TypeCell.distanseItem:
                 if (itemType == InventoryItem.ItemType.WeaponDistanse)
                     return true;
                 else return false;

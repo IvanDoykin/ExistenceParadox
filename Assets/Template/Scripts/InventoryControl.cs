@@ -36,28 +36,16 @@ public class InventoryControl : MonoBehaviour
 
         GameObject newItem = Instantiate(cell, EmptyCell.transform);
         InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
+        Item new_Item = (Item)item;
+        SetField(new_Item.Icon, new_Item.ItemName, new_Item.ItemDescription, new_Item.Prefab, new_Item.itemType.AddItemType());
 
-        switch (item)
-        {
-            case WeaponMelee w:
-                inventoryItem.itemType = InventoryItem.ItemType.WeaponMelee;
-                SetField(w.Icon, w.ItemName, w.ItemDescription, w.Prefab);
-                break;
-            case WeaponDistance w:
-                inventoryItem.itemType = InventoryItem.ItemType.WeaponDistanse;
-                SetField(w.Icon, w.ItemName, w.ItemDescription, w.Prefab);
-                break;
-
-            default:
-                break;
-        }
-
-        void SetField(Sprite Icon, string itemName, string itemDescription, string prefab)
+        void SetField(Sprite Icon, string itemName, string itemDescription, string prefab, InventoryItem.ItemType itemType)
         {
             newItem.GetComponent<Image>().sprite = Icon;
             inventoryItem.itemName = itemName;
             inventoryItem.itemDescription = itemDescription;
-            inventoryItem.prefab = prefab;
+            inventoryItem.itemPrefab = prefab;
+            inventoryItem.itemType = itemType;
         }
 
     }
