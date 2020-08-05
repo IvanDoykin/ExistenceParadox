@@ -9,7 +9,8 @@ public class InventoryControl : MonoBehaviour
     [SerializeField]
     private List<GameObject> itemList = new List<GameObject>();
     [SerializeField]
-    private GameObject cell;
+    private GameObject prefabCell;
+    
 
     private void Awake()
     {
@@ -34,7 +35,7 @@ public class InventoryControl : MonoBehaviour
         if (EmptyCell == null)
             return;
 
-        GameObject newItem = Instantiate(cell, EmptyCell.transform);
+        GameObject newItem = Instantiate(prefabCell, EmptyCell.transform);
         InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
         Item new_Item = (Item)item;
         SetField(new_Item.Icon, new_Item.ItemName, new_Item.ItemDescription, new_Item.Prefab, new_Item.itemType.AddItemType());
@@ -47,6 +48,28 @@ public class InventoryControl : MonoBehaviour
             inventoryItem.itemPrefab = prefab;
             inventoryItem.itemType = itemType;
         }
+        Destroy(new_Item.gameObject);
+    }
 
+    public void EquipWeapon(Transform target, Transform cell)
+    {
+        if (cell.GetComponentInChildren<InventoryItem>() != null)
+        {
+            if (!cell.GetComponent<Cell>().IsEneble)
+            {
+                if(target.childCount != 0)
+                {
+                    Destroy(target.GetChild(0).gameObject);
+                }
+
+                GameObject.Instantiate(Resources.Load(cell.GetComponentInChildren<InventoryItem>().itemPrefab), target);
+                cell.GetComponent<Cell>().IsEneble = true;
+            }
+            else
+            {
+                Destroy(target.GetChild(0).gameObject);
+                cell.GetComponent<Cell>().IsEneble = false;
+            }
+        }
     }
 }

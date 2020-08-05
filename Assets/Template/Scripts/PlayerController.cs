@@ -15,13 +15,18 @@ public class PlayerController : MonoBehaviour
     private float currentSpeed;
 
     private Transform cameraT;
+    [SerializeField]
+    private Transform weaponT;
 
     [SerializeField]
     private GameObject InventoryPanel;
     [SerializeField]
     private GameObject AimPanel;
 
-
+    [SerializeField]
+    private Transform meleeWeaponCell;
+    [SerializeField]
+    private Transform distanseWeaponCell;
 
 
     private void Start()
@@ -42,12 +47,36 @@ public class PlayerController : MonoBehaviour
         float targetSpeed = speed * inputDir.magnitude;
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
-        transform.Translate(transform.forward * currentSpeed * Time.deltaTime, Space.World);
-
-        if(Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.Translate(transform.forward * currentSpeed * Time.deltaTime, Space.World);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(-transform.right * currentSpeed * Time.deltaTime, Space.World);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(-transform.forward * currentSpeed * Time.deltaTime, Space.World);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Translate(transform.right * currentSpeed * Time.deltaTime, Space.World);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
         {
             InventoryPanel.SetActive(!InventoryPanel.activeInHierarchy);
             AimPanel.SetActive(!AimPanel.activeInHierarchy);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            InventoryControl.link.EquipWeapon(weaponT, meleeWeaponCell);
+            distanseWeaponCell.GetComponent<Cell>().IsEneble = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            InventoryControl.link.EquipWeapon(weaponT, distanseWeaponCell);
+            meleeWeaponCell.GetComponent<Cell>().IsEneble = false;
         }
     }
 

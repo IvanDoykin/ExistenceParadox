@@ -27,7 +27,6 @@ public class Item : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         InventoryControl.link.AddItem(this);
-        Destroy(gameObject);
     }
 
     public interface IItemType
