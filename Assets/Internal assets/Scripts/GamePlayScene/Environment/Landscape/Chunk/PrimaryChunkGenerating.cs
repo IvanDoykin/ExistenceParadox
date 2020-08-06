@@ -42,23 +42,26 @@ public class PrimaryChunkGenerating : MonoBehaviour
         NeedLink += chunksController.LinkChunk;
         PrimaryGeneratingDone += secondaryChunkGenerating.SecondaryGenerating;
 
-        InitializeChunk();
-        chunk.position = gameObject.transform.position;
-
         created = loadChunk.TryLoadData(ref chunk, gameObject.GetComponent<ChunkNameData>().value);
+        chunk.position = gameObject.transform.position;
 
         if (!created)
         {
             Debug.Log("Not load");
+            InitializeChunk();
+
             NeedLink(coordinatesData);
             NeedLink -= chunksController.LinkChunk;
 
             DiamondSquare(ChunkData.Size);
             PrimaryGeneratingDone();
         }
-        
+
         else
+        {
+            chunk.mesh = new Mesh();
             secondaryChunkGenerating.CreateMesh();
+        }
 
         chunk.constructed = true;
 

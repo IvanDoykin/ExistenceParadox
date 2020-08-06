@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public abstract class InputOutputBase : MonoBehaviour
 {
-    protected static Dictionary<string, ChunkData> savingChunks = new Dictionary<string, ChunkData>();
+    protected static Dictionary<string, SavedChunk> savingChunks = new Dictionary<string, SavedChunk>();
 
     protected const string DataFormat = ".dat";
 

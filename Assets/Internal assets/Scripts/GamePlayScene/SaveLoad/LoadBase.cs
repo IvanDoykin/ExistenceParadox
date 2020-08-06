@@ -2,5 +2,5 @@
 {
     public abstract bool TryLoadData(ref LoadingData loadingData, string key);
     protected abstract bool GetData(ref LoadingData loadingData, string key);
-    protected abstract bool TryGetFromDictionary(out LoadingData loadingData, string key);
+    protected abstract bool TryGetFromDictionary(ref LoadingData loadingData, string key);
 }

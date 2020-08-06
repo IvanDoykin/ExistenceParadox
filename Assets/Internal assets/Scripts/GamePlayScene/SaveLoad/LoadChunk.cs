@@ -15,7 +15,7 @@ public sealed class LoadChunk : LoadBase<ChunkData>
 
     protected override bool GetData(ref ChunkData chunk, string key)
     {
-        if (true)
+        if (!TryGetFromDictionary(ref chunk, key))
         {
             string path = chunksFolder + key + DataFormat;
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -27,13 +27,12 @@ public sealed class LoadChunk : LoadBase<ChunkData>
             {
                 SavedChunk savedChunk = (SavedChunk)binaryFormatter.Deserialize(fStream);
 
-                Debug.Log("Nice load :)");
-                Debug.Log("Load from: " + path);
                 chunk.SetStartData(ConvertVecToVector(savedChunk.position), savedChunk.rangeOffset, savedChunk.fullUpdated, ConvertVecToVector(savedChunk.dots));
 
                 return true;
             }
         }
+        return true;
     }
 
     private Vector3[] ConvertVecToVector(Vec3[] vecMassive)
@@ -53,11 +52,16 @@ public sealed class LoadChunk : LoadBase<ChunkData>
         return new Vector3(vec.x, vec.y, vec.z);
     }
 
-    protected override bool TryGetFromDictionary(out ChunkData loadingData, string key)
+    protected override bool TryGetFromDictionary(ref ChunkData loadingData, string key)
     {
-        if (savingChunks.TryGetValue(key, out loadingData))
+        SavedChunk savedChunk = new SavedChunk(new Vec3(0,0,0), 0, false, new Vec3[loadingData.dots.Length]);
+        if (savingChunks.TryGetValue(key, out savedChunk))
+        {
+            loadingData.SetStartData(ConvertVecToVector(savedChunk.position), savedChunk.rangeOffset, savedChunk.fullUpdated, ConvertVecToVector(savedChunk.dots));
             return true;
+        }
 
+        loadingData.SetStartData(ConvertVecToVector(savedChunk.position), savedChunk.rangeOffset, savedChunk.fullUpdated, new Vector3[loadingData.dots.Length]);
         return false;
     }
 }
