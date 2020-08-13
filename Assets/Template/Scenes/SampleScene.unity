@@ -1558,10 +1558,12 @@ MonoBehaviour:
   - {fileID: 652976163}
   - {fileID: 146291343}
   - {fileID: 1246089499}
+  QuickItemList:
+  - cell: {fileID: 451644417}
+  - cell: {fileID: 2011214492}
   prefabCell: {fileID: 2755297022589207457, guid: ff46824635dc7744dafec0fbfaab027c,
     type: 3}
-  meleeWeaponCell: {fileID: 451644416}
-  distanseWeaponCell: {fileID: 2011214491}
+  handT: {fileID: 2076247001}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,7 +1638,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.7e-44, y: 8.033692e-27, z: 8.7e-44, w: 0}
+  m_BoundingSphereOverride: {x: 2e-43, y: -0.11627132, z: 2e-43, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -4682,7 +4684,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076247000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.87, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2112666560}
@@ -4725,6 +4727,7 @@ MonoBehaviour:
   speed: 5
   turnsSmoothTime: 0.2
   speedSmoothTime: 0.1
+  weaponT: {fileID: 2076247001}
   InventoryPanel: {fileID: 1336150578}
   AimPanel: {fileID: 1902915792}
 --- !u!136 &2112666557

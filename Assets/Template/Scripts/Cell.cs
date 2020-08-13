@@ -13,7 +13,6 @@ public class Cell : MonoBehaviour
     [SerializeField]
     private TypeCell typeCell;
 
-    public bool IsEneble = false;
 
     public bool CheckingItemType(InventoryItem.ItemType itemType)
     {

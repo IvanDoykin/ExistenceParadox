@@ -2,15 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+[System.Serializable]
+public class InfoQuickCell
+{
+    [SerializeField]
+    private Transform cell;
+
+    private bool isEneble = false;
+
+    public bool IsEneble { get => isEneble; set => isEneble = value; }
+
+    public Transform Cell { get => cell; }
+}
 
 public class InventoryControl : MonoBehaviour
 {
     public static InventoryControl link = null;
+
     [SerializeField]
     private List<GameObject> itemList = new List<GameObject>();
+
+    [SerializeField]
+    private List<InfoQuickCell> QuickItemList = new List<InfoQuickCell>();
+
     [SerializeField]
     private GameObject prefabCell;
-    
+
+    [SerializeField]
+    private Transform handT;
+
 
     private void Awake()
     {
@@ -51,25 +71,52 @@ public class InventoryControl : MonoBehaviour
         Destroy(new_Item.gameObject);
     }
 
-    public void EquipWeapon(Transform target, Transform cell)
+    public void EquipWeapon(Transform target, int cellIndex)
     {
-        if (cell.GetComponentInChildren<InventoryItem>() != null)
+        if (QuickItemList[cellIndex].Cell.GetComponentInChildren<InventoryItem>() != null)
         {
-            if (!cell.GetComponent<Cell>().IsEneble)
+            if (!QuickItemList[cellIndex].IsEneble)
             {
-                if(target.childCount != 0)
+                if (target.childCount != 0)
                 {
-                    Destroy(target.GetChild(0).gameObject);
+                    ClearChildrenFromHands();
+
+                    foreach (InfoQuickCell item in QuickItemList)
+                    {
+                        item.IsEneble = false;
+                    }
                 }
 
-                GameObject.Instantiate(Resources.Load(cell.GetComponentInChildren<InventoryItem>().itemPrefab), target);
-                cell.GetComponent<Cell>().IsEneble = true;
+                GameObject.Instantiate(Resources.Load(QuickItemList[cellIndex].Cell.GetComponentInChildren<InventoryItem>().itemPrefab), target);
+
+                QuickItemList[cellIndex].IsEneble = true;
             }
             else
             {
-                Destroy(target.GetChild(0).gameObject);
-                cell.GetComponent<Cell>().IsEneble = false;
+                ClearChildrenFromHands();
+
+                QuickItemList[cellIndex].IsEneble = false;
+            }
+        }
+
+        void ClearChildrenFromHands()
+        {
+            int i = 0;
+
+            GameObject[] allChildren = new GameObject[handT.childCount];
+
+            foreach (Transform child in handT)
+            {
+                allChildren[i] = child.gameObject;
+                i += 1;
+            }
+
+            foreach (GameObject child in allChildren)
+            {
+                DestroyImmediate(child.gameObject);
             }
         }
     }
+
 }
+

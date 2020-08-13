@@ -23,12 +23,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject AimPanel;
 
-    [SerializeField]
-    private Transform meleeWeaponCell;
-    [SerializeField]
-    private Transform distanseWeaponCell;
-
-
     private void Start()
     {
         cameraT = Camera.main.transform;
@@ -70,13 +64,11 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            InventoryControl.link.EquipWeapon(weaponT, meleeWeaponCell);
-            distanseWeaponCell.GetComponent<Cell>().IsEneble = false;
+            InventoryControl.link.EquipWeapon(weaponT, 0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            InventoryControl.link.EquipWeapon(weaponT, distanseWeaponCell);
-            meleeWeaponCell.GetComponent<Cell>().IsEneble = false;
+            InventoryControl.link.EquipWeapon(weaponT, 1);
         }
     }
 
