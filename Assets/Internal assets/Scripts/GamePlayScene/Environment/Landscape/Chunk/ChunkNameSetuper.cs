@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ChunkNameData))]
-[RequireComponent(typeof(CoordinatesData))]
+[RequireComponent(typeof(CoordinatingData))]
 
 public class ChunkNameSetuper : MonoBehaviour
 {
     public static event SecondaryChunkGenerating.GeneratingEvents GeneratingDone;
 
     private ChunkNameData chunkNameData;
-    private CoordinatesData coordinatesData;
+    private CoordinatingData coordinatesData;
 
     private void Awake()
     {
         chunkNameData = GetComponent<ChunkNameData>();
-        coordinatesData = GetComponent<CoordinatesData>();
+        coordinatesData = GetComponent<CoordinatingData>();
 
         SetName();
     }

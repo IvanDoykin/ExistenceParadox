@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Coordinating))]
+[RequireComponent(typeof(CoordinatingData))]
 public class Spaceman : MonoBehaviour, ITick
 {
-    [SerializeField] ChunksBlock chunksBlock;
+    [SerializeField] ChunksUpdater ChunksUpdater;
 
     public delegate void CoordinatesChanging();
     public static event CoordinatesChanging CoordinatesChanged;
@@ -12,7 +14,7 @@ public class Spaceman : MonoBehaviour, ITick
     public static event SendChanging SendChange;
 
     private Coordinating coordinating;
-    private CoordinatesData coordinatesData;
+    private CoordinatingData coordinatingData;
 
     private int previousX;
     private int previousZ;
@@ -25,25 +27,25 @@ public class Spaceman : MonoBehaviour, ITick
         ManagerUpdate.AddTo(this);
         
         coordinating = GetComponent<Coordinating>();
-        coordinatesData = GetComponent<CoordinatesData>();
+        coordinatingData = GetComponent<CoordinatingData>();
         
         CoordinatesChanged += coordinating.SetUpCoordinates;
         CoordinatesChanged();
 
-        SendChange += chunksBlock.ChunksUpdate;
+        SendChange += ChunksUpdater.ChunksUpdate;
 
-        previousX = coordinatesData.x;
-        previousZ = coordinatesData.z;
+        previousX = coordinatingData.x;
+        previousZ = coordinatingData.z;
     }
 
     public void Tick()
     {
-        if ((previousX != coordinatesData.x) || (previousZ != coordinatesData.z))
+        if ((previousX != coordinatingData.x) || (previousZ != coordinatingData.z))
         {
-            SendChange(coordinatesData.x - previousX, coordinatesData.z - previousZ);
+            SendChange(coordinatingData.x - previousX, coordinatingData.z - previousZ);
 
-            previousX = coordinatesData.x;
-            previousZ = coordinatesData.z;
+            previousX = coordinatingData.x;
+            previousZ = coordinatingData.z;
         }
 
         CoordinatesChanged();

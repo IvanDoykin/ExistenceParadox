@@ -5,6 +5,8 @@ using Object = System.Object;
 //[RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(ChunksBlockAssemblerData))]
+
+//TRASH. DELETE AFTER REFACTORING
 public class ChunksBlockAssembler : MonoBehaviour
 {
     ChunksBlockAssemblerData assemblerData;

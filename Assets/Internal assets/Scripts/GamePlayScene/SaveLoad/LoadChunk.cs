@@ -27,7 +27,7 @@ public sealed class LoadChunk : LoadBase<ChunkData>
             {
                 SavedChunk savedChunk = (SavedChunk)binaryFormatter.Deserialize(fStream);
 
-                chunk.SetStartData(ConvertVecToVector(savedChunk.position), savedChunk.rangeOffset, savedChunk.fullUpdated, ConvertVecToVector(savedChunk.dots));
+                chunk.SetStartData(savedChunk.rangeOffset, savedChunk.fullUpdated, ConvertVecToVector(savedChunk.dots));
 
                 return true;
             }
@@ -54,14 +54,14 @@ public sealed class LoadChunk : LoadBase<ChunkData>
 
     protected override bool TryGetFromDictionary(ref ChunkData loadingData, string key)
     {
-        SavedChunk savedChunk = new SavedChunk(new Vec3(0,0,0), 0, false, new Vec3[loadingData.dots.Length]);
+        SavedChunk savedChunk = new SavedChunk(0, false, new Vec3[loadingData.dots.Length]);
         if (savingChunks.TryGetValue(key, out savedChunk))
         {
-            loadingData.SetStartData(ConvertVecToVector(savedChunk.position), savedChunk.rangeOffset, savedChunk.fullUpdated, ConvertVecToVector(savedChunk.dots));
+            loadingData.SetStartData(savedChunk.rangeOffset, savedChunk.fullUpdated, ConvertVecToVector(savedChunk.dots));
             return true;
         }
 
-        loadingData.SetStartData(ConvertVecToVector(savedChunk.position), savedChunk.rangeOffset, savedChunk.fullUpdated, new Vector3[loadingData.dots.Length]);
+        loadingData.SetStartData(savedChunk.rangeOffset, savedChunk.fullUpdated, new Vector3[loadingData.dots.Length]);
         return false;
     }
 }

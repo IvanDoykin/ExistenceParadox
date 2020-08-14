@@ -6,6 +6,7 @@ using System.IO;
 [RequireComponent(typeof(ChunksBlockData))]
 public class EdgeSmoother : MonoBehaviour, IEventTrigger
 {
+    //for convinient describing corner dots in chunks
     private enum CornerDots
     {
         first,
@@ -16,16 +17,12 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
 
     [SerializeField] private EventsCollection ChunkCreated;
 
+    //synchronize corner dots with neighbour chunks
     public void Smooth(int x, int z)
     {
         DetermineDirection(x, z);
         SmoothCornerDots(x, z);
         TriggerEvent(ChunkCreated.currentEvent);
-        //ChunksBlockData.chunks[x, z].gameObject.GetComponent<MeshFilter>().mesh.Clear();
-
-        //CreateMesh();
-        //Destroy(GetComponent<MeshCollider>());
-        //MeshCollider mesh_col = this.gameObject.AddComponent<MeshCollider>();
     }
 
     private void DetermineDirection(int x, int z)
@@ -115,7 +112,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
 
             for (int i = startPoint; i < dotsLength + offsetDown; i += step)
             {
-                childChunk.dots[i].y = SecondaryChunkGenerating.Average(childChunk.dots[i - chunkDotOffset].y, parentChunk.dots[i + otherChunkDot + chunkDotOffset].y);
+                childChunk.dots[i].y = MeshCreator.Average(childChunk.dots[i - chunkDotOffset].y, parentChunk.dots[i + otherChunkDot + chunkDotOffset].y);
                 parentChunk.dots[i + otherChunkDot].y = childChunk.dots[i].y;
             }
         }

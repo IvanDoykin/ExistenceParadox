@@ -1908,6 +1908,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4339,7 +4340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 9
+  m_Version: 10
   m_ObsoleteShadowResolutionTier: 1
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
@@ -4385,6 +4386,8 @@ MonoBehaviour:
   m_FilterSizeTraced: 16
   m_SunLightConeAngle: 0.5
   m_LightShadowRadius: 0.5
+  m_SemiTransparentShadow: 0
+  m_ColorShadow: 1
   m_EvsmExponent: 15
   m_EvsmLightLeakBias: 0
   m_EvsmVarianceBias: 0.00001
@@ -4433,6 +4436,8 @@ MonoBehaviour:
   useVolumetric: 1
   featuresFoldout: 1
   showAdditionalSettings: 0
+  m_AreaLightEmissiveMeshShadowCastingMode: 0
+  m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
 --- !u!108 &608827040
 Light:
   m_ObjectHideFlags: 0
@@ -6184,7 +6189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 9
+  m_Version: 10
   m_ObsoleteShadowResolutionTier: 1
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
@@ -6230,6 +6235,8 @@ MonoBehaviour:
   m_FilterSizeTraced: 16
   m_SunLightConeAngle: 0.5
   m_LightShadowRadius: 0.5
+  m_SemiTransparentShadow: 0
+  m_ColorShadow: 1
   m_EvsmExponent: 15
   m_EvsmLightLeakBias: 0
   m_EvsmVarianceBias: 0.00001
@@ -6278,6 +6285,8 @@ MonoBehaviour:
   useVolumetric: 1
   featuresFoldout: 1
   showAdditionalSettings: 0
+  m_AreaLightEmissiveMeshShadowCastingMode: 0
+  m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
 --- !u!108 &970878657
 Light:
   m_ObjectHideFlags: 0
@@ -9437,7 +9446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cfb16c6c8626f409e29674815a0d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunksBlock: {fileID: 1808647738}
+  ChunksUpdater: {fileID: 1808647737}
 --- !u!114 &1430672204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12573,10 +12582,11 @@ GameObject:
   - component: {fileID: 1808647741}
   - component: {fileID: 1808647742}
   - component: {fileID: 1808647743}
-  - component: {fileID: 1808647740}
-  - component: {fileID: 1808647738}
-  - component: {fileID: 1808647737}
   - component: {fileID: 1808647739}
+  - component: {fileID: 1808647744}
+  - component: {fileID: 1808647745}
+  - component: {fileID: 1808647737}
+  - component: {fileID: 1808647738}
   m_Layer: 0
   m_Name: Landscape
   m_TagString: Untagged
@@ -12605,9 +12615,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808647735}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa115ee41f7cef74aa2c3457311bed6e, type: 3}
+  m_Script: {fileID: 11500000, guid: c2bd6f0d0b39b1448a3e69526acb708e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1808647738
@@ -12619,7 +12629,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1808647735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cdf3333a94b21c46a4dabbbf2244f88, type: 3}
+  m_Script: {fileID: 11500000, guid: c3cf6cf98018f014bb63565c30eed00e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1808647739
@@ -12635,20 +12645,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChunkCreated: {fileID: 11400000, guid: c731cb7fb5454e04aa6fc18aa333ba16, type: 2}
---- !u!114 &1808647740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808647735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e02176c38e9552742949385abbb4a3bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generatedChunks: 0
-  needGeneratedChunks: 0
 --- !u!23 &1808647741
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12708,9 +12704,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4284cc2d676df1d49bbeb225cb77a1b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunk: {fileID: 9006879815140472245, guid: 3816abd9d8cadb44f95c5720cf1f0571, type: 3}
-  zeroPointX: 0
-  zeroPointZ: 0
+  Chunk: {fileID: 9006879815140472245, guid: 3816abd9d8cadb44f95c5720cf1f0571, type: 3}
+--- !u!114 &1808647744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808647735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb6c8e443bef36448f2cf4649e151df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1808647745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808647735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dba83291a462c845b9275a212a00725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1814813978 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 643010654388840527, guid: f83269831431c1b4f957b5c3b73f92f6,

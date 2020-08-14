@@ -1,75 +1,19 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(ChunkData))]
-[RequireComponent(typeof(VerticesData))]
-[RequireComponent(typeof(CoordinatesData))]
-[RequireComponent(typeof(Coordinating))]
-
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(SecondaryChunkGenerating))]
 
 public class PrimaryChunkGenerating : MonoBehaviour
 {
-    public bool created;
-
-    private Coordinating coordinating;
-    private LoadChunk loadChunk;
-    private SecondaryChunkGenerating secondaryChunkGenerating;
+    //not need, but script require this
     private ChunkData chunk;
-    private CoordinatesData coordinatesData;
-    private ChunksBlock chunksController;
-
-    public delegate void CallChunkLinking(CoordinatesData coordinatesData);
-    public static event CallChunkLinking NeedLink;
-
-    public delegate void CallPrimaryGenerating();
-    public static event CallPrimaryGenerating PrimaryGeneratingDone;
 
     private void Start()
     {
-        loadChunk = GetComponent<LoadChunk>();
-
-        coordinating = GetComponent<Coordinating>();
-        coordinating.SetUpCoordinates();
-
-        chunksController = GetComponentInParent<ChunksBlock>();
-
-        secondaryChunkGenerating = GetComponent<SecondaryChunkGenerating>();
         chunk = GetComponent<ChunkData>();
-        coordinatesData = GetComponent<CoordinatesData>();
-
-        NeedLink += chunksController.LinkChunk;
-        PrimaryGeneratingDone += secondaryChunkGenerating.SecondaryGenerating;
-
-        created = loadChunk.TryLoadData(ref chunk, gameObject.GetComponent<ChunkNameData>().value);
-        chunk.position = gameObject.transform.position;
-
-        if (!created)
-        {
-            Debug.Log("Not load");
-            InitializeChunk();
-
-            NeedLink(coordinatesData);
-            NeedLink -= chunksController.LinkChunk;
-
-            DiamondSquare(ChunkData.Size);
-            PrimaryGeneratingDone();
-        }
-
-        else
-        {
-            chunk.mesh = new Mesh();
-            secondaryChunkGenerating.CreateMesh();
-        }
-
-        chunk.constructed = true;
-
-        NeedLink -= chunksController.LinkChunk;
-        PrimaryGeneratingDone -= secondaryChunkGenerating.SecondaryGenerating;
     }
 
-    private void InitializeChunk()
+    //some routine work
+    public void InitializeChunk()
     {
         for (int i = 0; i < chunk.notCalculatedVecs.Length; i++)
         {
@@ -81,7 +25,8 @@ public class PrimaryChunkGenerating : MonoBehaviour
         InitializeVectors();
     }
 
-    private void DiamondSquare(int mesh_size, int coord_offset = 0)
+    //generating dots for chunk
+    public void DiamondSquare(int mesh_size, int coord_offset = 0)
     {
         //if simple - take 2 dots height and interpolate height using dots between them with random offset
 
@@ -146,6 +91,7 @@ public class PrimaryChunkGenerating : MonoBehaviour
         DiamondSquare(mesh_size / 2, (left_down_corner_index + right_up_corner_index) / 2);        
     }
 
+    //also some routine
     private void InitializeVectors()
     {
         for (int i = 0; i <= ChunkData.Size; i++)

@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public sealed class SaveChunk : SaveBase<ChunkData>
+public sealed class SaveChunk : SaveBase<ChunkData>, ISaver
 {
     private string chunksFolder;
 
@@ -19,14 +19,10 @@ public sealed class SaveChunk : SaveBase<ChunkData>
 
     public override void WriteData(ChunkData chunk, string chunkName)
     {
-        if (chunk == null)
-        {
+        if ((chunk == null) || (savingChunks.TryGetValue(chunkName, out SavedChunk value)))
             return;
-        }
 
-        if (savingChunks.TryGetValue(chunkName, out SavedChunk value)) {  return; }
-
-        savingChunks.Add(chunkName, new SavedChunk(ConvertVectorIntoVec(chunk.position), chunk.rangeOffset, chunk.fullUpdated, ConvertVectorIntoVec(chunk.dots)));
+        savingChunks.Add(chunkName, new SavedChunk(chunk.rangeOffset, chunk.fullUpdated, ConvertVectorIntoVec(chunk.dots)));
     }
 
     public override void SaveAll()
@@ -69,4 +65,13 @@ public sealed class SaveChunk : SaveBase<ChunkData>
         return new Vec3(vector.x, vector.y, vector.z);
     }
 
+    public void OnDestroy()
+    {
+        Save();
+    }
+
+    public void Save()
+    {
+        WriteData(GetComponent<ChunkData>(), GetComponent<ChunkNameData>().value);
+    }
 }

@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 
+//That class keep cache-dictionaries, some general info and need structures for convert [monobehaviour data <-> non-monobehaviour data]
 public abstract class InputOutputBase : MonoBehaviour
 {
     protected static Dictionary<string, SavedChunk> savingChunks = new Dictionary<string, SavedChunk>();
 
     protected const string DataFormat = ".dat";
 
+    //Vector <-> Vec3
     [Serializable]
     protected struct Vec3
     {
@@ -23,18 +25,17 @@ public abstract class InputOutputBase : MonoBehaviour
         }
     }
 
+    //ChunkData <-> SavedChunk
     [Serializable]
     protected struct SavedChunk
     {
-        public Vec3 position;
         public float rangeOffset;
         public bool fullUpdated;
 
         public Vec3[] dots;
 
-        public SavedChunk(Vec3 Position, float RangeOffset, bool FullUpdated, Vec3[] Dots)
+        public SavedChunk(float RangeOffset, bool FullUpdated, Vec3[] Dots)
         {
-            position = Position;
             rangeOffset = RangeOffset;
             fullUpdated = FullUpdated;
             dots = Dots;

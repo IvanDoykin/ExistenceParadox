@@ -2,8 +2,6 @@
 
 public class ChunkData : Saveable
 {
-    public Vector3 position;
-
     public float range = 2; //height 'strength'
     public float rangeOffset = 0;
     public float smallerRange = 0; //allow change generating mode (smaller - flatter, bigger - 'hilly')
@@ -14,7 +12,7 @@ public class ChunkData : Saveable
 
     [HideInInspector] public int[] notCalculatedVecs = new int[(Size + 1) * (Size + 1)]; //using for determinate not calculated verticles 
     public Vector3[] dots = new Vector3[(Size + 1) * (Size + 1)]; //main dots = (size + 1) ^ 2 //for saving
-
+    [HideInInspector] public Vector3[] generatedVertices;
     [HideInInspector] public Vector3[] vertices = new Vector3[Size * Size * 6]; //vertics = ordinalNumbers (IMPORTANT!)
     [HideInInspector] public int[] ordinalNumbers = new int[Size * Size * 6]; //ordinalNumbers = vertics (IMPORTANT!)
 
@@ -28,11 +26,15 @@ public class ChunkData : Saveable
     [HideInInspector] public Mesh mesh;
     [HideInInspector] public int[] triangles;
 
-    public void SetStartData(Vector3 Position, float RangeOffset, bool FullUpdated, Vector3[] Dots)
+    public void SetStartData(float RangeOffset, bool FullUpdated, Vector3[] Dots)
     {
-        position = Position;
         rangeOffset = RangeOffset;
         fullUpdated = FullUpdated;
         dots = Dots;
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("NANI");
     }
 }

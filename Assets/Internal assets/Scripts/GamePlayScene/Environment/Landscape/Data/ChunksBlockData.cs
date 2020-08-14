@@ -2,13 +2,19 @@
 
 public class ChunksBlockData : MonoBehaviour
 {
-    public GameObject chunk;
+    [SerializeField] private GameObject Chunk;
+    public static GameObject chunk; //chunk's prefab
 
-    public const int chunksBlockSize = 13; //not even number
-    public const int halfChunkBlockSize = (chunksBlockSize - 1) / 2;
+    private void Awake()
+    {
+        chunk = Chunk;
+    }
 
-    public int zeroPointX;
-    public int zeroPointZ;
+    public const int chunksBlockSize = 13; //(NOT EVEN NUMBER!!!) It set chunks block's size (N x N)
+    public const int halfChunkBlockSize = (chunksBlockSize - 1) / 2; //for convinient calculations
 
-    public static ChunkData[,] chunks = new ChunkData[chunksBlockSize, chunksBlockSize];
+    public static int zeroPointX;
+    public static int zeroPointZ;
+
+    public static ChunkData[,] chunks = new ChunkData[chunksBlockSize, chunksBlockSize]; //keep all visible chunks
 }
