@@ -9,19 +9,19 @@ public class Item : MonoBehaviour
     public IItemType itemType { get; private protected set; }
 
     [SerializeField]
-    private Sprite itemIcon;
+    private Sprite itemIcon = null;
     public Sprite Icon { get => itemIcon; }
 
     [SerializeField]
-    private string itemName;
+    private string itemName = null;
     public string ItemName { get => itemName; }
 
     [SerializeField]
-    private string itemDescription;
+    private string itemDescription = null;
     public string ItemDescription { get => itemDescription; }
 
     [SerializeField]
-    private string itemPrefab;
+    private string itemPrefab = null;
     public string  Prefab { get => itemPrefab; }
 
     private void OnTriggerEnter(Collider other)

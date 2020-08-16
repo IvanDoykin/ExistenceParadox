@@ -11,7 +11,7 @@ public class Cell : MonoBehaviour
         distanseItem
     }
     [SerializeField]
-    private TypeCell typeCell;
+    private TypeCell typeCell = TypeCell.everyItem;
 
 
     public bool CheckingItemType(InventoryItem.ItemType itemType)

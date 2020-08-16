@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class InfoQuickCell
 {
     [SerializeField]
-    private Transform cell;
+    private Transform cell = null;
 
     private bool isEneble = false;
 
@@ -26,10 +26,10 @@ public class InventoryControl : MonoBehaviour
     private List<InfoQuickCell> QuickItemList = new List<InfoQuickCell>();
 
     [SerializeField]
-    private GameObject prefabCell;
+    private GameObject prefabCell = null;
 
     [SerializeField]
-    private Transform handT;
+    private Transform handT = null;
 
 
     private void Awake()

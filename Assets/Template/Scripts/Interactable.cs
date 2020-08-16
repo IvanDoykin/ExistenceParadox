@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public  int hp;
+    [SerializeField]
+    private protected int hp;
     float moveSpeed;
-    public void CauseDamage(int damege)
+    public virtual void CauseDamage(int damege)
     {
         hp -= damege;
         if(hp <= 0)

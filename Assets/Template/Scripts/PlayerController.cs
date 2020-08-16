@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private float speed;
+    private float speed = 0.0f;
     [SerializeField]
     private float turnsSmoothTime = 0.2f;
     private float turnSmoothVelocity;
@@ -16,12 +16,13 @@ public class PlayerController : MonoBehaviour
 
     private Transform cameraT;
     [SerializeField]
-    private Transform weaponT;
+    private Transform weaponT = null;
+
 
     [SerializeField]
-    private GameObject InventoryPanel;
+    private GameObject InventoryPanel = null;
     [SerializeField]
-    private GameObject AimPanel;
+    private GameObject AimPanel = null;
 
     private void Start()
     {
