@@ -15,10 +15,8 @@ public class PlayerController : MonoBehaviour
     private float currentSpeed;
 
     private Transform cameraT;
-    [SerializeField]
-    private Transform weaponT = null;
 
-
+    public WeaponController weaponController = null;
     [SerializeField]
     private GameObject InventoryPanel = null;
     [SerializeField]
@@ -63,13 +61,20 @@ public class PlayerController : MonoBehaviour
             InventoryPanel.SetActive(!InventoryPanel.activeInHierarchy);
             AimPanel.SetActive(!AimPanel.activeInHierarchy);
         }
+
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            InventoryControl.link.EquipWeapon(weaponT, 0);
+            weaponController.InputWeapon(0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            InventoryControl.link.EquipWeapon(weaponT, 1);
+            weaponController.InputWeapon(1);
+        }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            weaponController.Gun();
         }
     }
 

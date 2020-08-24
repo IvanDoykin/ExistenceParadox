@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponMelee : Weapon, Item.IItemType
+public class WeaponMelee : Weapon
 {
-    public InventoryItem.ItemType AddItemType()
+    public override void Attack()
     {
-        return InventoryItem.ItemType.WeaponMelee;
+        throw new System.NotImplementedException();
     }
 
-    private void Start()
+    public override void m_GetType()
     {
-        itemType = this;
+        Debug.Log("dddddd");
     }
 }

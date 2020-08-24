@@ -12,7 +12,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         WeaponDistanse
     }
 
-
+    public Item item;
     public ItemType itemType;
     public string itemName;
     public string itemDescription;
@@ -27,6 +27,12 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         itemIcon = GetComponent<Image>();
     }
 
+    private void Update()
+    {
+        if(item)
+            item.m_GetType();
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         itemIcon.raycastTarget = false;
@@ -36,6 +42,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
+
         transform.position = eventData.position;
     }
 
@@ -57,4 +64,5 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         itemIcon.raycastTarget = true;
     }
+    
 }

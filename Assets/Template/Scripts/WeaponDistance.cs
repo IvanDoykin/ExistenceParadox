@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponDistance : Weapon, Item.IItemType
+public class WeaponDistance : Weapon
 {
-    public InventoryItem.ItemType AddItemType()
+
+    public override void Attack()
     {
-        return InventoryItem.ItemType.WeaponDistanse;
+        Debug.Log("ffff");
     }
 
-    private void Start()
+    public override object m_GetType()
     {
-        itemType = this;
+        return this;
     }
 }

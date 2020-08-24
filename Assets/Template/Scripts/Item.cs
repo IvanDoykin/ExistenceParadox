@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour
 {
-    public IItemType itemType { get; private protected set; }
+    //public IItemType ItemType { get; private protected set; }
 
     [SerializeField]
     private Sprite itemIcon = null;
@@ -29,8 +29,5 @@ public class Item : MonoBehaviour
         InventoryControl.link.AddItem(this);
     }
 
-    public interface IItemType
-    {
-        InventoryItem.ItemType AddItemType();
-    }
+    public abstract object m_GetType();
 }
