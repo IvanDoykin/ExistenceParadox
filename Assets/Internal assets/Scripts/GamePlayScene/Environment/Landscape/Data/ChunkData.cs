@@ -16,6 +16,7 @@ public class ChunkData : Saveable
     [HideInInspector] public Vector3[] vertices = new Vector3[Size * Size * 6]; //vertics = ordinalNumbers (IMPORTANT!)
     [HideInInspector] public int[] ordinalNumbers = new int[Size * Size * 6]; //ordinalNumbers = vertics (IMPORTANT!)
 
+    [HideInInspector] public bool loaded = false;
     [HideInInspector] public bool readyForUpdate = false;
     [HideInInspector] public bool constructed = false; //is chunck constructed?
     [HideInInspector] public bool fullUpdated = false;

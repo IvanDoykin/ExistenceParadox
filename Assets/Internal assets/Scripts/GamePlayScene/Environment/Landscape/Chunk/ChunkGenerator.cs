@@ -16,8 +16,6 @@ using UnityEngine;
 
 public class ChunkGenerator : MonoBehaviour
 {
-    public bool loaded; //load from hard-drive or not?
-
     //some additional functionality
     private PrimaryChunkGenerating primaryChunkGenerating;
     private SecondaryChunkGenerating secondaryChunkGenerating;
@@ -36,6 +34,8 @@ public class ChunkGenerator : MonoBehaviour
     //If we are generating, throw message 'Start next generating stage, plz'
     public delegate void CallPrimaryGenerating();
     public static event CallPrimaryGenerating PrimaryGeneratingDone;
+
+    public static event GeneratingPriorityPlanner.PriorityEvent CallChunkGenerating;
 
     private void Start()
     {
@@ -58,10 +58,16 @@ public class ChunkGenerator : MonoBehaviour
         coordinatesData = GetComponent<CoordinatingData>();
 
         //try find earlier saved chunk
-        loaded = loadChunk.TryLoadData(ref chunk, gameObject.GetComponent<ChunkNameData>().value);
+        chunk.loaded = loadChunk.TryLoadData(ref chunk, gameObject.GetComponent<ChunkNameData>().value);
 
+        GeneratingPriorityPlanner.NotifyChunk();
+
+    }
+
+    public void SomeBuddy()
+    {
         //if not, we generate this
-        if (!loaded)
+        if (!chunk.loaded)
         {
             primaryChunkGenerating.InitializeChunk();
 
@@ -69,7 +75,7 @@ public class ChunkGenerator : MonoBehaviour
             NeedLink -= chunksLinker.LinkChunk;
 
             primaryChunkGenerating.DiamondSquare(ChunkData.Size);
-            PrimaryGeneratingDone();
+            secondaryChunkGenerating.SecondaryGenerating();
         }
 
         //else apply some technical changes
@@ -83,6 +89,7 @@ public class ChunkGenerator : MonoBehaviour
         chunk.constructed = true;
         NeedLink -= chunksLinker.LinkChunk;
         PrimaryGeneratingDone -= secondaryChunkGenerating.SecondaryGenerating;
+
     }
 
 }
