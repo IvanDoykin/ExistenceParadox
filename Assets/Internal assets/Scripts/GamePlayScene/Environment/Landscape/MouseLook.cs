@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 
+public enum RotationAxes
+{
+    MouseX,
+    MouseY,
+    MouseXAndY
+}
+
 public class MouseLook : MonoBehaviour, ITick
 {
     public RotationAxes axes = RotationAxes.MouseXAndY;
