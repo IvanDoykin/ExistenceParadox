@@ -6,57 +6,71 @@ public class InfoWeaponCell
 {
     [SerializeField]
     private Transform cell = null;
+    public Transform Cell => cell;
 
-    private bool isEneble = false;
-
-    public bool IsEneble { get => isEneble; set => isEneble = value; }
-
-    public Transform Cell { get => cell; }
+    public InventoryItem cellInventoryItem => cell.GetComponentInChildren<InventoryItem>();
 }
 
 
 public class WeaponController : MonoBehaviour
 {
+
+    public delegate void ItemActionHandler();
+    public static event ItemActionHandler Notify_1;
+
+    public delegate void ItemDropHandler();
+    public static event ItemDropHandler Notify_2;
     [SerializeField]
     private List<InfoWeaponCell> QuickItemList = new List<InfoWeaponCell>();
 
     [SerializeField]
     private Transform handT = null;
-    private InventoryItem Active;
+
+    private InfoWeaponCell activeCell;
+    public InfoWeaponCell ActiveCell
+    {
+        get { return activeCell; }
+        set
+        {
+            ClearChildrenFromHands();
+            if (activeCell == value)
+            {
+                activeCell = null;
+            }
+            else
+            {
+                activeCell = value;
+                InstantiateWeapon();
+            }
+        }
+    }
 
     private Plane m_Plane;
     private Vector3 m_DistanceFromCamera;
 
+    private void Test()
+    {
+        ActiveCell = null;
+    }
+
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         m_DistanceFromCamera = new Vector3(Camera.main.transform.position.x, 0.0f, Camera.main.transform.position.z);
         m_Plane = new Plane(Vector3.up, m_DistanceFromCamera);
+
+        Notify_2 += Test;
     }
 
-    public void InputWeapon(int cellIndex)
+    private void InstantiateWeapon()
     {
-        InfoWeaponCell infoQuickCell = QuickItemList[cellIndex];
-
-        InventoryItem inventoryItem = infoQuickCell.Cell.GetComponentInChildren<InventoryItem>();
-
-        if (inventoryItem)
+        if (ActiveCell.cellInventoryItem)
         {
-
-            if(!infoQuickCell.IsEneble)
-            {
-                ClearChildrenFromHands();
-
-                GameObject.Instantiate(Resources.Load(inventoryItem.itemPrefab), handT);
-                Active = inventoryItem;
-                infoQuickCell.IsEneble = true;
-            }
-            else
-            {
-                ClearChildrenFromHands();
-            }
+            ClearChildrenFromHands();
+            GameObject.Instantiate(Resources.Load(ActiveCell.cellInventoryItem.itemPrefab), handT);
         }
     }
+
+    public void InputWeapon(int cellIndex) => ActiveCell = QuickItemList[cellIndex];
     private void ClearChildrenFromHands()
     {
         int i = 0;
@@ -77,31 +91,21 @@ public class WeaponController : MonoBehaviour
         {
             DestroyImmediate(child.gameObject);
         }
-
-        foreach (InfoWeaponCell item in QuickItemList)
-        {
-            item.IsEneble = false;
-        }
     }
+    public static void hng() => Notify_2?.Invoke();
     public void Gun()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        float enter = 0.0f;
 
-        if (m_Plane.Raycast(ray, out enter))
+        if (m_Plane.Raycast(ray, out float enter))
         {
             Vector3 hitPoint = ray.GetPoint(enter);
             Vector3 oldRotate = Vector3.zero;
             handT.transform.LookAt(hitPoint);
             oldRotate.x = handT.transform.localEulerAngles.x;
             handT.transform.localEulerAngles = oldRotate;
-            //Instantiate(prefab, transform.position, transform.rotation);
-            var item = Active.item.m_GetType();
-            item.GetType();
-            handT.GetComponent<>().Attack();
+            Notify_1?.Invoke();
         }
-
-
     }
 }

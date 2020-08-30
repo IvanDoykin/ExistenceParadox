@@ -110,3 +110,5 @@ MonoBehaviour:
   itemName: Pistol
   itemDescription: '  '
   itemPrefab: Pistol
+  bulletPrefab: {fileID: 3373522419037280565, guid: f0e3fa68f5391504ca9855e00742c4f5,
+    type: 3}

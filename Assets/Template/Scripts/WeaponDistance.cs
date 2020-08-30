@@ -1,17 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WeaponDistance : Weapon
 {
-
+    [SerializeField]
+    private GameObject bulletPrefab;
     public override void Attack()
     {
-        Debug.Log("ffff");
-    }
-
-    public override object m_GetType()
-    {
-        return this;
+        Instantiate(bulletPrefab, transform.position, transform.rotation);
     }
 }

@@ -42,24 +42,19 @@ public class InventoryControl : MonoBehaviour
         Debug.Log(item.GetType());
         GameObject newItem = Instantiate(prefabCell, EmptyCell.transform);
         InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
-        inventoryItem.item = item;
-        //item.m_GetType();
+        
+        SetField(item.Icon, item.ItemName, item.ItemDescription, item.Prefab, item.GetType().ToString());
 
+        void SetField(Sprite itemIcon, string itemName, string itemDescription, string prefab, string itemType)
+        {
+            newItem.GetComponent<Image>().sprite = itemIcon;
+            inventoryItem.itemName = itemName;
+            inventoryItem.itemDescription = itemDescription;
+            inventoryItem.itemPrefab = prefab;
+            inventoryItem.itemType = itemType;
+        }
 
-        //GameObject newItem = Instantiate(prefabCell, EmptyCell.transform);
-        //InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
-        //Item new_Item = (Item)item;
-        //SetField(new_Item.Icon, new_Item.ItemName, new_Item.ItemDescription, new_Item.Prefab, new_Item.ItemType.AddItemType());
-
-        //void SetField(Sprite Icon, string itemName, string itemDescription, string prefab, InventoryItem.ItemType itemType)
-        //{
-        //    newItem.GetComponent<Image>().sprite = Icon;
-        //    inventoryItem.itemName = itemName;
-        //    inventoryItem.itemDescription = itemDescription;
-        //    inventoryItem.itemPrefab = prefab;
-        //    inventoryItem.itemType = itemType;
-        //}
-        //Destroy(new_Item.gameObject);
+        Destroy(item.gameObject);
     }
 }
 

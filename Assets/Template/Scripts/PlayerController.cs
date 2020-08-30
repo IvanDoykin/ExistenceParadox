@@ -6,17 +6,15 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private float speed = 0.0f;
-    [SerializeField]
-    private float turnsSmoothTime = 0.2f;
-    private float turnSmoothVelocity;
+
     [SerializeField]
     private float speedSmoothTime = 0.1f;
     private float speedSmoothVelocity;
     private float currentSpeed;
 
     private Transform cameraT;
-
-    public WeaponController weaponController = null;
+    [SerializeField]
+    private WeaponController weaponController = null;
     [SerializeField]
     private GameObject InventoryPanel = null;
     [SerializeField]
@@ -26,17 +24,24 @@ public class PlayerController : MonoBehaviour
     {
         cameraT = Camera.main.transform;
     }
-
     private void Update()
     {
+        if (AimPanel.activeInHierarchy)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.Confined;
+
+
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 inputDir = input.normalized;
 
-        if(inputDir != Vector2.zero)
+        if (inputDir != Vector2.zero)
         {
-            float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Deg2Rad + cameraT.eulerAngles.y;
-            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.localEulerAngles.y, targetRotation, ref turnSmoothVelocity, turnsSmoothTime);
+            StopCoroutine(Example(Quaternion.identity));
+            Quaternion newRotation = Quaternion.Euler(transform.eulerAngles.x, cameraT.eulerAngles.y, transform.eulerAngles.z);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * speed);
         }
+
         float targetSpeed = speed * inputDir.magnitude;
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
@@ -60,6 +65,7 @@ public class PlayerController : MonoBehaviour
         {
             InventoryPanel.SetActive(!InventoryPanel.activeInHierarchy);
             AimPanel.SetActive(!AimPanel.activeInHierarchy);
+
         }
 
 
@@ -72,11 +78,26 @@ public class PlayerController : MonoBehaviour
             weaponController.InputWeapon(1);
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            weaponController.Gun();
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Quaternion newRotation = Quaternion.Euler(transform.eulerAngles.x, cameraT.eulerAngles.y, transform.eulerAngles.z);
+                StartCoroutine(Example(newRotation));
+            }
         }
     }
 
-
+    private IEnumerator Example(Quaternion newRotation)
+    {
+        float timeCount = 0.0f;
+        Quaternion oldRotation = transform.rotation;
+        while (timeCount <= 1.0f)
+        {
+            transform.rotation = Quaternion.Slerp(oldRotation, newRotation, timeCount);
+            timeCount += Time.deltaTime * speed;
+            yield return new WaitForEndOfFrame();
+        }
+        weaponController.Gun();
+    }
 }

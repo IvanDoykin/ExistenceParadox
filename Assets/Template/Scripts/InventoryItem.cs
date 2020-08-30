@@ -6,14 +6,8 @@ using UnityEngine.UI;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public enum ItemType
-    {
-        WeaponMelee,
-        WeaponDistanse
-    }
 
-    public Item item;
-    public ItemType itemType;
+    public string itemType;
     public string itemName;
     public string itemDescription;
     public string itemPrefab;
@@ -25,12 +19,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void Start()
     {
         itemIcon = GetComponent<Image>();
-    }
-
-    private void Update()
-    {
-        if(item)
-            item.m_GetType();
     }
 
     public void OnBeginDrag(PointerEventData eventData)

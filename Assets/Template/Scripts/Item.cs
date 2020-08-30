@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public abstract class Item : MonoBehaviour
 {
+    
     //public IItemType ItemType { get; private protected set; }
-
     [SerializeField]
     private Sprite itemIcon = null;
     public Sprite Icon { get => itemIcon; }
@@ -28,6 +28,4 @@ public abstract class Item : MonoBehaviour
     {
         InventoryControl.link.AddItem(this);
     }
-
-    public abstract object m_GetType();
 }

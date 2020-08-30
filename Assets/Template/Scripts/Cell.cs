@@ -7,28 +7,24 @@ public class Cell : MonoBehaviour
     enum TypeCell
     {
         everyItem,
-        meleeItem,
-        distanseItem
+        WeaponMelee,
+        WeaponDistance
     }
     [SerializeField]
     private TypeCell typeCell = TypeCell.everyItem;
 
-
-    public bool CheckingItemType(InventoryItem.ItemType itemType)
+    public bool CheckingItemType(string itemType)
     {
-        switch(typeCell)
-        {
-            case TypeCell.meleeItem:
-                if (itemType == InventoryItem.ItemType.WeaponMelee)
-                    return true;
-                else  return false;
+        if (typeCell.ToString() == itemType)
+            return true;
+        else return false;
+    }
 
-            case TypeCell.distanseItem:
-                if (itemType == InventoryItem.ItemType.WeaponDistanse)
-                    return true;
-                else return false;
-            default:
-                return true;
+    private void OnTransformChildrenChanged()
+    {
+        if(typeCell == TypeCell.WeaponDistance || typeCell == TypeCell.WeaponMelee)
+        {
+            WeaponController.hng();
         }
     }
 }
