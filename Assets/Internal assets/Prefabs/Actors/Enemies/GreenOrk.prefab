@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 643010654388840527}
+  - component: {fileID: 6282349036197087988}
   - component: {fileID: 6367472122478410177}
   - component: {fileID: 5942106183010971910}
   - component: {fileID: 5067327810221439636}
@@ -35,6 +36,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6282349036197087988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2245537871463378725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e108aeccd7f82049a7b3bd52e23ae7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavioursList:
+    array:
+    - {fileID: 11400000, guid: 8ca12726ec88ee849b8f271c73f3a294, type: 2}
+  damageData:
+    damage: 0
+  pursueData:
+    navMeshAgent: {fileID: 5067327810221439636}
+    player: {fileID: 0}
+  detectingData:
+    DetectingBoxCollider: {fileID: 0}
 --- !u!33 &6367472122478410177
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -127,7 +150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3888322532010300800}
   m_Layer: 0
-  m_Name: DetectingEntitiesCollider
+  m_Name: DetectingCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
