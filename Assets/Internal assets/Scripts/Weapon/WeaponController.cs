@@ -18,7 +18,7 @@ public class WeaponController : MonoBehaviour
 {
 
     public delegate void ItemActionHandler();
-    public static event ItemActionHandler Notify_1;
+    public static event ItemActionHandler AttackEvent;
 
     [SerializeField]
     private List<InfoWeaponCell> QuickItemList = new List<InfoWeaponCell>();
@@ -64,7 +64,6 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public void InputWeapon(int cellIndex) => ActiveCell = QuickItemList[cellIndex];
     private void ClearChildrenFromHands()
     {
         int i = 0;
@@ -98,7 +97,7 @@ public class WeaponController : MonoBehaviour
             handT.transform.LookAt(hitPoint);
             oldRotate.x = handT.transform.localEulerAngles.x;
             handT.transform.localEulerAngles = oldRotate;
-            Notify_1?.Invoke();
+            AttackEvent?.Invoke();
         }
     }
 }

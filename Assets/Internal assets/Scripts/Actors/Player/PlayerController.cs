@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private WeaponController weaponController = null;
     [SerializeField]
-    private QickInventoryPanel quickInventory = null;
+    private QuickInventoryPanel quickInventory = null;
     [SerializeField]
     private GameObject InventoryPanel = null;
     [SerializeField]

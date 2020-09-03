@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuickCell : Cell
 {
-    private QickInventoryPanel qickInventory;
+    private QuickInventoryPanel qickInventory;
     private InventoryItem itemDate;
 
     public InventoryItem ItemData 
@@ -15,7 +15,7 @@ public class QuickCell : Cell
 
     private void Awake()
     {
-        qickInventory = GetComponentInParent<QickInventoryPanel>();
+        qickInventory = GetComponentInParent<QuickInventoryPanel>();
     }
 
     public override bool CheckingItemType(string itemType)
@@ -27,6 +27,7 @@ public class QuickCell : Cell
 
     private void OnTransformChildrenChanged()
     {
+        Debug.Log("ff");
         if (transform.childCount >= 1)
         {
             ItemData = gameObject?.GetComponentInChildren<InventoryItem>();

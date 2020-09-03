@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QickInventoryPanel : MonoBehaviour
+public class QuickInventoryPanel : MonoBehaviour
 {
     [SerializeField]
     private Transform handT = null;
@@ -19,7 +19,7 @@ public class QickInventoryPanel : MonoBehaviour
         {
             if (indexActiveCell == value)
             {
-                indexActiveCell = value;
+                indexActiveCell = -1;
                 RemoveWeapon();
             }
             else
@@ -48,6 +48,7 @@ public class QickInventoryPanel : MonoBehaviour
             Debug.Log("Экипирован");
         }
     }
+
     private void RemoveWeapon()
     {
         ClearChildrenFromHands();

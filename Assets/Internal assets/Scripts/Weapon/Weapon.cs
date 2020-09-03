@@ -10,10 +10,10 @@ public abstract class Weapon : Item
     private void Start()
     {
         if (GetComponentInParent<PlayerController>())
-            WeaponController.Notify_1 += Attack;
+            WeaponController.AttackEvent += Attack;
     }
     private void OnDestroy()
     {
-        WeaponController.Notify_1 -= Attack;
+        WeaponController.AttackEvent -= Attack;
     }
 }

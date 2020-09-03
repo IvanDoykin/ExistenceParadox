@@ -60,7 +60,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -86,6 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55674dcca9ed92d4cb534fbed96f9e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 
   itemName: 
   itemDescription: 
-  prefab: {fileID: 0}
+  itemPrefab: 
