@@ -128,10 +128,21 @@ public class PlayerController : MonoBehaviour
         Quaternion oldRotation = transform.rotation;
         while (timeCount <= 1.0f)
         {
-            transform.rotation = Quaternion.Slerp(oldRotation, newRotation, timeCount);
             timeCount += Time.deltaTime * speed;
+            transform.rotation = Quaternion.Slerp(oldRotation, newRotation, timeCount);
             yield return new WaitForEndOfFrame();
         }
+        
         weaponController.Gun();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.name);
+        Item item = other.GetComponent<Item>();
+        if (item != null)
+        {
+            InventoryControl.link.AddItem(item);
+        }
     }
 }

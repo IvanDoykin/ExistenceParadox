@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class QuickCell : Cell
 {
-    private QuickInventoryPanel qickInventory;
-    private InventoryItem itemDate;
-
-    public InventoryItem ItemData 
-    { 
-        get => itemDate; 
-        set => itemDate = value; 
+    private enum TypeCell
+    {
+        WeaponMelee,
+        WeaponDistance
     }
+
+    [SerializeField]
+    private TypeCell typeCell = TypeCell.WeaponDistance;
+    private QuickInventoryPanel qickInventory;
 
     private void Awake()
     {
@@ -27,15 +28,16 @@ public class QuickCell : Cell
 
     private void OnTransformChildrenChanged()
     {
-        Debug.Log("ff");
-        if (transform.childCount >= 1)
+        if (transform.childCount == 0)
         {
-            ItemData = gameObject?.GetComponentInChildren<InventoryItem>();
-        }
-        else if(transform.childCount == 0)
-        {
+            childT = null;
             ItemData = null;
             qickInventory.CheckingRemovedCell(this);
+        }
+        else if(transform.childCount == 1)
+        {
+            childT = transform.GetChild(0);
+            ItemData = gameObject?.GetComponentInChildren<InventoryItem>();
         }
     }
 }

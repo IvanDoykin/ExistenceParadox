@@ -1,18 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
-public class InfoWeaponCell
-{
-    [SerializeField]
-    private Transform cell = null;
-    public Transform Cell => cell;
-
-    public InventoryItem cellInventoryItem => cell?.GetComponentInChildren<InventoryItem>();
-    
-
-}
-
 
 public class WeaponController : MonoBehaviour
 {
@@ -21,29 +9,7 @@ public class WeaponController : MonoBehaviour
     public static event ItemActionHandler AttackEvent;
 
     [SerializeField]
-    private List<InfoWeaponCell> QuickItemList = new List<InfoWeaponCell>();
-
-    [SerializeField]
     private Transform handT = null;
-
-    private InfoWeaponCell activeCell;
-    public InfoWeaponCell ActiveCell
-    {
-        get { return activeCell; }
-        set
-        {
-            ClearChildrenFromHands();
-            if (activeCell == value)
-            {
-                activeCell = null;
-            }
-            else
-            {
-                activeCell = value;
-                InstantiateWeapon();
-            }
-        }
-    }
 
     private Plane m_Plane;
     private Vector3 m_DistanceFromCamera;
@@ -55,36 +21,6 @@ public class WeaponController : MonoBehaviour
         m_Plane = new Plane(Vector3.up, m_DistanceFromCamera);
     }
 
-    private void InstantiateWeapon()
-    {
-        if (ActiveCell.cellInventoryItem)
-        {
-            ClearChildrenFromHands();
-            GameObject.Instantiate(Resources.Load(ActiveCell.cellInventoryItem.itemPrefab), handT);
-        }
-    }
-
-    private void ClearChildrenFromHands()
-    {
-        int i = 0;
-
-        GameObject[] allChildren = new GameObject[handT.childCount];
-
-        if (allChildren.Length == 0)
-            return;
-
-        
-        foreach (Transform child in handT)
-        {
-            allChildren[i] = child.gameObject;
-            i += 1;
-        }
-
-        foreach (GameObject child in allChildren)
-        {
-            DestroyImmediate(child.gameObject);
-        }
-    }
     public void Gun()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

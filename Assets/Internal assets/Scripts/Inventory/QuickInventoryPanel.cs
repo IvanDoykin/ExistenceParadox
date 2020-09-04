@@ -45,7 +45,7 @@ public class QuickInventoryPanel : MonoBehaviour
         if(quickCell.ItemData)
         {
             quickCell.gameObject.GetComponent<Image>().color = Color.red;
-            Debug.Log("Экипирован");
+            GameObject.Instantiate(Resources.Load(quickCell.ItemData.itemPrefab), handT);
         }
     }
 

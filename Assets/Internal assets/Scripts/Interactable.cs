@@ -13,6 +13,7 @@ public class Interactable : MonoBehaviour
         if(hp <= 0)
         {
             Debug.Log("you dead");
+            Destroy(gameObject);
         }
     }
 }

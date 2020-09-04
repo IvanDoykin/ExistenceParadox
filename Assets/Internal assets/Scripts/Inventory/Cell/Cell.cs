@@ -3,22 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public abstract class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    protected internal enum TypeCell
-    {
-        everyItem,
-        WeaponMelee,
-        WeaponDistance
-    }
-    [SerializeField]
-    protected internal TypeCell typeCell = TypeCell.everyItem;
+    protected Vector3 startPosition;
+    protected Transform childT = null;
+    public InventoryItem ItemData { get; protected set; }
 
-    private Vector3 startPosition;
-    private Transform childT = null;
 
-    public virtual bool CheckingItemType(string itemType) => true;
-
+    public abstract bool CheckingItemType(string itemType);
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -42,7 +34,7 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
         else
         {
-            if (cell.CheckingItemType(childT.GetComponent<InventoryItem>().itemType.ToString()))
+            if (cell.CheckingItemType(childT.GetComponent<InventoryItem>().itemType))
             {
                 childT.position = targetCell.position;
                 childT.SetParent(targetCell);
@@ -52,13 +44,5 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 childT.position = startPosition;
             }
         }
-    }
-
-    private void OnTransformChildrenChanged()
-    {
-        if (transform.childCount == 0)
-            childT = null;
-        else if (transform.childCount == 1)
-            childT = transform.GetChild(0);
     }
 }
