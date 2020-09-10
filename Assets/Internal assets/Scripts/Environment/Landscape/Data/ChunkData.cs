@@ -19,6 +19,7 @@ public class ChunkData : Saveable
     [HideInInspector] public bool readyForUpdate = false;
     [HideInInspector] public bool constructed = false; //is chunck constructed?
     [HideInInspector] public bool fullUpdated = false;
+    [HideInInspector] public bool loaded = false;
 
     [HideInInspector] public int argX = 0;
     [HideInInspector] public int argZ = 0;

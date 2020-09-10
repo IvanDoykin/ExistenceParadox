@@ -58,10 +58,10 @@ public class ChunkGenerator : MonoBehaviour
         coordinatesData = GetComponent<CoordinatingData>();
 
         //try find earlier saved chunk
-        loaded = loadChunk.TryLoadData(ref chunk, gameObject.GetComponent<ChunkNameData>().value);
+        chunk.loaded = loadChunk.TryLoadData(ref chunk, gameObject.GetComponent<ChunkNameData>().value);
 
         //if not, we generate this
-        if (!loaded)
+        if (chunk.loaded == false)
         {
             primaryChunkGenerating.InitializeChunk();
 
@@ -77,6 +77,9 @@ public class ChunkGenerator : MonoBehaviour
         {
             chunk.mesh = new Mesh();
             meshCreator.CreateMesh(ref chunk);
+
+            MeshCollider meshCollider = this.gameObject.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = chunk.mesh;
         }
 
         //all done -- this chunk ready for scene

@@ -23,6 +23,7 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
 
     private EdgeSmoother edgeSmoother;
     private MeshCreator meshCreator;
+    private ChunksLinker chunksLinker;
 
     //message 'I'm done' for chunk :)
     public delegate void GeneratingEvents();
@@ -33,6 +34,7 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
     {
         Subscribe();
 
+        chunksLinker = GetComponentInParent<ChunksLinker>();
         meshCreator = GetComponent<MeshCreator>();
         chunk = GetComponent<ChunkData>();
 
@@ -50,6 +52,12 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
             chunk.readyForUpdate = false;
             if (chunk.fullUpdated)
                 return;
+
+            if (chunk.loaded == false)
+            {
+                chunk.loaded = true;
+                chunksLinker.LinkChunk(GetComponent<CoordinatingData>());
+            }
 
             meshCreator.CreateMesh(ref chunk);
             GetComponent<MeshCollider>().sharedMesh = chunk.mesh;
@@ -73,6 +81,10 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
         }
 
         meshCreator.CreateMesh(ref chunk);
+
+        MeshCollider meshCollider = this.gameObject.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = chunk.mesh;
+
         SmoothMe(chunk.argX, chunk.argZ);
         SmoothMe -= edgeSmoother.Smooth;
     }
