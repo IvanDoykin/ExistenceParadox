@@ -6,6 +6,7 @@ TagManager:
   tags:
   - gen_mesh
   - Enemy
+  - Rocket
   layers:
   - Default
   - TransparentFX

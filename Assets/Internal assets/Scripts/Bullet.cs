@@ -9,7 +9,6 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        //rb.AddForce(Vector3.forward * 1000, ForceMode.Acceleration);
     }
 
     // Update is called once per frame
@@ -19,11 +18,15 @@ public class Bullet : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Interactable interactable = collision.gameObject.GetComponent<Interactable>();
-        if (interactable != null) 
+        if (other.gameObject.CompareTag("Rocket"))
+            return;
+
+        Interactable interactable = other.gameObject.GetComponent<Interactable>();
+        if (interactable != null)
             interactable.CauseDamage(20);
+
         Destroy(gameObject);
     }
 }

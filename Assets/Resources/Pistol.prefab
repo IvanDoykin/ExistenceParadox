@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 254349893396880565}
   m_Layer: 0
   m_Name: Pistol
-  m_TagString: Untagged
+  m_TagString: Rocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,3 +112,4 @@ MonoBehaviour:
   itemPrefab: Pistol
   bulletPrefab: {fileID: 3991541259648061348, guid: 334be163207d60644a5542a9176bdc0f,
     type: 3}
+  roundsPerMinute: 60

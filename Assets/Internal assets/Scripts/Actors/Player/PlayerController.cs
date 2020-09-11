@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
             quickInventory.IndexActiveCell = 1;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             if (Cursor.lockState == CursorLockMode.Locked)
             {
@@ -138,7 +138,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
         Item item = other.GetComponent<Item>();
         if (item != null)
         {

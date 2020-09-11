@@ -13,9 +13,6 @@ public class InventoryControl : MonoBehaviour
     [SerializeField]
     private GameObject prefabCell = null;
 
-
-
-
     private void Awake()
     {
         link = this;
@@ -39,7 +36,6 @@ public class InventoryControl : MonoBehaviour
         if (EmptyCell == null)
             return;
 
-        Debug.Log(item.GetType());
         GameObject newItem = Instantiate(prefabCell, EmptyCell.transform);
         InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
         
