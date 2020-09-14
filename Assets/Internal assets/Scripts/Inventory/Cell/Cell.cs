@@ -26,8 +26,11 @@ public abstract class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         Transform targetCell = eventData.pointerCurrentRaycast.gameObject?.transform;
         Cell cell = targetCell?.GetComponent<Cell>();
-
-        if (cell == null)
+        if (!eventData.pointerCurrentRaycast.gameObject)
+        {
+            Debug.Log("ffff");
+        }
+        else if (cell == null)
         {
             childT.position = startPosition;
             return;

@@ -120,6 +120,11 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Example(newRotation));
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            weaponController.InputReload();
+        }
     }
 
     private IEnumerator Example(Quaternion newRotation)

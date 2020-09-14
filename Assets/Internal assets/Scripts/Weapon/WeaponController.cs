@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponController : MonoBehaviour
 {
@@ -8,8 +9,8 @@ public class WeaponController : MonoBehaviour
     public delegate void ItemActionHandler();
     public static event ItemActionHandler AttackEvent;
 
-    [SerializeField]
-    private Transform handT = null;
+    [SerializeField] private Transform handT = null;
+    [SerializeField] private Slider slider = null;
     public void Gun()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -23,6 +24,15 @@ public class WeaponController : MonoBehaviour
             oldRotate.x = handT.transform.localEulerAngles.x;
             handT.transform.localEulerAngles = oldRotate;
             AttackEvent?.Invoke();
+        }
+    }
+    
+    public void InputReload()
+    {
+        WeaponDistance weaponDistance = handT.GetComponentInChildren<WeaponDistance>();
+        if(weaponDistance != null)
+        {
+            weaponDistance.ReloadWeapon(slider);
         }
     }
 }
