@@ -21,9 +21,6 @@ public class MeshCreator : MonoBehaviour
         CreateTriangles(ref chunk);
         CreateShape(ref chunk);
         UpdateMesh(ref chunk);
-
-        MeshCollider meshCollider = this.gameObject.AddComponent<MeshCollider>();
-        meshCollider.sharedMesh = chunk.mesh;
     }
 
     private void CreateTriangles(ref ChunkData chunk)
