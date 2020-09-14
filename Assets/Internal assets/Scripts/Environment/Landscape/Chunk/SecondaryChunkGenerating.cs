@@ -57,6 +57,7 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
             {
                 chunk.loaded = true;
                 chunksLinker.LinkChunk(GetComponent<CoordinatingData>());
+                AveragingDots();
             }
 
             meshCreator.CreateMesh(ref chunk);
@@ -68,17 +69,7 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
     //Smooth chunk, but with sharp edges
     public void SecondaryGenerating()
     {
-        if (chunk != null)
-            Debug.Log(chunk.argX);
-
-
-        for (int i = 0; i < chunk.dots.Length; i++)
-        {
-            if (((i % (ChunkData.Size + 1)) != 0) && ((i + 1) % (ChunkData.Size + 1) != 0) && (i < (ChunkData.Size * (ChunkData.Size + 1) + 1)) && (i > ChunkData.Size))
-            {
-                chunk.dots[i].y = MeshCreator.Average(chunk.dots[i - 1].y, chunk.dots[i + (ChunkData.Size + 1)].y, chunk.dots[i - (ChunkData.Size + 1)].y, chunk.dots[i + 1].y);
-            }
-        }
+        AveragingDots();
 
         meshCreator.CreateMesh(ref chunk);
 
@@ -87,6 +78,20 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
 
         SmoothMe(chunk.argX, chunk.argZ);
         SmoothMe -= edgeSmoother.Smooth;
+    }
+
+    private void AveragingDots()
+    {
+        if (chunk != null)
+            Debug.Log(chunk.argX);
+
+        for (int i = 0; i < chunk.dots.Length; i++)
+        {
+            if (((i % (ChunkData.Size + 1)) != 0) && ((i + 1) % (ChunkData.Size + 1) != 0) && (i < (ChunkData.Size * (ChunkData.Size + 1) + 1)) && (i > ChunkData.Size))
+            {
+                chunk.dots[i].y = MeshCreator.Average(chunk.dots[i - 1].y, chunk.dots[i + (ChunkData.Size + 1)].y, chunk.dots[i - (ChunkData.Size + 1)].y, chunk.dots[i + 1].y);
+            }
+        }
     }
 
     private void ChangeUpdateState()
