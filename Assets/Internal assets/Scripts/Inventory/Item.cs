@@ -23,9 +23,4 @@ public abstract class Item : MonoBehaviour
     [SerializeField]
     private string itemPrefab = null;
     public string  Prefab { get => itemPrefab; }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        InventoryControl.link.AddItem(this);
-    }
 }
