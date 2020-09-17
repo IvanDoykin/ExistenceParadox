@@ -6,10 +6,10 @@ public class WeaponDistance : Weapon
 {
     [SerializeField] private GameObject bulletPrefab = null;
     [SerializeField] private int roundsPerMinute = 0;
-    [SerializeField] private int maxQuanityAmmo = 10;
+    [SerializeField] private int maxQuanityAmmo = 0;
 
     private bool isReadyFire = true;
-    private int countQuanityAmmo = 10;
+    private int countQuanityAmmo = 0;
 
     public void ReloadWeapon(Slider slider)
     {
