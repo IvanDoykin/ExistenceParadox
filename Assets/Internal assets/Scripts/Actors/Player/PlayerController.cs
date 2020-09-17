@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private WeaponController weaponController = null;
     [SerializeField]
-    private QickInventoryPanel quickInventory = null;
+    private QuickInventoryPanel quickInventory = null;
     [SerializeField]
     private GameObject InventoryPanel = null;
     [SerializeField]
@@ -112,13 +112,18 @@ public class PlayerController : MonoBehaviour
             quickInventory.IndexActiveCell = 1;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             if (Cursor.lockState == CursorLockMode.Locked)
             {
                 Quaternion newRotation = Quaternion.Euler(transform.eulerAngles.x, cameraT.eulerAngles.y, transform.eulerAngles.z);
                 StartCoroutine(Example(newRotation));
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            weaponController.InputReload();
         }
     }
 
@@ -128,10 +133,20 @@ public class PlayerController : MonoBehaviour
         Quaternion oldRotation = transform.rotation;
         while (timeCount <= 1.0f)
         {
-            transform.rotation = Quaternion.Slerp(oldRotation, newRotation, timeCount);
             timeCount += Time.deltaTime * speed;
+            transform.rotation = Quaternion.Slerp(oldRotation, newRotation, timeCount);
             yield return new WaitForEndOfFrame();
         }
+        
         weaponController.Gun();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Item item = other.GetComponent<Item>();
+        if (item != null)
+        {
+            InventoryControl.link.AddItem(item);
+        }
     }
 }
