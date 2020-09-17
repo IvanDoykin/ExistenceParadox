@@ -170,10 +170,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 24198873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &24198876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,10 +328,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 146291343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &146291346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,10 +586,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 231229848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &231229851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,7 +911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1dc936b0e67a1498f34ccb43670515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  person: {fileID: 0}
+  person: {fileID: 1433662121}
 --- !u!1 &431402740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,12 +1044,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 451644416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6d96959f5cbe04a90e82dead1ab610, type: 3}
+  m_Script: {fileID: 11500000, guid: 77f28e58356cf284ca396033fc7e519a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 1
-  qickInventory: {fileID: 0}
-  itemDate: {fileID: 0}
+  typeCell: 0
 --- !u!114 &451644419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1411,10 +1406,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 548107686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &548107689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1600,10 +1594,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 586845376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &586845379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1956,10 +1949,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 652976163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &652976166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2297,7 +2289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 10
-  target: {fileID: 0}
+  target: {fileID: 326365819}
   pitchMin: -5
   pitchMax: 70
   rotationSmoothTime: 0.12
@@ -2727,9 +2719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handT: {fileID: 82734877}
-  QuickCellList:
-  - {fileID: 0}
-  - {fileID: 0}
+  QuickCellList: []
 --- !u!1 &1177929117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2779,10 +2769,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1177929117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1177929120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2932,10 +2921,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1236649613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1236649616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3049,8 +3037,8 @@ GameObject:
   - component: {fileID: 1246089505}
   - component: {fileID: 1246089504}
   - component: {fileID: 1246089503}
-  - component: {fileID: 1246089502}
   - component: {fileID: 1246089501}
+  - component: {fileID: 1246089502}
   m_Layer: 5
   m_Name: Cell
   m_TagString: Untagged
@@ -3089,7 +3077,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1246089502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3099,10 +3086,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1246089499}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1246089503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3326,10 +3312,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1260482672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1260482675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3763,10 +3748,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1400157453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1400157456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4016,10 +4000,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1421929859}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
+--- !u!1 &1433662121 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3349375020118401904, guid: 0dfb63beb94d24943a184a59464824fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 502953242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1465762984
 GameObject:
   m_ObjectHideFlags: 0
@@ -4069,10 +4058,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1465762984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1465762987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4222,10 +4210,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1514553337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1514553340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4481,10 +4468,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1586819260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1586819263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4634,10 +4620,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1625226902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1625226905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4787,10 +4772,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1631595912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1631595915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5583,10 +5567,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1818506987}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1818506990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5736,10 +5719,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1889495669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1889495672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5926,10 +5908,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1911510716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c67abaf14aa4c9245880b5d680185fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3872d071267c840b751a4d830b609a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 0
 --- !u!114 &1911510719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6282,12 +6263,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2011214491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6d96959f5cbe04a90e82dead1ab610, type: 3}
+  m_Script: {fileID: 11500000, guid: 77f28e58356cf284ca396033fc7e519a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeCell: 2
-  qickInventory: {fileID: 0}
-  itemDate: {fileID: 0}
+  typeCell: 1
 --- !u!114 &2011214494
 MonoBehaviour:
   m_ObjectHideFlags: 0
