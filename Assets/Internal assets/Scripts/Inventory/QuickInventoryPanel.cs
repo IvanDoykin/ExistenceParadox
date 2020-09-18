@@ -45,7 +45,8 @@ public class QuickInventoryPanel : MonoBehaviour
         if(quickCell.ItemData)
         {
             quickCell.gameObject.GetComponent<Image>().color = Color.red;
-            GameObject.Instantiate(Resources.Load(quickCell.ItemData.itemPrefab), handT);
+            GameObject item = GameObject.Instantiate(Resources.Load(quickCell.ItemData.itemPrefab), handT) as GameObject;
+            item.GetComponent<BoxCollider>().enabled = false;
         }
     }
 
@@ -76,7 +77,7 @@ public class QuickInventoryPanel : MonoBehaviour
 
         foreach (GameObject child in allChildren)
         {
-            DestroyImmediate(child.gameObject);
+            Destroy(child.gameObject);
         }
     }
 

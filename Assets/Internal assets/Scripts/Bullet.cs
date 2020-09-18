@@ -5,17 +5,16 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     // Start is called before the first frame update
-    Rigidbody rb;
-    void Start()
+    private Rigidbody BulletRigidbody;
+    private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        BulletRigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        rb.AddForce(transform.forward * 5.0f, ForceMode.Acceleration);
-        
+        BulletRigidbody.AddForce(transform.forward * 5.0f, ForceMode.Acceleration);      
     }
 
     private void OnTriggerEnter(Collider other)

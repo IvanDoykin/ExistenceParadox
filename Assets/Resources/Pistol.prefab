@@ -113,3 +113,4 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3991541259648061348, guid: 334be163207d60644a5542a9176bdc0f,
     type: 3}
   roundsPerMinute: 60
+  maxQuanityAmmo: 30

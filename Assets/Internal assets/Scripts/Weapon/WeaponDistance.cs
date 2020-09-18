@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class WeaponDistance : Weapon
 {
+
     [SerializeField] private GameObject bulletPrefab = null;
     [SerializeField] private int roundsPerMinute = 0;
     [SerializeField] private int maxQuanityAmmo = 0;
@@ -11,18 +12,31 @@ public class WeaponDistance : Weapon
     private bool isReadyFire = true;
     private int countQuanityAmmo = 0;
 
+    public int CountQuanityAmmo 
+    { 
+        get => countQuanityAmmo;
+        private set
+        {
+            countQuanityAmmo = value;
+            if(countQuanityAmmo <= 0)
+            {
+                isReadyFire = false;
+                GetComponentInParent<WeaponController>()?.InputReload();
+            }
+        }
+    }
+
     public void ReloadWeapon(Slider slider)
     {
         StartCoroutine(DelayReload(slider));
-        countQuanityAmmo = maxQuanityAmmo;
     }
 
     public override void Attack()
     {
-        if (isReadyFire && countQuanityAmmo > 0)
+        if (isReadyFire && CountQuanityAmmo > 0)
         {
             isReadyFire = !isReadyFire;
-            countQuanityAmmo--;
+            CountQuanityAmmo--;
             Instantiate(bulletPrefab, transform.position, transform.rotation);
             StartCoroutine(DelayShot());
         }
@@ -46,5 +60,6 @@ public class WeaponDistance : Weapon
             slider.value = timeCount;
             yield return new WaitForFixedUpdate();
         }
+        CountQuanityAmmo = maxQuanityAmmo;
     }
 }

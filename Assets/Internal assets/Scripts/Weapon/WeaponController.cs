@@ -9,7 +9,9 @@ public class WeaponController : MonoBehaviour
     public delegate void ItemActionHandler();
     public static event ItemActionHandler AttackEvent;
 
-    [SerializeField] private Transform handT = null;
+    
+
+    [SerializeField] private Transform handPoint = null;
     [SerializeField] private Slider slider = null;
     public void Gun()
     {
@@ -20,16 +22,16 @@ public class WeaponController : MonoBehaviour
         {
             Vector3 hitPoint = hit.point;
             Vector3 oldRotate = Vector3.zero;
-            handT.transform.LookAt(hitPoint);
-            oldRotate.x = handT.transform.localEulerAngles.x;
-            handT.transform.localEulerAngles = oldRotate;
+            handPoint.transform.LookAt(hitPoint);
+            oldRotate.x = handPoint.transform.localEulerAngles.x;
+            handPoint.transform.localEulerAngles = oldRotate;
             AttackEvent?.Invoke();
         }
     }
-    
+
     public void InputReload()
     {
-        WeaponDistance weaponDistance = handT.GetComponentInChildren<WeaponDistance>();
+        WeaponDistance weaponDistance = handPoint.GetComponentInChildren<WeaponDistance>();
         if(weaponDistance != null)
         {
             weaponDistance.ReloadWeapon(slider);
