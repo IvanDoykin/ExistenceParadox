@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public delegate (int, Action<int>) ChangingItemHandler();
+    public static event ChangingItemHandler ChangingItemEvent;
+
+
     private CharacterController characterController;
     private float gravity = -19f;
 
@@ -103,14 +109,23 @@ public class PlayerController : MonoBehaviour
         }
 
 
+        if (Input.GetAxis("Mouse ScrollWheel") != 0.0f)
+        {
+            float inputScroll = Input.GetAxis("Mouse ScrollWheel");
+            int valueScroll = (int)(inputScroll / Math.Abs(inputScroll));
+            ChangingIndex(valueScroll, true);
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            quickInventory.IndexActiveCell = 0;
+            ChangingIndex(0, false);
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            quickInventory.IndexActiveCell = 1;
+            ChangingIndex(1, false);
         }
+
 
         if (Input.GetMouseButton(0))
         {
@@ -124,6 +139,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             weaponController.InputReload();
+        }
+    }
+
+    private void ChangingIndex(int index, bool isScrolling)
+    {
+        (int currentIndex, Action<int> SetIndex)? tuple = ChangingItemEvent?.Invoke();
+        if (tuple != null)
+        {
+            int newIndex = isScrolling ? tuple.Value.currentIndex + index : index;
+            tuple.Value.SetIndex(newIndex);
         }
     }
 

@@ -1,91 +1,59 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class QuickInventoryPanel : MonoBehaviour
 {
-    [SerializeField]
-    private Transform handT = null;
-    private int indexActiveCell = -1;
+    public delegate void ItemTakeHandler(InventoryItem item);
+    public static event ItemTakeHandler ItemTakeEvent;
 
-    [SerializeField]
+    public delegate void ItemRemoveHandler();
+    public static event ItemRemoveHandler ItemRemoveEvent;
+
     private List<QuickCell> QuickCellList = new List<QuickCell>();
+    private int indexActiveCell = 0;
 
-    public int IndexActiveCell 
-    { 
-        get => indexActiveCell;
-        set
+    public void StartTakeEvent(InventoryItem item) => ItemTakeEvent?.Invoke(item);
+
+    public void CheckingRemovedCell(QuickCell quickCell)
+    {
+        if (quickCell == QuickCellList[indexActiveCell])
         {
-            if (indexActiveCell == value)
-            {
-                indexActiveCell = -1;
-                RemoveWeapon();
-            }
-            else
-            {
-                indexActiveCell = value;
-                TakeWeapon(value);
-            }     
-        } 
+            ItemRemoveEvent?.Invoke();
+        }
     }
 
     private void Awake()
     {
+        PlayerController.ChangingItemEvent += InputChandingItem;
         foreach (Transform child in transform)
         {
             QuickCellList.Add(child.gameObject.GetComponent<QuickCell>());
         }
+        SetIndex(indexActiveCell);
     }
 
-    private void TakeWeapon(int index)
+    private void SetIndex(int index)
     {
-        ClearChildrenFromHands();
-        QuickCell quickCell = QuickCellList[index];
-        if(quickCell.ItemData)
+        int oldIndex = indexActiveCell;
+        indexActiveCell = index;
+
+        if (indexActiveCell >= QuickCellList.Count)
+            indexActiveCell = 0;
+        else if (indexActiveCell < 0)
+            indexActiveCell = QuickCellList.Count - 1;
+
+        if (QuickCellList[indexActiveCell] == QuickCellList[oldIndex])
+            QuickCellList[indexActiveCell].SetActive(!QuickCellList[indexActiveCell].IsActive);
+        else
         {
-            quickCell.gameObject.GetComponent<Image>().color = Color.red;
-            GameObject item = GameObject.Instantiate(Resources.Load(quickCell.ItemData.itemPrefab), handT) as GameObject;
-            item.GetComponent<BoxCollider>().enabled = false;
+            QuickCellList[oldIndex].SetActive(false);
+            QuickCellList[indexActiveCell].SetActive(true);
         }
     }
 
-    private void RemoveWeapon()
-    {
-        ClearChildrenFromHands();
-    }
-
-    private void ClearChildrenFromHands()
-    {
-        foreach (QuickCell cell in QuickCellList)
-        {
-            cell.gameObject.GetComponent<Image>().color = Color.white;
-        }
-
-        int i = 0;
-
-        GameObject[] allChildren = new GameObject[handT.childCount];
-
-        if (allChildren.Length == 0)
-            return;
-
-        foreach (Transform child in handT)
-        {
-            allChildren[i] = child.gameObject;
-            i += 1;
-        }
-
-        foreach (GameObject child in allChildren)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    public void CheckingRemovedCell(QuickCell quickCell)
-    {
-        if(quickCell == QuickCellList[indexActiveCell])
-        {
-            ClearChildrenFromHands();
-        }
-    }
+    private (int, Action<int>) InputChandingItem() => (indexActiveCell, SetIndex);
 }
