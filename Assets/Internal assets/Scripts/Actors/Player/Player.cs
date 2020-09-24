@@ -7,7 +7,6 @@ public class Player : Interactable
     public delegate void AccountHandler(int message);
     public static event AccountHandler Notify;
 
-
     public int Hp
     {
         get { return hp; }
@@ -26,9 +25,13 @@ public class Player : Interactable
 
     public override void CauseDamage(int damage)
     {
+        if (Hp == 0) 
+            return;
+
         Hp -= damage;
         if (Hp <= 0)
         {
+            Hp = 0;
             Debug.Log("you dead");
         }
     }

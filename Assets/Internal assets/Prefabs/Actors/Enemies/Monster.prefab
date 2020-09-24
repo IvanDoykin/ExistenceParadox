@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7447431895674847824}
   - component: {fileID: 1440287046998304070}
   - component: {fileID: 3146975155564583592}
+  - component: {fileID: 7519633106489591620}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -50,6 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeff6f480286b2741bbf8224f75b4c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 40
+  State: {fileID: 0}
+  isCalled: 0
 --- !u!114 &5016257536285636837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3d6bc4e85b0f54c8dd0fbcdb4c3fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reactionInSeconds: 1
 --- !u!114 &5016257536285636834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +79,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d32c8f2c8015c458541e334a1c7d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerT: {fileID: 0}
+  pursueAim: {fileID: 0}
+  attackRange: 1.5
+  attackSpeed: 40
+  damage: 35
 --- !u!33 &3436893330010981012
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -171,5 +179,18 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 25, y: 1, z: 25}
+  m_Size: {x: 50, y: 50, z: 50}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &7519633106489591620
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5016257536285636835}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

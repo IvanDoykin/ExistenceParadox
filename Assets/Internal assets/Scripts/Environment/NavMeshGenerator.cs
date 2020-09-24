@@ -8,16 +8,16 @@ public class NavMeshGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject person;
 
-    private NavMeshSurface _navigation;
+    private NavMeshSurface navigation;
 
     private const float needLength = 24f;
 
-    void Awake()
+    private void Awake()
     {
-        _navigation = GetComponent<NavMeshSurface>();
+        navigation = GetComponent<NavMeshSurface>();
     }
 
-    void Update()
+    private void Update()
     {
         if(Vector3.Distance(gameObject.transform.position, person.transform.position) >= needLength)
         {
@@ -28,6 +28,6 @@ public class NavMeshGenerator : MonoBehaviour
 
     private void RemakeNavMesh()
     {
-        _navigation.BuildNavMesh();
+        navigation.BuildNavMesh();
     }
 }

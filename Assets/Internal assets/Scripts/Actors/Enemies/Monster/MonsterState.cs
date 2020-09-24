@@ -2,7 +2,18 @@
 
 public abstract class MonsterState : MonoBehaviour
 {
-    public abstract void Pursue(Monster monster);
-    public abstract void Idle(Monster monster);
-    public abstract void DoAction(Monster monster);
+    public virtual void Pursue(Monster monster, bool call = false)
+    {
+
+    }
+
+    public virtual void Idle(Monster monster)
+    {
+
+    }
+
+    public virtual void DoAction(Monster monster)
+    {
+
+    }
 }

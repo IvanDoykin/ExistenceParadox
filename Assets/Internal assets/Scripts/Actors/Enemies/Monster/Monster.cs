@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : Interactable
 {
-    public MonsterState State { get; set; }
+    public MonsterState State;
+    public bool isCalled = false;
 
     private void Start()
     {
@@ -30,5 +31,16 @@ public class Monster : MonoBehaviour
     private void Action()
     {
         State.DoAction(this);
+    }
+
+    public override void CauseDamage(int damage)
+    {
+        hp -= damage;
+
+        if (hp <= 0)
+        {
+            Debug.Log("Monster was dead");
+            Destroy(gameObject);
+        }
     }
 }

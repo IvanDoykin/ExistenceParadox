@@ -4,29 +4,25 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    Rigidbody rb;
+    [SerializeField] private float speed;
+    private Rigidbody rb;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        rb.AddForce(transform.forward * 5.0f, ForceMode.Acceleration);
-        
+        rb.AddForce(transform.forward * speed, ForceMode.Acceleration);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Rocket"))
+        if (other.isTrigger == true)
             return;
 
-        Interactable interactable = other.gameObject.GetComponent<Interactable>();
-        if (interactable != null)
-            interactable.CauseDamage(20);
-
+        other.gameObject.GetComponent<Interactable>()?.CauseDamage(20);
         Destroy(gameObject);
     }
 }
