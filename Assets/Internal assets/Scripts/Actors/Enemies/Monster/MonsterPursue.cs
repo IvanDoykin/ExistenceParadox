@@ -2,24 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Analytics;
+
+[RequireComponent(typeof(MonsterIdle))]
+[RequireComponent(typeof(NavMeshAgent))]
 
 public class MonsterPursue : MonsterState
 {
-    public delegate void SetPursueAimEvents(Transform pursueAim);
-    public static event SetPursueAimEvents SetPursueAimCall;
-
-    public delegate void PursueEvents(Monster monster, bool isCalled);
-    public static event PursueEvents PursueCall;
+    public float attackSpeed;
+    public bool readyForAttack = true;
 
     [SerializeField] private Transform pursueAim;
     [SerializeField] private float attackRange;
-    [SerializeField] private float attackSpeed;
     [SerializeField] private int damage;
 
-    private bool readyForAttack = true;
     private Monster monster;
     private MonsterIdle monsterIdle;
-
     private NavMeshAgent navigatorAgent;
 
     private void Start()
@@ -37,27 +35,24 @@ public class MonsterPursue : MonsterState
     public override void Idle(Monster monster)
     {
         Debug.Log("Set to idle");
+        monster.isCalled = false;
         monster.State = monsterIdle;
         GetComponent<Renderer>().material.SetColor("_BaseColor", Color.white);
     }
 
     public override void DoAction(Monster monster)
     {
-        navigatorAgent.destination = pursueAim.position;
+        if ((transform.position - pursueAim.position).magnitude > attackRange)
+            navigatorAgent.destination = pursueAim.position;
+
+        else if (readyForAttack)
+        {
+            navigatorAgent.destination = transform.position;
+            monster.Attack(pursueAim, damage);
+        }
+        
 
         Debug.Log("pursue action " + GetInstanceID());
-
-        if (((transform.position - pursueAim.position).magnitude <= attackRange) && readyForAttack)
-            Attack(pursueAim);
-    }
-
-    private void Attack(Transform attackedObject)
-    {
-        readyForAttack = false;
-        GetComponent<Renderer>().material.SetColor("_BaseColor", Color.black);
-
-        attackedObject.GetComponent<Interactable>()?.CauseDamage(damage);
-        StartCoroutine(AttackCooldown());
     }
 
     private void OnTriggerExit(Collider other)
@@ -72,12 +67,6 @@ public class MonsterPursue : MonsterState
         }
     }
 
-    private IEnumerator AttackCooldown()
-    {
-        yield return new WaitForSeconds(60f / attackSpeed);
-        readyForAttack = true;
-        GetComponent<Renderer>().material.SetColor("_BaseColor", Color.red);
-    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -92,12 +81,7 @@ public class MonsterPursue : MonsterState
         if (CalledMonster == null)
             return;
 
-        SetPursueAimCall += CalledMonster.GetComponent<MonsterPursue>().SetPursueAim;
-        SetPursueAimCall(pursueAim);
-        SetPursueAimCall -= CalledMonster.GetComponent<MonsterPursue>().SetPursueAim;
-
-        PursueCall += CalledMonster.GetComponent<MonsterIdle>().Pursue;
-        PursueCall(CalledMonster, true);
-        PursueCall -= CalledMonster.GetComponent<MonsterIdle>().Pursue;
+        CalledMonster.GetComponent<MonsterPursue>().SetPursueAim(pursueAim);
+        CalledMonster.GetComponent<MonsterIdle>().Pursue(CalledMonster, true);
     }
 }

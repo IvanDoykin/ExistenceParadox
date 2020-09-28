@@ -2,33 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : Interactable
+public abstract class Monster : Interactable
 {
     public MonsterState State;
     public bool isCalled = false;
 
-    private void Start()
+    protected void Start()
     {
         State = GetComponent<MonsterIdle>();
         Idle();
     }
 
-    private void Update()
+    protected void Update()
     {
         Action();
     }
 
-    private void Pursue()
+    protected void Pursue()
     {
         State.Pursue(this);
     }
 
-    private void Idle()
+    protected void Idle()
     {
         State.Idle(this);
     }
 
-    private void Action()
+    protected void Action()
     {
         State.DoAction(this);
     }
@@ -42,5 +42,10 @@ public class Monster : Interactable
             Debug.Log("Monster was dead");
             Destroy(gameObject);
         }
+    }
+
+    public virtual void Attack(Transform attackeObject, int damage)
+    {
+        Debug.Log("I attack");
     }
 }
