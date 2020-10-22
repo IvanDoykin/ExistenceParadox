@@ -15,15 +15,15 @@ public class MeshCreator : MonoBehaviour
         return (sum / numbers.Length);
     }
 
-    //it does some realtively low-level things for creating mesh; require ChunkData named as 'chunk'
+    //it does some realtively low-level things for creating mesh
     public void CreateMesh(ref ChunkData chunk)
     {
         CreateTriangles(ref chunk);
         CreateShape(ref chunk);
         UpdateMesh(ref chunk);
 
-        MeshCollider meshCollider = this.gameObject.AddComponent<MeshCollider>();
-        meshCollider.sharedMesh = chunk.mesh;
+        //MeshCollider meshCollider = this.gameObject.AddComponent<MeshCollider>();
+        //meshCollider.sharedMesh = chunk.mesh;
     }
 
     private void CreateTriangles(ref ChunkData chunk)
@@ -74,16 +74,18 @@ public class MeshCreator : MonoBehaviour
 
     private void UpdateMesh(ref ChunkData chunk)
     {
+        Mesh updatebleMesh = gameObject.GetComponent<MeshFilter>().mesh;
+
         //setting up verticles and triangles with some fixing
-        chunk.mesh.Clear();
+        updatebleMesh.Clear();
 
-        chunk.mesh.vertices = chunk.generatedVertices;
-        chunk.mesh.triangles = chunk.triangles;
+        updatebleMesh.vertices = chunk.generatedVertices;
+        updatebleMesh.triangles = chunk.triangles;
 
-        chunk.mesh.RecalculateNormals();
-        chunk.mesh.RecalculateBounds();
+        updatebleMesh.RecalculateNormals();
+        updatebleMesh.RecalculateBounds();
 
-        gameObject.GetComponent<MeshFilter>().mesh = chunk.mesh;
+        updatebleMesh = chunk.mesh;
     }
 
 }

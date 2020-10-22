@@ -12,7 +12,7 @@ public class ChunkData : Saveable
 
     [HideInInspector] public int[] notCalculatedVecs = new int[(Size + 1) * (Size + 1)]; //using for determinate not calculated verticles 
     public Vector3[] dots = new Vector3[(Size + 1) * (Size + 1)]; //main dots = (size + 1) ^ 2 //for saving
-    [HideInInspector] public Vector3[] generatedVertices;
+    public Vector3[] generatedVertices;
     [HideInInspector] public Vector3[] vertices = new Vector3[Size * Size * 6]; //vertics = ordinalNumbers (IMPORTANT!)
     [HideInInspector] public int[] ordinalNumbers = new int[Size * Size * 6]; //ordinalNumbers = vertics (IMPORTANT!)
 
@@ -23,7 +23,7 @@ public class ChunkData : Saveable
     [HideInInspector] public int argX = 0;
     [HideInInspector] public int argZ = 0;
 
-    [HideInInspector] public Mesh mesh;
+    public Mesh mesh;
     [HideInInspector] public int[] triangles;
 
     public void SetStartData(float RangeOffset, bool FullUpdated, Vector3[] Dots)

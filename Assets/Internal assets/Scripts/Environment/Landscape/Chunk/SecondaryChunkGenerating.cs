@@ -40,7 +40,6 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
             Debug.Log("errrrr");
 
         edgeSmoother = GetComponentInParent<EdgeSmoother>();
-        SmoothMe += edgeSmoother.Smooth;
     }
 
     private void Update()
@@ -52,7 +51,7 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
                 return;
 
             meshCreator.CreateMesh(ref chunk);
-            GetComponent<MeshCollider>().sharedMesh = chunk.mesh;
+            //GetComponent<MeshCollider>().sharedMesh = chunk.mesh;
         }
     }
 
@@ -60,10 +59,6 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
     //Smooth chunk, but with sharp edges
     public void SecondaryGenerating()
     {
-        if (chunk != null)
-            Debug.Log(chunk.argX);
-
-
         for (int i = 0; i < chunk.dots.Length; i++)
         {
             if (((i % (ChunkData.Size + 1)) != 0) && ((i + 1) % (ChunkData.Size + 1) != 0) && (i < (ChunkData.Size * (ChunkData.Size + 1) + 1)) && (i > ChunkData.Size))
@@ -73,6 +68,8 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
         }
 
         meshCreator.CreateMesh(ref chunk);
+
+        SmoothMe += edgeSmoother.Smooth;
         SmoothMe(chunk.argX, chunk.argZ);
         SmoothMe -= edgeSmoother.Smooth;
     }

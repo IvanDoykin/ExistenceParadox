@@ -79,6 +79,6 @@ public class ChunksCreator : MonoBehaviour
         createdChunk.GetComponent<ChunkData>().argZ = z + ChunksBlockData.halfChunkBlockSize;
 
         ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
-        createdChunk.GetComponent<ChunkData>().rangeOffset = Random.Range(-3,3); 
+        createdChunk.GetComponent<ChunkData>().rangeOffset = 0; 
     }
 }

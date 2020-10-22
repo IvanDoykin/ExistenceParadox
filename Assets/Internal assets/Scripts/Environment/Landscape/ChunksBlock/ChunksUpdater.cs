@@ -8,6 +8,11 @@ public class ChunksUpdater : MonoBehaviour
 
     public void ChunksUpdate(int offsetX, int offsetZ)
     {
+        ChunksPriorityPlanner.SetNeedChunks(
+            Mathf.Abs(offsetX) * ChunksBlockData.chunksBlockSize
+            + Mathf.Abs(offsetZ) * ChunksBlockData.chunksBlockSize
+            - Mathf.Abs(offsetX) * Mathf.Abs(offsetZ));
+
         ChangeZeroPoints(offsetX, offsetZ);
         ChunksMassiveUpdate(offsetX, offsetZ);
         ChunksFilling();
@@ -63,7 +68,10 @@ public class ChunksUpdater : MonoBehaviour
             {
                 if (ChunksBlockData.chunks[i, j] == null)
                 {
-                    ChunksCreator.CreateChunk(i - ChunksBlockData.halfChunkBlockSize, j - ChunksBlockData.halfChunkBlockSize, gameObject.transform);
+                    ChunksCreator.CreateChunk(
+                        i - ChunksBlockData.halfChunkBlockSize, 
+                        j - ChunksBlockData.halfChunkBlockSize, 
+                        gameObject.transform);
                 }
             }
         }
