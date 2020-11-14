@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ChunksUpdater : MonoBehaviour
 {
-    public static event Spaceman.SendChanging SendChange;
+    public static event CorrdinateChecker.SendChanging SendChange;
 
+    //Update massive of chunks
     public void ChunksUpdate(int offsetX, int offsetZ)
     {
+        //specific, but convinient
         ChunksPriorityPlanner.SetNeedChunks(
             Mathf.Abs(offsetX) * ChunksBlockData.chunksBlockSize
             + Mathf.Abs(offsetZ) * ChunksBlockData.chunksBlockSize
@@ -18,12 +18,14 @@ public class ChunksUpdater : MonoBehaviour
         ChunksFilling();
     }
 
+    //Change zero-point of coordinating
     private void ChangeZeroPoints(int offsetX, int offsetZ)
     {
         ChunksBlockData.zeroPointX += offsetX;
         ChunksBlockData.zeroPointZ += offsetZ;
     }
 
+    //Scary method what check every chunk and find empty chunks
     private void ChunksMassiveUpdate(int offsetX, int offsetZ)
     {
         ChunkData[,] buffer = new ChunkData[ChunksBlockData.chunksBlockSize, ChunksBlockData.chunksBlockSize];
@@ -60,6 +62,7 @@ public class ChunksUpdater : MonoBehaviour
         }
     }
 
+    //Fill empty chunks with new one
     private void ChunksFilling()
     {
         for (int i = 0; i < ChunksBlockData.chunksBlockSize; i++)

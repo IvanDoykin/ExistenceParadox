@@ -5996,8 +5996,8 @@ GameObject:
   - component: {fileID: 2112666562}
   - component: {fileID: 2112666566}
   - component: {fileID: 2112666565}
-  - component: {fileID: 2112666564}
   - component: {fileID: 2112666561}
+  - component: {fileID: 2112666564}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -6017,7 +6017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87dae9d07265a844a58b6b58c8bb4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 40
   speedSmoothTime: 0.1
   weaponController: {fileID: 2112666563}
   InventoryPanel: {fileID: 1336150578}
@@ -6156,7 +6156,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2112666555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1cfb16c6c8626f409e29674815a0d0e, type: 3}
+  m_Script: {fileID: 11500000, guid: b12d096671c474c40b853b2c2b1b380d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ChunksUpdater: {fileID: 1808647737}

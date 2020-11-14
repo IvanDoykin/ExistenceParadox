@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(ChunksBlockData))]
+
 public class EdgeSmoother : MonoBehaviour, IEventTrigger
 {
     //for convinient describing corner dots in chunks
@@ -15,6 +13,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
         fourth
     }
 
+    //..maybe legacy :/
     [SerializeField] private EventsCollection ChunkCreated;
 
     //synchronize corner dots with neighbour chunks
@@ -25,6 +24,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
         TriggerEvent(ChunkCreated.currentEvent);
     }
 
+    //Determine, what directions we can use with current chunk (or we get OutOfRange Exception)
     private void DetermineDirection(int x, int z)
     {
         bool right = (x - ChunksBlockData.halfChunkBlockSize) != ChunksBlockData.halfChunkBlockSize;
@@ -45,6 +45,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
             SmoothEdge(x, z, Directions.Up);
     }
 
+    //Make chunk more smooth, without sharp edges
     private void SmoothEdge(int x, int z, Directions direction)
     {
         int indexAdditionX = 0;
@@ -118,6 +119,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
         }
     }
 
+    //Link chunks in their corner dots
     private void SmoothCornerDots(int x, int z)
     {
         LinkCornerDots(x, z, CornerDots.first, Directions.Left, Directions.LeftDown, Directions.Down);
@@ -217,6 +219,7 @@ public class EdgeSmoother : MonoBehaviour, IEventTrigger
         }
     }
 
+    //..maybe legacy :/
     public void TriggerEvent(string eventName, params object[] arguments)
     {
         ManagerEvents.CheckTriggeringEvent(eventName, arguments);

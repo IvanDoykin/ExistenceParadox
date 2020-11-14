@@ -51,7 +51,7 @@ public class SecondaryChunkGenerating : MonoBehaviour, IEventSub
                 return;
 
             meshCreator.CreateMesh(ref chunk);
-            //GetComponent<MeshCollider>().sharedMesh = chunk.mesh;
+            GetComponent<MeshCollider>().sharedMesh = chunk.mesh;
         }
     }
 

@@ -2,6 +2,7 @@
 
 [RequireComponent(typeof(ChunkData))]
 
+//...maybe legacy :/
 public class PrimaryChunkGenerating : MonoBehaviour
 {
     //not need, but script require this

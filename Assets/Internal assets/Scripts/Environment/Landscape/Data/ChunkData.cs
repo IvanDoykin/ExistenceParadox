@@ -3,7 +3,7 @@
 public class ChunkData : Saveable
 {
     public float range = 2; //height 'strength'
-    public float rangeOffset = 0;
+    public float rangeOffset;
     public float smallerRange = 0; //allow change generating mode (smaller - flatter, bigger - 'hilly')
 
     [HideInInspector] public const int Metric = 16;
@@ -26,15 +26,14 @@ public class ChunkData : Saveable
     public Mesh mesh;
     [HideInInspector] public int[] triangles;
 
-    public void SetStartData(float RangeOffset, bool FullUpdated, Vector3[] Dots)
+    public void SetStartData(bool FullUpdated, Vector3[] Dots)
     {
-        rangeOffset = RangeOffset;
         fullUpdated = FullUpdated;
         dots = Dots;
     }
 
     private void OnDestroy()
     {
-        Debug.Log("NANI");
+        Debug.Log("Chunk destroing");
     }
 }

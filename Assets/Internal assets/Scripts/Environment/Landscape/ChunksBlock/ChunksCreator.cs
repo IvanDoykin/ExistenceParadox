@@ -15,6 +15,7 @@ public enum Directions
 [RequireComponent(typeof(ChunksCoordination))]
 public class ChunksCreator : MonoBehaviour
 {
+    private static float offset = 0; //experimental not-need feature
     private ChunksCoordination chunksCoordination;
 
     private void Start()
@@ -32,7 +33,7 @@ public class ChunksCreator : MonoBehaviour
         CreateBlockOfChunks();
     }
 
-    //creating chunks in special cycle
+    //creating chunks in special cycle (like spiral)
     private void CreateBlockOfChunks()
     {
         for (int round = 1; round < ChunksBlockData.halfChunkBlockSize + 1; round++)
@@ -70,15 +71,25 @@ public class ChunksCreator : MonoBehaviour
     //Create chunk and put it in parent.gameObject
     public static void CreateChunk(int x, int z, Transform parent)
     {
-        if (ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] != null)
+        if (ChunksBlockData.chunks[
+            x + ChunksBlockData.halfChunkBlockSize, 
+            z + ChunksBlockData.halfChunkBlockSize] != null)
             return;
 
-        GameObject createdChunk = Instantiate(ChunksBlockData.chunk, new Vector3(ChunksCoordination.PopUpCoordinate(x + ChunksBlockData.zeroPointX), 0, ChunksCoordination.PopUpCoordinate(z + ChunksBlockData.zeroPointZ)), new Quaternion(0, 0, 0, 0), parent);
+        GameObject createdChunk = Instantiate(
+            ChunksBlockData.chunk, 
+            new Vector3(ChunksCoordination.PopUpCoordinate(x + ChunksBlockData.zeroPointX), 0, ChunksCoordination.PopUpCoordinate(z + ChunksBlockData.zeroPointZ)), 
+            new Quaternion(0, 0, 0, 0), parent);
 
         createdChunk.GetComponent<ChunkData>().argX = x + ChunksBlockData.halfChunkBlockSize;
         createdChunk.GetComponent<ChunkData>().argZ = z + ChunksBlockData.halfChunkBlockSize;
 
-        ChunksBlockData.chunks[x + ChunksBlockData.halfChunkBlockSize, z + ChunksBlockData.halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
-        createdChunk.GetComponent<ChunkData>().rangeOffset = 0; 
+        ChunksBlockData.chunks[
+            x + ChunksBlockData.halfChunkBlockSize, 
+            z + ChunksBlockData.halfChunkBlockSize] = createdChunk.GetComponent<ChunkData>();
+
+        offset = Random.Range(0, 10);
+        Debug.Log("offset = " + offset);
+        createdChunk.GetComponent<ChunkData>().rangeOffset = offset; 
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PrimaryChunkGenerating))]
 [RequireComponent(typeof(SecondaryChunkGenerating))]
 [RequireComponent(typeof(Coordinating))]
 [RequireComponent(typeof(MeshCreator))]
@@ -19,7 +18,6 @@ public class ChunkGenerator : MonoBehaviour
     public bool loaded; //load from hard-drive or not?
 
     //some additional functionality
-    private PrimaryChunkGenerating primaryChunkGenerating;
     private SecondaryChunkGenerating secondaryChunkGenerating;
     private Coordinating coordinating;
     private MeshCreator meshCreator;
@@ -49,7 +47,6 @@ public class ChunkGenerator : MonoBehaviour
         chunksLinker = GetComponentInParent<ChunksLinker>();
 
         //get ready for next generating stage
-        primaryChunkGenerating = GetComponent<PrimaryChunkGenerating>();
         secondaryChunkGenerating = GetComponent<SecondaryChunkGenerating>();
 
         chunk = GetComponent<ChunkData>();
@@ -63,7 +60,7 @@ public class ChunkGenerator : MonoBehaviour
 
     public void Generate()
     {
-        //if not loaded, we generate this
+        //if not loaded from HDD, we generate this
         if (!loaded)
         {
             InitializeChunk();
@@ -91,6 +88,7 @@ public class ChunkGenerator : MonoBehaviour
         }
 
         //all done -- this chunk ready for scene
+        MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
         chunk.constructed = true;
     }
 
